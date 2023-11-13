@@ -1,12 +1,11 @@
 import React from 'react';
 import { TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
 
-const BoardCard = ({ items }) => {
-    // Example of how you might destructure properties from the items prop
-    const { id, nickname, time, content, imageUrl, openChatUrl } = items;
+const BoardCard = ({ items, handlePress }) => {
+    const { id, nickname, time, content, imageUrl, openChatUrl } = items; // 게시판 카드 정보, 수정 가능
 
     return (
-        <TouchableOpacity style={styles.card} onPress={() => console.log('Card pressed!')}>
+        <TouchableOpacity style={styles.card} onPress={handlePress}>
             <Image source={{ uri: imageUrl }} style={styles.image} />
             <View style={styles.textContainer}>
                 <View style={styles.header}>
@@ -22,7 +21,6 @@ const BoardCard = ({ items }) => {
     );
 };
 
-// Styles for the components
 const styles = StyleSheet.create({
     card: {
         flexDirection: 'row',
