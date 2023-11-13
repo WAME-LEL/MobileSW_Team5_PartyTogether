@@ -72,12 +72,14 @@ const SignUpPage = () => {
                     />
                 </View>
             </View>
-            <CommonButton
-                preset = {styles.middleButton}
-                font = {styles.middleFont}
-                title = "다음"
-                handlePress = {handleNext}
-            />
+            <Link href = "GameInfoPage">
+                <CommonButton
+                    preset = {styles.middleButton}
+                    font = {styles.middleFont}
+                    title = "다음"
+                    handlePress = {handleNext}
+                />
+            </Link>
         </SafeAreaView>
     )
 }
