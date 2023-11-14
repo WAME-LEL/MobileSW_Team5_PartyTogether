@@ -1,15 +1,31 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Link } from 'expo-router';
+import styles from '../../constants/preset';
 
 const Home = () => {
   return (
     <View>
       <Text>Home</Text>
         <Link href="PartyBoard">
-          <Text>게시판 페이지로</Text>
+          <Text style = {styles.middleFont}>게시판 페이지로</Text>
+        </Link>
+        <Link href="ChatPage">
+          <Text style = {styles.middleFont}>채팅 페이지로</Text>
+        </Link>
+        <Link href="GPSPage">
+          <Text style = {styles.middleFont}>GPS 시험 페이지</Text>
+        </Link>
+        <Link href="Login/LoginPage">
+          <Text style = {styles.middleFont}>로그인 페이지로</Text>
+        </Link>
+        <Link href="EventPage">
+          <Text style = {styles.middleFont}>이벤트 페이지로</Text>
+        </Link>
+        <Link href="BoardWritePage">
+          <Text style = {styles.middleFont}>게시글 작성 페이지</Text>
         </Link>
         <Link href="Guild/GuildInformation">
-          <Text>길드 페이지</Text>
+          <Text style = {styles.middleFont}>길드 페이지</Text>
         </Link>
         <Link href="Guild/GuildSearch">
           <Text>길드찾기 페이지</Text>
