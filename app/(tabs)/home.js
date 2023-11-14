@@ -28,10 +28,10 @@ const Home = () => {
           <Text style = {styles.middleFont}>길드 페이지</Text>
         </Link>
         <Link href="Guild/GuildSearch">
-          <Text>길드찾기 페이지</Text>
+          <Text style = {styles.middleFont}>길드찾기 페이지</Text>
         </Link>
         <Link href="Guild/CreateGuild">
-          <Text>길드생성 페이지</Text>
+          <Text style = {styles.middleFont}>길드생성 페이지</Text>
         </Link>
     </View>
   );
