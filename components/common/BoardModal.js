@@ -1,10 +1,10 @@
 import React from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, Touchable } from 'react-native';
 
-const BoardModal = ({ visible, onClose }) => {
+const BoardModal = ({ data, visible, onClose }) => {
   return (
     <Modal
-      animationType="slide"
+      animationType='fade'
       transparent={true}
       visible={visible}
       onRequestClose={onClose} // 안드로이드에서 물리적 뒤로 가기 버튼을 눌렀을 때의 처리
@@ -12,12 +12,21 @@ const BoardModal = ({ visible, onClose }) => {
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text style={styles.modalText}>모달 창 내용</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={onClose}
-          >
-            <Text>닫기</Text>
-          </TouchableOpacity>
+          <Text style={styles.modalText}>닉네임</Text>
+          <Text style={styles.modalText}>내용</Text>
+          <Text style={styles.modalText}>시간</Text>
+          <Text style={styles.modalText}>오픈톡</Text>
+          <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={onClose}
+            >
+              <Text>닫기</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text>채팅 버튼 추가</Text>
+            </TouchableOpacity>
+          </View> 
         </View>
       </View>
     </Modal>
@@ -29,12 +38,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
   },
   modalView: {
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
+    width: 400,
+    height: 300,
     padding: 35,
     alignItems: 'center',
     shadowColor: '#000',

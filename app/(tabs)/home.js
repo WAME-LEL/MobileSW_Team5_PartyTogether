@@ -24,6 +24,9 @@ const Home = () => {
         <Link href="BoardWritePage">
           <Text style = {styles.middleFont}>게시글 작성 페이지</Text>
         </Link>
+        <Link href = "TestPage">
+          <Text style = {styles.middleFont}>테스트 페이지</Text>
+        </Link>
         <Link href="Guild/GuildInformation">
           <Text style = {styles.middleFont}>길드 페이지</Text>
         </Link>
