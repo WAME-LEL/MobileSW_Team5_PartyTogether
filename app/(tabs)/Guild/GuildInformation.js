@@ -1,7 +1,8 @@
 import {View, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import GuildRanking from './GuildRanking';
 
+//ContextAPI
 //길드 멤버목록 DB에서 가져옴
 //길드 정보(이름, 하는 게임, 설명, 인원수, 랭킹)
 //길드전 버튼이벤트 기능구현
@@ -23,6 +24,38 @@ const guildMember = [
 
 const GuildInformation = () => {
     const [currentPage, setCurrentPage] = useState('GuildInformation');
+    // const [guildMembers, setGuildMembers] = useState([]);
+    // const [guildInfo, setGuildInfo] = useState({});
+
+
+    //멤버 목록 받아오기
+    /* const fetchGuildMembers = async (userId) => {
+        try {
+            const response = await fetch(`길드멤버_백엔드_API_엔드포인트?userId=${userId}`);
+            const data = await response.json();
+            setGuildMembers(data); // 상태 업데이트
+        } catch (error) {
+            console.error('길드 멤버를 가져오는 중 오류 발생 ', error);
+        }
+    }; */
+
+    //길드정보 받아오기
+    /* const fetchGuildInfo = async (userId) => {
+        try {
+            const response = await fetch(`길드정보_백엔드_API_엔드포인트?userId=${userId}`);
+            const data = await response.json();
+            setGuildInfo(data); // 상태 업데이트
+        } catch (error) {
+            console.error('길드 정보를 가져오는 중 오류 발생:', error);
+        }
+    }; */
+
+    /* useEffect(() => {
+        if (userId) {  //유저ID가 존재할 때만 함수 실행
+            fetchGuildInfo(userId);
+            fetchGuildMembers(userId);
+        }
+    }, [userId]); */
 
     const onPressHandler = () => {
         console.log('길드전 클릭됨!');
@@ -48,6 +81,19 @@ const GuildInformation = () => {
                     여기에 길드에 대한 정보와 설명을 쓸 수 있습니다. 이 공간을 사용해 자세한 내용을 추가하세요.
                 </Text>
 
+                {/* <Text style={styles.guildInfoContentText}>
+                    길드 이름: {guildInfo.name}
+                </Text>
+                <Text style={styles.guildInfoContentText}>
+                    길드 소개: {guildInfo.description}
+                </Text>
+                <Text style={styles.guildInfoContentText}>
+                    하는 게임: {guildInfo.game}
+                </Text>
+                <Text style={styles.guildInfoContentText}>
+                    인원수: {guildInfo.memberCount}
+                </Text> */}
+
 
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={onPressHandler}>
@@ -71,6 +117,7 @@ const GuildInformation = () => {
                     <View key={index} style={styles.guildMemberContentBox}>
                         <Text style={styles.detailItem}>
                             {member}
+                            {/* {member.name} */}
                         </Text>
                     </View>
                 ))}
