@@ -21,8 +21,20 @@ const Home = () => {
         <Link href="EventPage">
           <Text style = {styles.middleFont}>이벤트 페이지로</Text>
         </Link>
+        <Link href="BoardWritePage">
+          <Text style = {styles.middleFont}>게시글 작성 페이지</Text>
+        </Link>
+        <Link href = "TestPage">
+          <Text style = {styles.middleFont}>테스트 페이지</Text>
+        </Link>
         <Link href="Guild/GuildInformation">
           <Text style = {styles.middleFont}>길드 페이지</Text>
+        </Link>
+        <Link href="Guild/GuildSearch">
+          <Text style = {styles.middleFont}>길드찾기 페이지</Text>
+        </Link>
+        <Link href="Guild/CreateGuild">
+          <Text style = {styles.middleFont}>길드생성 페이지</Text>
         </Link>
     </View>
   );

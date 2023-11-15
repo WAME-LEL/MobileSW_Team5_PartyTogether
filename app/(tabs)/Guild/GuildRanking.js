@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 //각 길드의 랭킹정보(순위, 길드이름, 포인트)를 받아서 내린차순으로 정렬
 //내 길드의 순위정보 제공
@@ -12,6 +12,24 @@ const guildRankings = [
 ];
 
 const GuildRanking = ( {goBack} ) =>{
+    // const [guildRankings, setGuildRankings] = useState([]);
+
+    /* useEffect(() => {
+        fetchGuildRankings();
+    }, []); */
+
+    /* const fetchGuildRankings = async () => {
+        try {
+            const response = await fetch('API'); 
+            const data = await response.json();
+            // 포인트가 높은 순으로 정렬
+            const sortedData = data.sort((a, b) => b.points - a.points);
+            setGuildRankings(sortedData);
+        } catch (error) {
+            console.error('랭킹정보를 가져오는 도중 에러발생 ', error);
+        }
+    }; */
+    
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -28,6 +46,15 @@ const GuildRanking = ( {goBack} ) =>{
                     </View>
                 ))}
             </ScrollView>
+
+            {/* <ScrollView>
+                {guildRankings.map((guild, index) => (
+                    <View key={index} style={styles.rankingItem}>
+                        
+                        <Text style={styles.rankingText}>{index + 1}위      {guild.name}           포인트: {guild.points}점</Text>
+                    </View>
+                ))}
+            </ScrollView> */}
 
 
         </View>

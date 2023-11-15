@@ -30,10 +30,20 @@ const PartyBoard = ({ party }) => {
     setIsLoading(false);
   }
 
-  const toggleModal = () => {
+  const printingModal = (index) => {
     console.log('게시판 카드 누름');
-    setModalVisible(!modalVisible); // 모달 창 열기/닫기
+    console.log(index);
+    console.log(data[index]);
+    toggleModal();
   };
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  }
+
+  const handlePaging = () => {
+    console.log('페이지 변경 요청');
+  }
 
   return (
       <SafeAreaView>
@@ -52,25 +62,44 @@ const PartyBoard = ({ party }) => {
           <View style={{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: '2%', marginBottom:'2%'}} />
           <FlatList
               data={data}
-              renderItem={({ item }) => (
+              renderItem={({ item, index }) => (
               <BoardCard 
                 items={item}
-                onPress={toggleModal}
+                handlePress={() => printingModal(index)}
               />
               )}
               keyExtractor={item => item.id}
           />
-          <BoardModal visible={modalVisible} onClose={toggleModal} />
+          <BoardModal data = {data} visible={modalVisible} onClose={toggleModal} />
+          <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+            <TouchableOpacity style = {styles.Paging}
+              onPress={handlePaging}>
+              <Text>이전 페이지</Text>
+            </TouchableOpacity>
+            <View style = {styles.Paging}>
+              <Text>{page}</Text>
+            </View>
+            <TouchableOpacity style = {styles.Paging}
+              onPress={handlePaging}>
+            <Text>다음 페이지</Text>
+            </TouchableOpacity>
+          </View>
       </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
   roundedCornerView: {
-    padding: 10,       // 너비 설정
-    margin: 10,      // 높이 설정
-    backgroundColor: '#CCCCCC', // 배경색 설정
-    borderRadius: 50, // 모서리를 원형으로 만들기 위한 값 설정
+    padding: 10,
+    margin: 10, 
+    backgroundColor: '#CCCCCC',
+    borderRadius: 50
+  },
+  Paging: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 5,
+    margin: 5,
   }
 });
 
