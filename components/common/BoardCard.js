@@ -2,19 +2,17 @@ import React from 'react';
 import { TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
 
 const BoardCard = ({ items, handlePress }) => {
-    const { id, nickname, time, content, imageUrl, openChatUrl } = items; // 게시판 카드 정보, 수정 가능
 
     return (
         <TouchableOpacity style={styles.card} onPress={handlePress}>
-            <Image source={{ uri: imageUrl }} style={styles.image} />
+            <Image source={{ uri: items.imageUrl }} style={styles.image} />
             <View style={styles.textContainer}>
                 <View style={styles.header}>
-                    <Text style={styles.nickname}>{nickname}</Text>
-                    <Text style={styles.time}>{time}</Text>
+                    <Text style={styles.nickname}>{items.nickname}</Text>
+                    <Text style={styles.time}>{items.time}</Text>
                 </View>
                 <View style={styles.body}>
-                    <Text style={styles.content}>{content}</Text>
-                    <Text style={styles.openChat}>{openChatUrl}</Text>
+                    <Text style={styles.content}>{items.content}</Text>
                 </View>
             </View>
         </TouchableOpacity>

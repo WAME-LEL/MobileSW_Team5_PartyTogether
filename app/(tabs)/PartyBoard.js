@@ -8,6 +8,7 @@ const PartyBoard = ({ party }) => {
   const [gameBoardData, setGameBoardData] = useState(['리그오브레전드', '메이플스토리', '로스트아크']); // 게임 목록 배열
   const [nowGameBoard, setNowGameBoard] = useState('리그오브레전드'); // 현재 출력할 게시판
   const [data, setData] = useState([]) // 데이터 관리 배열
+  const [currentData, setCurrentData] = useState(0);
   const [page, setPage] = useState(1) // 페이지 관리 숫자
   const [entity, setEntity] = useState(10) // 페이지 한 번에 가져올 데이터 수
   const [modalVisible, setModalVisible] = useState(false);
@@ -15,8 +16,12 @@ const PartyBoard = ({ party }) => {
   useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
-      const loadData = await loadBoardData(nowGameBoard);
-      setData(loadData);
+      try {
+        const loadData = await loadBoardData(nowGameBoard);
+        setData(loadData);
+      } catch(error) {
+        setData([]);
+      }
     }
     fetchData();
     setIsLoading(false);
@@ -30,10 +35,10 @@ const PartyBoard = ({ party }) => {
     setIsLoading(false);
   }
 
-  const printingModal = (index) => {
+  const printingModal = async (index) => {
     console.log('게시판 카드 누름');
     console.log(index);
-    console.log(data[index]);
+    await setCurrentData(index);
     toggleModal();
   };
 
@@ -70,7 +75,7 @@ const PartyBoard = ({ party }) => {
               )}
               keyExtractor={item => item.id}
           />
-          <BoardModal data = {data} visible={modalVisible} onClose={toggleModal} />
+          {/* {(!isLoading) ? <BoardModal data = {data[currentData]} visible={modalVisible} onClose={toggleModal} /> : <View></View>} */}
           <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
             <TouchableOpacity style = {styles.Paging}
               onPress={handlePaging}>
