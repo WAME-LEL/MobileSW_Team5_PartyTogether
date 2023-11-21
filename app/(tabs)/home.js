@@ -36,6 +36,9 @@ const Home = () => {
         <Link href="Guild/CreateGuild">
           <Text style = {styles.middleFont}>길드생성 페이지</Text>
         </Link>
+        <Link href="ApiTest">
+          <Text style = {styles.middleFont}>API 테스트 페이지</Text>
+        </Link>
     </View>
   );
 }
