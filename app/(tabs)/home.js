@@ -6,6 +6,9 @@ const Home = () => {
   return (
     <View>
       <Text>Home</Text>
+        <Link href="MainPage">
+          <Text style = {styles.middleFont}>메인 페이지로</Text>
+        </Link>
         <Link href="PartyBoard">
           <Text style = {styles.middleFont}>게시판 페이지로</Text>
         </Link>
@@ -24,7 +27,7 @@ const Home = () => {
         <Link href="BoardWritePage">
           <Text style = {styles.middleFont}>게시글 작성 페이지</Text>
         </Link>
-        <Link href = "TestPage">
+        <Link href="TestPage">
           <Text style = {styles.middleFont}>테스트 페이지</Text>
         </Link>
         <Link href="guild/GuildInformation">

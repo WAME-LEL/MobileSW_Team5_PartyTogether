@@ -1,26 +1,55 @@
+import axios from 'axios'
 
 const loadBoardData = async (boardName) => {
-    const fetchData = () => {
-      const loadData = [{
-        id: '1',
-        imageUrl: 'https://via.placeholder.com/150',
-        nickname: '사용자1',
-        time: '1시간 전',
-        content: '안녕하세요, 첫 번째 게시물입니다.',
-        openChat: '오픈챗 링크1',
-      },
-      {
-        id: '2',
-        imageUrl: 'https://via.placeholder.com/150',
-        nickname: '사용자2',
-        time: '2시간 전',
-        content: '여기는 두 번째 게시물입니다.',
-        openChat: '오픈챗 링크2',
-      }];
-
-      return loadData;
+  const fetchData = async () => {
+    try {
+      let response = await fetch('http://localhost:8080/api/board', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        param: JSON.stringify({
+          keyword: boardName,
+        }),
+      });
+  
+      let json = await response.json();
+      console.log('Response:', json.data);
+      return json.data;
+    } catch (error) {
+      console.error(error);
+      return error;
     }
-    const data = await fetchData();
+  }
+
+  const data = await fetchData();
+
+  return data;
+}
+
+const loadTestData = (boardName) => {
+    const fetchData = async () => {
+      try {
+        let response = await fetch('http://localhost:8080/api/board', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          param: JSON.stringify({
+            keyword: boardName,
+          }),
+        });
+    
+        let json = await response.json();
+        console.log('Response:', json.data);
+        return json.data;
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
+    }
+
+    const data = fetchData();
 
     return data;
 }
@@ -36,4 +65,4 @@ const loadUserData = async () => {
   return data;
 }
 
-export { loadBoardData }
+export { loadBoardData, loadTestData, loadUserData }
