@@ -54,11 +54,15 @@ const GuildInformation = () => {
         const options = {
             method: 'GET',
             url: 'http://localhost:8080/api/guild',
-            params: { "guildId" : 102 }
+            params: { "guildId" : 102 },
+            headers: {
+              'Content-Type': 'application/json',
+            },
         };
 
          try {
             const response = await axios.request(options);
+            console.log('Response:', response.data);
             setGuildInfo(response.data); // 상태 업데이트
         } catch (error) {
             console.error('길드 정보를 가져오는 중 오류 발생:', error);
@@ -66,21 +70,25 @@ const GuildInformation = () => {
     }; */
     
     const fetchGuildInfo = async () => {
-        axios.get('http://localhost:8080/api/guild', {
-            params: { 
-                "guildId" : 102
-            },
-            headers: {
-                'Content-Type' : 'applycation/json'
-            }
-        }).then(response => {
-            setGuildInfo(response.data);
-            console.log(response.data);
-        })
-        .catch(error => {
+        
+        try {
+            let response = await fetch('http://localhost:8080/api/guild', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                param: JSON.stringify({
+                    guildId : 102
+                }),
+            });
+
+            let json = await response.json();
+            console.log('Response:', json.data);
+            setGuildInfo(json.data)
+        } catch (error) {
             console.error(error);
-        });
-    };
+        }
+    }
 
     useEffect(() => {
         fetchGuildInfo();
@@ -112,7 +120,7 @@ const GuildInformation = () => {
 
             <View style={styles.guildInfoContentBox}>
 
-                <Text style={styles.guildInfoContentText}>
+                {/* <Text style={styles.guildInfoContentText}>
                     길드 이름: {guildInfo.name}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
@@ -123,7 +131,7 @@ const GuildInformation = () => {
                 </Text>
                 <Text style={styles.guildInfoContentText}>
                     인원수: {guildInfo.memberCount}
-                </Text>
+                </Text> */}
 
 
                 <View style={styles.buttonContainer}>
