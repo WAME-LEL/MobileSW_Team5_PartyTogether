@@ -6,93 +6,41 @@ import axios from 'axios';
 
 //ContextAPI
 //길드 멤버목록 DB에서 가져옴
-//길드 정보(이름, 하는 게임, 설명, 인원수, 랭킹)
-//길드전 버튼이벤트 기능구현
+//길드 정보(랭킹)
 
 const screenHeight = Dimensions.get('window').height;
-
-//길드 멤버 목록 (임시)
-const guildMembers = [
-    'member 1',
-    'member 2',
-    'member 3',
-    'member 4',
-    'member 5',
-    'member 6',
-    'member 7',
-    'member 8',
-    'member 9',
-];
 
 const GuildInformation = () => {
     const [currentPage, setCurrentPage] = useState('GuildInformation');
     // const { userId } = useContext(UserContext);
-    // const [guildMembers, setGuildMembers] = useState([]);
-    const [guildInfo, setGuildInfo] = useState({});
+    const [guildId, setGuildId] = useState(102); // guildId 상태 추가
+    const [guildMembers, setGuildMembers] = useState([]); //멤버목록 상태변수
+    const [guildInfo, setGuildInfo] = useState({}); //길드정보 상태변수
+    const [guildGame, setGuildGame] = useState({}); //길드게임 상태변수
+    const [memberCnt, setmemberCnt] = useState({}); //길드멤버수 상태변수
 
 
     //멤버 목록 받아오기
-    /* const fetchGuildMembers = async () => {
-        const options = {
-            method: 'GET',
-            url: `http://localhost:8080/api/guild/members`,
-            params: { "guildId" : 102 },
-        };
-    
+    const fetchGuildMembers = async () => {
         try {
-            const response = await axios.request(options);
-            const data = response.data;
-            setGuildMembers(data); // 상태 업데이트
+            const res = await axios.get(`http://localhost:8080/api/guild/members?guildId=${guildId}`);
+            console.log(res.data); // API에서 반환된 데이터
+            setGuildMembers(res.data.data) //멤버목록
+
         } catch (error) {
-            console.error('길드 멤버를 가져오는 중 오류 발생', error);
+            console.error('There was an error!', error);
         }
-    }; */
+    }; 
 
     //길드정보 받아오기
-    /* const fetchGuildInfo = async () => {
-    
-        const options = {
-            method: 'GET',
-            url: 'http://localhost:8080/api/guild',
-            params: { "guildId" : 102 },
-            headers: {
-              'Content-Type': 'application/json',
-            },
-        };
-
-         try {
-            const response = await axios.request(options);
-            console.log('Response:', response.data);
-            setGuildInfo(response.data); // 상태 업데이트
-        } catch (error) {
-            console.error('길드 정보를 가져오는 중 오류 발생:', error);
-        };
-    }; */
-    
     const fetchGuildInfo = async () => {
-        
-        // try {
-        //     let response = await fetch('http://localhost:8080/api/guild', {
-        //         method: 'GET',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         param: JSON.stringify({
-        //             guildId : 102
-        //         }),
-        //     });
-
-        //     let json = await response.json();
-        //     console.log('Response:', json.data);
-        //     setGuildInfo(json.data)
-        // } catch (error) {
-        //     console.error(error);
-        // }
 
         try {
-            const response = await axios.get("http://localhost:8080/api/guild?guildId=102");
-            console.log(response.data); // API에서 반환된 데이터
-            setGuildInfo(response.data.data.guild)
+            const res = await axios.get(`http://localhost:8080/api/guild?guildId=${guildId}`);
+            console.log(res.data); // API에서 반환된 데이터
+            setGuildInfo(res.data.data.guild) //길드정보
+            setGuildGame(res.data.data.guild.game) //하는게임
+            setmemberCnt(res.data.data.guild.member) //멤버수
         } catch (error) {
             console.error('There was an error!', error);
         }
@@ -102,8 +50,7 @@ const GuildInformation = () => {
 
     useEffect(() => {
         fetchGuildInfo();
-        // fetchGuildMembers();
-        
+        fetchGuildMembers(); 
     }, []);
 
     const toGuildMatch = () => {
@@ -131,16 +78,16 @@ const GuildInformation = () => {
             <View style={styles.guildInfoContentBox}>
 
                 <Text style={styles.guildInfoContentText}>
-                    길드 이름: {guildInfo.name}
+                    길드 이름 : {guildInfo.name}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
-                    길드 소개: {guildInfo.introduce}
+                    길드 소개 : {guildInfo.introduce}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
-                    하는 게임: {guildInfo.game.title}
+                    하는 게임 : {guildGame.title}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
-                    인원수: {guildInfo.member.length}
+                    인원수 : {memberCnt.length} / 30
                 </Text>
 
 
@@ -165,8 +112,7 @@ const GuildInformation = () => {
                 {guildMembers.map((member, index) => (
                     <View key={index} style={styles.guildMemberContentBox}>
                         <Text style={styles.detailItem}>
-                            {member}
-                            {/* {member.nickname} */}
+                            {index + 1})  {member.nickname}
                         </Text>
                     </View>
                 ))}
@@ -209,8 +155,10 @@ const styles = StyleSheet.create({
         borderWidth: 1, // 테두리 두께 설정
     },
     guildInfoContentText: {
-        fontSize: 16,
+        fontSize: 18,
         color: '#333', // 글자 색상 설정
+        marginBottom: 10, // 각 항목 사이의 간격 추가
+        fontWeight: 'bold', // 글씨 굵기
     },
     buttonContainer: {
         position: 'absolute', // 절대적인 위치 지정
@@ -238,18 +186,19 @@ const styles = StyleSheet.create({
         marginTop: 10, // 상단 여백
         marginHorizontal: 10, // 좌우 여백
         backgroundColor: '#fff', // 배경색
-        padding: 10, // 내부 패딩
-        borderWidth: 1, // 테두리 두께
+        padding: 15, // 내부 패딩
+        borderWidth: 2, // 테두리 두께
         borderColor: '#ddd', // 테두리 색상
         borderRadius: 10, // 모서리 둥글기
-        elevation: 1, // 그림자 (안드로이드)
-        shadowRadius: 1, // 그림자 반경 (iOS)
+        elevation: 2, // 그림자 
+        shadowRadius: 2, 
     },
     detailItem: {
-        fontSize: 14,
+        fontSize: 16,
         color: '#333', // 글자 색상 설정
         paddingTop: 5, // 상단 패딩
-        paddingBottom: 5, // 하단 패딩    
+        paddingBottom: 5, // 하단 패딩
+        fontWeight: '500',  
     },
 });
 
