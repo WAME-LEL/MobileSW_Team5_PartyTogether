@@ -1,5 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 //각 길드의 랭킹정보(순위, 길드이름, 포인트)를 받아서 내린차순으로 정렬
 //내 길드의 순위정보 제공
@@ -18,17 +19,24 @@ const GuildRanking = ( {goBack} ) =>{
         fetchGuildRankings();
     }, []); */
 
-    /* const fetchGuildRankings = async () => {
-        try {
-            const response = await fetch('API'); 
-            const data = await response.json();
-            // 포인트가 높은 순으로 정렬
-            const sortedData = data.sort((a, b) => b.points - a.points);
-            setGuildRankings(sortedData);
-        } catch (error) {
-            console.error('랭킹정보를 가져오는 도중 에러발생 ', error);
-        }
-    }; */
+    // const fetchGuildRankings = async () => {
+    //     try {
+    //         const options = {
+    //             method: 'GET',
+    //             url: '여기에 API 엔드포인트 URL을 입력하세요',
+    //             
+    //             params: { /* 여기에 필요한 쿼리 매개변수를 입력하세요 */ },
+    //         };
+    
+    //         const response = await axios.request(options);
+    //         const data = response.data;
+    //         // 포인트가 높은 순으로 정렬
+    //         const sortedData = data.sort((a, b) => b.points - a.points);
+    //         setGuildRankings(sortedData);
+    //     } catch (error) {
+    //         console.error('랭킹정보를 가져오는 도중 에러발생', error);
+    //     }
+    // };
     
     return (
         <View style={styles.container}>

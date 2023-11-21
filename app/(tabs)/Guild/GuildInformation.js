@@ -1,6 +1,8 @@
 import {View, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState, useEffect  } from 'react';
 import GuildRanking from './GuildRanking';
+import GuildMatch from './guildMatch/GuildMatch';
+import axios from 'axios';
 
 //ContextAPI
 //길드 멤버목록 DB에서 가져옴
@@ -10,7 +12,7 @@ import GuildRanking from './GuildRanking';
 const screenHeight = Dimensions.get('window').height;
 
 //길드 멤버 목록 (임시)
-const guildMember = [
+const guildMembers = [
     'member 1',
     'member 2',
     'member 3',
@@ -24,49 +26,81 @@ const guildMember = [
 
 const GuildInformation = () => {
     const [currentPage, setCurrentPage] = useState('GuildInformation');
+    // const { userId } = useContext(UserContext);
     // const [guildMembers, setGuildMembers] = useState([]);
-    // const [guildInfo, setGuildInfo] = useState({});
+    const [guildInfo, setGuildInfo] = useState({});
 
 
     //멤버 목록 받아오기
-    /* const fetchGuildMembers = async (userId) => {
+    /* const fetchGuildMembers = async () => {
+        const options = {
+            method: 'GET',
+            url: `http://localhost:8080/api/guild/members`,
+            params: { "guildId" : 102 },
+        };
+    
         try {
-            const response = await fetch(`길드멤버_백엔드_API_엔드포인트?userId=${userId}`);
-            const data = await response.json();
+            const response = await axios.request(options);
+            const data = response.data;
             setGuildMembers(data); // 상태 업데이트
         } catch (error) {
-            console.error('길드 멤버를 가져오는 중 오류 발생 ', error);
+            console.error('길드 멤버를 가져오는 중 오류 발생', error);
         }
     }; */
 
     //길드정보 받아오기
-    /* const fetchGuildInfo = async (userId) => {
-        try {
-            const response = await fetch(`길드정보_백엔드_API_엔드포인트?userId=${userId}`);
-            const data = await response.json();
-            setGuildInfo(data); // 상태 업데이트
+    /* const fetchGuildInfo = async () => {
+    
+        const options = {
+            method: 'GET',
+            url: 'http://localhost:8080/api/guild',
+            params: { "guildId" : 102 }
+        };
+
+         try {
+            const response = await axios.request(options);
+            setGuildInfo(response.data); // 상태 업데이트
         } catch (error) {
             console.error('길드 정보를 가져오는 중 오류 발생:', error);
-        }
+        };
     }; */
-
-    /* useEffect(() => {
-        if (userId) {  //유저ID가 존재할 때만 함수 실행
-            fetchGuildInfo(userId);
-            fetchGuildMembers(userId);
-        }
-    }, [userId]); */
-
-    const onPressHandler = () => {
-        console.log('길드전 클릭됨!');
+    
+    const fetchGuildInfo = async () => {
+        axios.get('http://localhost:8080/api/guild', {
+            params: { 
+                "guildId" : 102
+            },
+            headers: {
+                'Content-Type' : 'applycation/json'
+            }
+        }).then(response => {
+            setGuildInfo(response.data);
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
     };
 
+    useEffect(() => {
+        fetchGuildInfo();
+        // fetchGuildMembers();
+        
+    }, []);
+
+    const toGuildMatch = () => {
+        setCurrentPage('GuildMatch');
+    };
     const toGuildRanking = () => {
         setCurrentPage('GuildRanking');
     };
 
+
     if (currentPage === 'GuildRanking') {
         return <GuildRanking goBack={() => setCurrentPage('GuildInformation')} />;
+    }
+    if (currentPage === 'GuildMatch') {
+        return <GuildMatch goBack={() => setCurrentPage('GuildInformation')} />;
     }
 
     return (
@@ -77,26 +111,23 @@ const GuildInformation = () => {
 
 
             <View style={styles.guildInfoContentBox}>
-                <Text style={styles.guildInfoContentText}>
-                    여기에 길드에 대한 정보와 설명을 쓸 수 있습니다. 이 공간을 사용해 자세한 내용을 추가하세요.
-                </Text>
 
-                {/* <Text style={styles.guildInfoContentText}>
+                <Text style={styles.guildInfoContentText}>
                     길드 이름: {guildInfo.name}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
-                    길드 소개: {guildInfo.description}
+                    길드 소개: {guildInfo.introduce}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
                     하는 게임: {guildInfo.game}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
                     인원수: {guildInfo.memberCount}
-                </Text> */}
+                </Text>
 
 
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={onPressHandler}>
+                    <TouchableOpacity style={styles.button} onPress={toGuildMatch}>
                         <Text style={styles.buttonText}>길드전</Text>
                     </TouchableOpacity>
 
@@ -113,11 +144,11 @@ const GuildInformation = () => {
             </View>
 
             <ScrollView>
-                {guildMember.map((member, index) => (
+                {guildMembers.map((member, index) => (
                     <View key={index} style={styles.guildMemberContentBox}>
                         <Text style={styles.detailItem}>
                             {member}
-                            {/* {member.name} */}
+                            {/* {member.nickname} */}
                         </Text>
                     </View>
                 ))}
@@ -130,7 +161,7 @@ const GuildInformation = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, // 전체 화면을 사용하도록 설정
+        flex: 1,
     },
     header: {
         backgroundColor: '#333',

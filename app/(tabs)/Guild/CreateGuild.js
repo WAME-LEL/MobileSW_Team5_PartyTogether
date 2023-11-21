@@ -1,5 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import React, { useState } from 'react';
+import axios from 'axios';
 
 //생성된 길드 정보 ->DB
 
@@ -48,16 +49,11 @@ const CreateGuild = () =>{
 
             //길드생성 요청 (임시)
             /*try {
-                const response = await fetch('http://your-api-server.com/create-guild', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    name: guildName,
-                    description: guildDescription,
-                    game: gameInfo.name,
-                  }),
+                const response = await axios.post('http://localhost:8080/api/guild/registration', {
+                    params: { "guildName":"FIFA 길드",
+                            "guildIntroduce":"FIFA 길드 소개",
+                            "guildGame":53,
+                            "guildLeader":153 }
                 });
                 const data = await response.json();
                 console.log('서버로부터의 응답:', data);

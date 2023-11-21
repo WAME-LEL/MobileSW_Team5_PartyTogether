@@ -1,20 +1,16 @@
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList  } from 'react-native';
 import React, { useState } from 'react';
+import axios from 'axios';
 
 //길드 목록을 받아서 정보표시(이름, 하는게임, 인원수)
 //가입버튼 기능 (길드장에게 가입요청 -> 길드장이 승인 시 가입)
 
-const joinGuild = (guildId) => {
-  console.log(`Joining guild with ID: ${guildId}`);
+const joinGuild = () => {
   
   /* try {
     const userId = user;
-    const response = await fetch(`http://yourbackendapi.com/guilds/${guildId}/join-requests`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId }),
+    const response = await axios.post(`http://localhost:8080/api/member/guild/join`, {
+      params: { "memberId":106, "guildId":102 }
     });
 
     if (response.ok) {
@@ -33,25 +29,29 @@ const GuildSearch = () =>{
 
     const loadGuilds = async () => {
         
-        /* try {
-            const response = await fetch('http://yourbackendapi.com/guilds'); // 백엔드 API 주소
-            const guildData = await response.json();
-
-            setGuilds(guildData);
-            setShowGuilds(true);
-
-          } catch (error) {
-            console.error('Error fetching guild data:', error);
-        } */
-
-        const guildData = [
-          { id: '1', name: 'Guild One', game: '리그오브레전드', curNum :'10' },
-          
-          
-        ];
-        setGuilds(guildData);
-        setShowGuilds(true); // 길드 목록을 화면에 표시
+      /* const options = {
+        method: 'GET',
+        url: `http://localhost:8080/api/guilds`,
       };
+
+      try {
+        const response = await axios.request(options);
+        
+        setGuilds(response.data);
+        setShowGuilds(true);
+
+      } catch (error) {
+        console.error('길드 정보를 가져오는 중 오류 발생:', error);
+      } */
+
+      const guildData = [
+        { id: '1', name: 'Guild One', game: '리그오브레전드', curNum :'10' },
+          
+          
+      ];
+      setGuilds(guildData);
+      setShowGuilds(true); // 길드 목록을 화면에 표시
+    };
 
 
     return (
@@ -68,9 +68,9 @@ const GuildSearch = () =>{
                     renderItem={({item}) => (
                         <View style={styles.guildContainer}>
                             <View style={styles.guildDetails}>
-                                <Text style={styles.guildName}>길드이름: {item.name}</Text>
+                                <Text style={styles.guildName}>길드이름: {item.guildname}</Text>
                                 <Text style={styles.guildGame}>하는 게임: {item.game}</Text>
-                                <Text style={styles.numOfPeople}>현재 길드원 : {item.curNum} / 30</Text>
+                                <Text style={styles.numOfPeople}>현재 길드원 : {item.memberCount} / 30</Text>
                             </View>
                             <TouchableOpacity
                                 style={styles.joinButton}
