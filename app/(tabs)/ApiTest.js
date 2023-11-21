@@ -7,7 +7,7 @@ const GameListScreen = () => {
 
     const getGameList = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/game');
+            const response = await axios.get('http://localhost:8080/api/game',);
             console.log(response)
             return response.data; // API에서 반환된 데이터
         } catch (error) {

@@ -71,23 +71,33 @@ const GuildInformation = () => {
     
     const fetchGuildInfo = async () => {
         
-        try {
-            let response = await fetch('http://localhost:8080/api/guild', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                param: JSON.stringify({
-                    guildId : 102
-                }),
-            });
+        // try {
+        //     let response = await fetch('http://localhost:8080/api/guild', {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         param: JSON.stringify({
+        //             guildId : 102
+        //         }),
+        //     });
 
-            let json = await response.json();
-            console.log('Response:', json.data);
-            setGuildInfo(json.data)
+        //     let json = await response.json();
+        //     console.log('Response:', json.data);
+        //     setGuildInfo(json.data)
+        // } catch (error) {
+        //     console.error(error);
+        // }
+
+        try {
+            const response = await axios.get("http://localhost:8080/api/guild?guildId=102");
+            console.log(response.data); // API에서 반환된 데이터
+            setGuildInfo(response.data.data.guild)
         } catch (error) {
-            console.error(error);
+            console.error('There was an error!', error);
         }
+
+        
     }
 
     useEffect(() => {
@@ -120,18 +130,18 @@ const GuildInformation = () => {
 
             <View style={styles.guildInfoContentBox}>
 
-                {/* <Text style={styles.guildInfoContentText}>
+                <Text style={styles.guildInfoContentText}>
                     길드 이름: {guildInfo.name}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
                     길드 소개: {guildInfo.introduce}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
-                    하는 게임: {guildInfo.game}
+                    하는 게임: {guildInfo.game.title}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
-                    인원수: {guildInfo.memberCount}
-                </Text> */}
+                    인원수: {guildInfo.member.length}
+                </Text>
 
 
                 <View style={styles.buttonContainer}>
