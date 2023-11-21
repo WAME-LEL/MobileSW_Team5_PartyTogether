@@ -1,12 +1,18 @@
 // import { PROVIDER_GOOGLE } from 'react-native-maps';
 // import MapView from 'react-native-maps';
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, Button, SafeAreaView } from 'react-native'
+import { loadTestData } from '../../components'
 
 const TestPage = () => {
- 
+  let data;
+
+  const handlePress = async () => {
+    data = await loadTestData();
+    console.log(data);
+  }
   return(
-  <View style={styles.screen}>
-    <Text>맵 테스트
+  <SafeAreaView style={styles.screen}>
+    <Button onPress = {handlePress}>확인</Button>
   	  {/* <MapView // 현재 앱에서만 돌아감, 웹 상에서는 이 페이지 주석 풀면 다 오류남
 		style={styles.map}
 		initialRegion={{
@@ -20,8 +26,7 @@ const TestPage = () => {
     	
     
       </MapView> */}
-      </Text>
-  </View>
+  </SafeAreaView>
   )
   
 }

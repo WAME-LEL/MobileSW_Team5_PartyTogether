@@ -1,7 +1,8 @@
 import React from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet, Touchable } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const BoardModal = ({ data, visible, onClose }) => {
+
   return (
     <Modal
       animationType='fade'
@@ -11,11 +12,11 @@ const BoardModal = ({ data, visible, onClose }) => {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>모달 창 내용</Text>
-          <Text style={styles.modalText}>닉네임</Text>
-          <Text style={styles.modalText}>내용</Text>
-          <Text style={styles.modalText}>시간</Text>
-          <Text style={styles.modalText}>오픈톡</Text>
+          <Text style={styles.modalText}>제목</Text>
+          <Text style={styles.modalText}>{data.nickname}</Text>
+          <Text style={styles.modalText}>{data.content}</Text>
+          <Text style={styles.modalText}>{data.time}</Text>
+          <Text style={styles.modalText}>{data.openChat}</Text>
           <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
             <TouchableOpacity
               style={styles.button}
@@ -23,7 +24,8 @@ const BoardModal = ({ data, visible, onClose }) => {
             >
               <Text>닫기</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button}
+              onPress={() => console.log(data)}>
               <Text>채팅 버튼 추가</Text>
             </TouchableOpacity>
           </View> 
