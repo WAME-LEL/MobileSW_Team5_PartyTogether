@@ -6,7 +6,7 @@ const ImageButton = ({preset, imageUrl, handlePress}) => {
         <TouchableOpacity style = {preset}
             onPress = {handlePress}
             >
-                <Image source={{ uri: imageUrl }} style = {{width: 150, height: 150, borderRadius: 20}}/>
+                <Image source={ imageUrl } style = {{width: 150, height: 150, borderRadius: 20}}/>
         </TouchableOpacity>
     )
 }

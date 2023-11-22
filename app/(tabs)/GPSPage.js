@@ -1,27 +1,47 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, FlatList} from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, FlatList, Image } from 'react-native';
+import { loadUserData, CommonButton, ImageButton } from '../../components';
+import Icon_Location from '../../asset/icons/Icon_Location.png';
 import * as Location from 'expo-location';
 
 const GPSPage = () => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [users, setUsers] = useState(["유저1", "유저2", "유저3", "유저4", "유저5"]);
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isGPS, setIsGPS] = useState(false);
+
+  const toggleGPS = () => {
+    console.log('GPS 버튼 누름');
+    setIsGPS(!isGPS);
+  }
 
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
+    if(isGPS) {
+      (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
+  
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+        let text = 'Waiting..';
+        if (errorMsg) {
+          text = errorMsg;
+        } else if (location) {
+          text = JSON.stringify(location);
+        }
+        console.log(text);
+      })();
+    }
+  }, [isGPS]);
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
+  useEffect(() => {
 
+  }, [])
+ 
   let text = 'Waiting..';
   if (errorMsg) {
     text = errorMsg;
@@ -34,10 +54,14 @@ const GPSPage = () => {
       <View style = {{padding: 10}}>
         <Text>GPS 페이지</Text>
       </View>
-      <View style = {{alignItems: 'center', width: '100%', height : 400, justifyContent: 'center', border: '1px solid black'}}>
-        <Text>지도에 내 위치 표시</Text>
-        <Text>{text}</Text>
-      </View>
+      <ImageButton preset = {{
+          width: 250,
+          height: 250,
+          borderRadius: 20,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'skyblue'
+      }} imageUrl = {Icon_Location} handlePress = {toggleGPS}></ImageButton>
       <View style = {{padding: 10}}>
         <Text>주변 사용자 리스트</Text>
       </View>

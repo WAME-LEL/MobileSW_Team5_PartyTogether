@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { SafeAreaView, Text, View, TextInput } from 'react-native'
-import { TextInputBox, CommonButton } from '../../../components'
+import { TextInputBox, CommonButton, saveData } from '../../../components'
 import styles from '../../../constants/preset'
 import { Link } from 'expo-router'
 
@@ -24,9 +24,20 @@ const SignUpPage = () => {
         
     }
 
-    const handleNext = () => {
-        //id, 중복 검사 여부 확인, 비밀 번호 확인 작업 후 다음 페이지로 이동
-        console.log("다음 버튼 클릭");
+    const handleNext = async () => {
+        const item = {
+            nickname: nickname,
+            username: id,
+            password: password
+        }
+        
+        try {
+            await saveData(item, "http://localhost:8080/api/member/signUp");
+            return true;
+        } catch(error) {
+            console.log("회원 가입 중 에러 발생");
+            return false;
+        }
     }
 
     return (
@@ -72,14 +83,12 @@ const SignUpPage = () => {
                     />
                 </View>
             </View>
-            <Link href = "GameInfoPage">
                 <CommonButton
                     preset = {styles.middleButton}
                     font = {styles.middleFont}
                     title = "다음"
                     handlePress = {handleNext}
                 />
-            </Link>
         </SafeAreaView>
     )
 }

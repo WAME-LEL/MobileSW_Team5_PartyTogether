@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native'
-import { TextInputBox, CommonButton } from '../../../components'
+import { TextInputBox, CommonButton, getData } from '../../../components'
 import styles from '../../../constants/preset'
 import { Link } from 'expo-router'
 
@@ -8,10 +8,23 @@ const LoginPage = () => {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
 
-    const handlePress = () => {
+    const handleLogin = async () => {
         console.log("로그인 버튼 클릭");
-        console.log(id, password);
-        // 여기에 로그인 과정 추가
+        const item = {
+            username: id,
+            password: password
+        }
+        console.log(item);
+        try {
+            const tempdata = await getData(item, 'http://localhost:8080/api/member/signIn');
+            console.log(tempdata);
+        } catch(error) {
+            console.log("로그인 중 에러 발생");
+            const tempdata = [];
+            console.log(tempdata);
+        }
+        
+        
     }
 
     return (
@@ -32,16 +45,14 @@ const LoginPage = () => {
                 preset = {styles.middleButton}
                 font = {styles.middleFont}
                 title = "로그인"
-                handlePress = {handlePress}
+                handlePress = {handleLogin}
             />
-            <Link href="SignUpPage">
-                <CommonButton
-                    preset = {[styles.middleButton, {marginTop : 10}]}
-                    font = {styles.middleFont}
-                    title = "회원가입"
-                    handlePress = {handlePress}
-                />
-            </Link>
+            <CommonButton
+                preset = {[styles.middleButton, {marginTop : 10}]}
+                font = {styles.middleFont}
+                title = "회원가입"
+                handlePress = {() => (console.log("회원가입 버튼"))}
+            />
         </SafeAreaView>
     );
 }

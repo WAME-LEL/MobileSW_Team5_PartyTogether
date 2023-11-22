@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Text, View, SafeAreaView, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
-import { BoardCard, loadBoardData, BoardModal } from "../../components/"
+import { BoardCard, getData, BoardModal } from "../../components/"
 
 const PartyBoard = ({ party }) => {
   //const {uid} = useContext(AuthContext) // 로그인 정보 저장용
@@ -15,9 +15,12 @@ const PartyBoard = ({ party }) => {
 
   useEffect(() => {
     setIsLoading(true);
+    const item = {
+      keyword: nowGameBoard
+    }
     const fetchData = async () => {
       try {
-        const loadData = await loadBoardData(nowGameBoard);
+        const loadData = await getData(item, "http://localhost:8080/api/board");
         setData(loadData);
       } catch(error) {
         setData([]);

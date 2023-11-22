@@ -1,16 +1,40 @@
-import axios from 'axios'
 
-const loadBoardData = async (boardName) => {
+const loadTestData = (boardName) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/board', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          param: JSON.stringify({
+            keyword: boardName,
+          }),
+        });
+    
+        const json = await response.json();
+        console.log('Response:', json.data);
+        return json.data;
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
+    }
+
+    const data = fetchData();
+
+    return data;
+}
+
+const getData = async (item, api) => {
   const fetchData = async () => {
     try {
-      let response = await fetch('http://localhost:8080/api/board', {
+      let response = await fetch(api, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        param: JSON.stringify({
-          keyword: boardName,
-        }),
+        param: JSON.stringify(item),
       });
   
       let json = await response.json();
@@ -27,36 +51,15 @@ const loadBoardData = async (boardName) => {
   return data;
 }
 
-const loadTestData = (boardName) => {
+const loadUserData = async () => {
+  const fetchData = () => {
     const fetchData = async () => {
-      try {
-        let response = await fetch('http://localhost:8080/api/board', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          param: JSON.stringify({
-            keyword: boardName,
-          }),
-        });
-    
-        let json = await response.json();
-        console.log('Response:', json.data);
-        return json.data;
-      } catch (error) {
-        console.error(error);
-        return error;
-      }
+      const loadData = ["유저1", "유저2", "유저3", "유저4", "유저5"]
+
+      return loadData;
     }
 
     const data = fetchData();
-
-    return data;
-}
-
-const loadUserData = async () => {
-  const fetchData = () => {
-    const loadData = [];
 
     return loadData;
   }
@@ -65,4 +68,4 @@ const loadUserData = async () => {
   return data;
 }
 
-export { loadBoardData, loadTestData, loadUserData }
+export { loadTestData, loadUserData, getData }
