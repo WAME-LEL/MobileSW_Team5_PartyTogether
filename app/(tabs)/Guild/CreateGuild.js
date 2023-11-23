@@ -1,75 +1,75 @@
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
-//생성된 길드 정보 ->DB
-
-//게임 선택 목록
-const games = [
-    { id: 'lol', name: '리그오브레전드' },
-    { id: 'loa', name: '로스트아크' },
-    { id: 'valo', name: '발로란트' },
-    
-];
 
 
 const CreateGuild = () =>{
+    // const { userId } = useContext(UserContext); //UserContext => userId
+    const [userId, setUserId] = useState(152);  //userId 임시
+    const [games, setGames] = useState([]);
     const [guildName, setGuildName] = useState('');
     const [guildDescription, setGuildDescription] = useState('');
-    const [guilds, setGuilds] = useState([]);
     const [selectedGame, setSelectedGame] = useState(null);
+
+    //게임리스트 받기
+    const getGameList = async () => {
+        try {
+            const res = await axios.get('http://localhost:8080/api/game',);
+            console.log(res)
+            setGames(res.data.data); // API에서 반환된 데이터
+
+        } catch (error) {
+            console.error('There was an error!', error);
+        }
+    };
+
+    useEffect(() => {
+        getGameList();
+    }, []);
 
     //길드생성 버튼이벤트
     const CreateGuildBtn = async () => {
         if (guildName.trim().length > 0 && guildDescription.trim().length > 0 && selectedGame) {
+            const gameInfo = games.find(game => game.id === selectedGame); //사용자가 선택한 게임찾기
 
-            const gameInfo = games.find(game => game.id === selectedGame);
             if (!gameInfo) {
                 console.warn('게임을 선택해주세요.');
                 return;
             }
 
-            const newGuild = {
-                name: guildName,
-                description: guildDescription,
-                game: gameInfo.name,
-            };
-            
-            // 새 길드를 목록에 추가하고 로그에 표시
-            setGuilds(previousGuilds => {
-                const updatedGuilds = [...previousGuilds, newGuild];
-                console.log('생성된 길드:', newGuild); // 현재 저장한 길드만 로그에 표시
-                return updatedGuilds;
-            });
-
-            // 입력 필드를 비움
-            setGuildName('');
-            setGuildDescription('');
-            setSelectedGame(null);
-
-            //길드생성 요청 (임시)
-            /*try {
+            try {
+                // 백엔드 서버에 길드 생성 요청을 보냅니다.
                 const response = await axios.post('http://localhost:8080/api/guild/registration', {
-                    params: { "guildName":"FIFA 길드",
-                            "guildIntroduce":"FIFA 길드 소개",
-                            "guildGame":53,
-                            "guildLeader":153 }
+                    guildName: guildName,
+                    guildIntroduce: guildDescription,
+                    guildGame: gameInfo.id, //선택한 게임 id
+                    guildLeader: userId,
                 });
-                const data = await response.json();
-                console.log('서버로부터의 응답:', data);
-              } catch (error) {
-                console.error('서버 요청 중 오류 발생:', error);
-            }*/
+                console.log('백엔드 응답:', response.data);
+                
+                // 입력 필드를 비움
+                resetForm();
+
+            } catch (error) {
+                console.error('길드 생성 중 에러 발생:', error);
+            }
+
         } else {
             console.warn('길드 이름과 소개를 입력하고, 게임을 선택해 주세요.');
         }
     };
 
-    
+    //입력필드 초기화
+    const resetForm = () => {
+        setGuildName('');
+        setGuildDescription('');
+        setSelectedGame(null);
+    };
 
     const onRadioPress = (gameId) => {
         setSelectedGame(gameId);
-      };
+    };
 
     return (
         <View style={styles.container}>
@@ -101,16 +101,15 @@ const CreateGuild = () =>{
                 <ScrollView style={styles.scrollView}>
                     {games.map((game) => (
                         <TouchableOpacity
-                        key={game.id}
-                        style={styles.radioContainer}
-                        onPress={() => onRadioPress(game.id)}>
-                        <View style={[
-                            styles.radioCircle, 
-                            selectedGame === game.id && styles.selectedRadioCircle
-                        ]}>
-                            {selectedGame === game.id && <View style={styles.selectedRadioDot} />}
-                        </View>
-                        <Text style={styles.radioText}>{game.name}</Text>
+                            key={game.id}
+                            style={styles.radioContainer}
+                            onPress={() => onRadioPress(game.id)}
+                        >
+                            <View style={[
+                                styles.radio,
+                                { backgroundColor: selectedGame === game.id ? 'blue' : 'white' }
+                            ]} />
+                            <Text style={styles.radioText}>{game.title}</Text>
                         </TouchableOpacity>
                     ))}
                 </ScrollView>

@@ -1,11 +1,10 @@
 import {View, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect, useContext  } from 'react';
 import GuildRanking from './GuildRanking';
 import GuildMatch from './guildMatch/GuildMatch';
 import axios from 'axios';
 
 //ContextAPI
-//길드 멤버목록 DB에서 가져옴
 //길드 정보(랭킹)
 
 const screenHeight = Dimensions.get('window').height;
