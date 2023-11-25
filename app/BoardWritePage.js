@@ -1,7 +1,7 @@
 import { SafeAreaView, Text, View } from 'react-native'
 import { useState, useEffect } from 'react'
-import { CommonButton, TextInputBox } from '../../components'
-import styles from '../../constants/preset'
+import { CommonButton, TextInputBox } from '../components'
+import styles from '../constants/preset'
 
 const BoardWritePage = () => {
     const [title, setTitle] = useState('');

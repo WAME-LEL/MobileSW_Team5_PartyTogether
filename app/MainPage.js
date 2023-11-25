@@ -1,6 +1,6 @@
 import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native'
-import { ImageButton } from '../../components'
-import styles from '../../constants/preset';
+import { ImageButton } from '../components'
+import styles from '../constants/preset';
 
 const MainPage = () => {
     const ImageUrl = 'https://via.placeholder.com/150';

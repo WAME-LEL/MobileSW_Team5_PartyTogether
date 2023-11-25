@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, FlatList, Image } from 'react-native';
-import { loadUserData, CommonButton, ImageButton } from '../../components';
-import Icon_Location from '../../asset/icons/Icon_Location.png';
+import { loadUserData, CommonButton, ImageButton } from '../components';
+import Icon_Location from '../asset/icons/Icon_Location.png';
 import * as Location from 'expo-location';
 
 const GPSPage = () => {

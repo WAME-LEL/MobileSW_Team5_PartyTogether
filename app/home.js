@@ -1,8 +1,10 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Link } from 'expo-router';
-import styles from '../../constants/preset';
+import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Link, useRouter } from 'expo-router';
+import styles from '../constants/preset';
 
 const Home = () => {
+  const router = useRouter();
+
   return (
     <View>
       <Text>Home</Text>
@@ -18,9 +20,9 @@ const Home = () => {
         <Link href="GPSPage">
           <Text style = {styles.middleFont}>GPS 시험 페이지</Text>
         </Link>
-        <Link href="Login/LoginPage">
+        <TouchableOpacity onPress = {() => (router.push('/Login/LoginPage'))}>
           <Text style = {styles.middleFont}>로그인 페이지로</Text>
-        </Link>
+        </TouchableOpacity>
         <Link href="EventPage">
           <Text style = {styles.middleFont}>이벤트 페이지로</Text>
         </Link>

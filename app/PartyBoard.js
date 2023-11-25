@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Text, View, SafeAreaView, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
-import { BoardCard, getData, BoardModal } from "../../components/"
+import { BoardCard, getData, BoardModal } from "../components"
 
 const PartyBoard = ({ party }) => {
   //const {uid} = useContext(AuthContext) // 로그인 정보 저장용
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리 ture = 로딩중, false = 로딩 완료
-  const [gameBoardData, setGameBoardData] = useState(['리그오브레전드', '메이플스토리', '로스트아크']); // 게임 목록 배열
+  const [gameBoardData, setGameBoardData] = useState(['리그오브레전드', '메이플스토리', 'FIFA']); // 게임 목록 배열
   const [nowGameBoard, setNowGameBoard] = useState('리그오브레전드'); // 현재 출력할 게시판
   const [data, setData] = useState([]) // 데이터 관리 배열
   const [currentData, setCurrentData] = useState(0);
@@ -18,6 +18,7 @@ const PartyBoard = ({ party }) => {
     const item = {
       keyword: nowGameBoard
     }
+    console.log(item);
     const fetchData = async () => {
       try {
         const loadData = await getData(item, "http://localhost:8080/api/board");
