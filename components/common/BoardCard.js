@@ -8,7 +8,7 @@ const BoardCard = ({ items, handlePress }) => {
             <Image source={{ uri: items.imageUrl }} style={styles.image} />
             <View style={styles.textContainer}>
                 <View style={styles.header}>
-                    <Text style={styles.nickname}>{items.nickname}</Text>
+                    <Text style={styles.title}>{items.title}</Text>
                     <Text style={styles.time}>{items.time}</Text>
                 </View>
                 <View style={styles.body}>

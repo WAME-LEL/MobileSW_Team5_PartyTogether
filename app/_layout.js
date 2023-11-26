@@ -19,6 +19,19 @@ const StackLayout = () => {
                         headerTitle: "Login",
                     }}
                 />
+
+                <Stack.Screen name="PartyBoard"
+                            options={{
+                                headerTitle: "파티 게시판",
+                                headerTitleAlign: 'center'
+                            }}
+                />
+                <Stack.Screen name="BoardWritePage/[gameName]"
+                            options={{
+                                headerTitle: "게시글 작성",
+                                headerTitleAlign: 'center'
+                            }}
+                />
             </Stack>
         </UserProvider>
     )

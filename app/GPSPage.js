@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, FlatList, Image } from 'react-native';
-import { loadUserData, CommonButton, ImageButton } from '../components';
+import { loadUserData, CommonButton, ImageButton, postSave, UserContext } from '../components';
 import Icon_Location from '../asset/icons/Icon_Location.png';
 import * as Location from 'expo-location';
 
 const GPSPage = () => {
+  const { uid } = useContext(UserContext)
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [users, setUsers] = useState([]);
@@ -12,12 +13,14 @@ const GPSPage = () => {
   const [isGPS, setIsGPS] = useState(false);
 
   const toggleGPS = () => {
-    console.log('GPS 버튼 누름');
     setIsGPS(!isGPS);
+    if(isGPS == true) {
+      console.log(isGPS);
+    }
   }
 
   useEffect(() => {
-    if(isGPS) {
+    if((location == null && isGPS == true)) {
       (async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
@@ -38,17 +41,6 @@ const GPSPage = () => {
     }
   }, [isGPS]);
 
-  useEffect(() => {
-
-  }, [])
- 
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
-
   return (
     <View style={styles.container}>
       <View style = {{padding: 10}}>
@@ -61,7 +53,7 @@ const GPSPage = () => {
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: 'skyblue'
-      }} imageUrl = {Icon_Location} handlePress = {toggleGPS}></ImageButton>
+      }} imageUrl = {Icon_Location} handlePress = {() => {toggleGPS}}></ImageButton>
       <View style = {{padding: 10}}>
         <Text>주변 사용자 리스트</Text>
       </View>

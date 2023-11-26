@@ -18,7 +18,7 @@ const LoginPage = () => {
             password: password
         }
         try {
-            const tempdata = await getData(item, 'http://localhost:8080/api/member/signIn');
+            const tempdata = await getData(item, 'member/signIn');
             console.log(tempdata.member);
             setUid(tempdata.member.id);
         } catch(error) {
@@ -42,19 +42,19 @@ const LoginPage = () => {
             />
             <CommonButton
                 preset = {styles.middleButton}
-                font = {styles.middleFont}
+                font = {styles.middleFontWhite}
                 title = "로그인"
                 handlePress = {handleLogin}
             />
             <CommonButton
                 preset = {[styles.middleButton, {marginTop : 10}]}
-                font = {styles.middleFont}
+                font = {styles.middleFontWhite}
                 title = "회원가입"
                 handlePress = {() => (router.push('Login/SignUpPage'))}
             />
             <CommonButton
                 preset = {[styles.middleButton, {marginTop : 10}]}
-                font = {styles.middleFont}
+                font = {styles.middleFontWhite}
                 title = "uid 확인"
                 handlePress = {() => (console.log(uid))}
             />

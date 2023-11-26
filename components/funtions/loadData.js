@@ -27,11 +27,11 @@ const testData = (boardName) => {
     return data;
 }
 
-const getData = async (item, api) => {
+const getData = async (item, endPoint) => {
   
   const options = {
     method: 'GET',
-    url: api,
+    url: `http://localhost:8080/api/${endPoint}`,
     params: {...item},
     headers: {
       'Content-Type': 'application/json'
@@ -53,11 +53,11 @@ const getData = async (item, api) => {
   return data;
 }
 
-const postData = async (item, api) => {
+const postData = async (item, endPoint) => {
 
   const options = {
     method: 'POST',
-    url: api,
+    url: `http://localhost:8080/api/${endPoint}`,
     body: {...item},
     headers: {
       'Content-Type': 'application/json'

@@ -1,17 +1,15 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView, Text, View, TextInput } from 'react-native'
-import { TextInputBox, CommonButton, saveData, UserContext } from '../../components'
+import { TextInputBox, CommonButton, postSave } from '../../components'
 import styles from '../../constants/preset'
 
 const SignUpPage = () => {
     const [id, setId] = useState(''); // id -> 중복 검사 필요
-    const { uid } = useContext(UserContext);
     const [password, setPassword] = useState(''); // 비밀번호
     const [passwordCheck, setPasswordCheck] = useState(''); // 비밀번호 확인
     const [nickname, setNickname] = useState(''); // 닉네임 -> 중복 검사 필요
     const [isIdChecked, setIsIdChecked] = useState(false); // 아이디 중복 검사 여부
     const [isNicknameChecked, setIsNicknameChecked] = useState(false); // 닉네임 중복 검사 여부
-    console.log(uid);
 
     const idCheck = (entity) => {
         console.log("중복 확인 버튼 클릭");
@@ -33,7 +31,7 @@ const SignUpPage = () => {
         }
         
         try {
-            await saveData(item, "http://localhost:8080/api/member/signUp");
+            await postSave(item, "member/signUp");
             return true;
         } catch(error) {
             console.log("회원 가입 중 에러 발생");
@@ -86,7 +84,7 @@ const SignUpPage = () => {
             </View>
                 <CommonButton
                     preset = {styles.middleButton}
-                    font = {styles.middleFont}
+                    font = {styles.middleFontWhite}
                     title = "다음"
                     handlePress = {handleNext}
                 />
