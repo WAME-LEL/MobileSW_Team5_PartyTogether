@@ -7,7 +7,10 @@ const GuildMatch = ( {goBack} ) => {
     const [roomId, setRoomId] = useState('');
 
     const toCreateRoom = () => {
-        //서버에 길드ID 보냄
+        // 서버에 방생성 요청
+        // 길드장id, 길드id POST => 방생성, 방id 생성
+        // 길드장이 아닐 경우 실패
+
         setCurrentPage('CreateRoom');
     };
     if (currentPage === 'CreateRoom') {
@@ -15,7 +18,10 @@ const GuildMatch = ( {goBack} ) => {
     }
 
     const toJoinRoom = () => {
-        // 방 입장 로직 구현
+        // 입력한 방ID로 입장
+        // 입력한 방ID가 존재하지 않을 경우 실패
+
+        setCurrentPage('CreateRoom');
     };
 
     return (
