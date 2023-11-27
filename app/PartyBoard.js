@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Text, View, SafeAreaView, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
-import { BoardCard, getData, BoardModal } from "../../components/"
+import { BoardCard, getData, BoardModal, LoadingScreen, UserContext, CommonButton } from "../components"
+import { useRouter } from 'expo-router';
 
-const PartyBoard = ({ party }) => {
-  //const {uid} = useContext(AuthContext) // 로그인 정보 저장용
+const PartyBoard = () => {
+  const router = useRouter();
+  const { uid } = useContext(UserContext) // 로그인 정보 저장용
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리 ture = 로딩중, false = 로딩 완료
-  const [gameBoardData, setGameBoardData] = useState(['리그오브레전드', '메이플스토리', '로스트아크']); // 게임 목록 배열
+  const [gameBoardData, setGameBoardData] = useState(['리그오브레전드', '메이플스토리', 'FIFA']); // 게임 목록 배열
   const [nowGameBoard, setNowGameBoard] = useState('리그오브레전드'); // 현재 출력할 게시판
   const [data, setData] = useState([]) // 데이터 관리 배열
   const [currentData, setCurrentData] = useState(0);
@@ -14,20 +16,21 @@ const PartyBoard = ({ party }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    const item = {
-      keyword: nowGameBoard
-    }
     const fetchData = async () => {
+      setIsLoading(true);
+      const item = {
+        keyword: nowGameBoard
+      }
       try {
-        const loadData = await getData(item, "http://localhost:8080/api/board");
+        const loadData = await getData(item, "board");
         setData(loadData);
       } catch(error) {
         setData([]);
       }
+      setIsLoading(false);
     }
+
     fetchData();
-    setIsLoading(false);
   }, [nowGameBoard, page, entity]) // 게시판, 페이지, 데이터 수가 바뀌면 갱신하는데, 페이지와 데이터 수를 초기화 하는 과정 추가 필요
 
   const pressGameBoard = async (gameName) => { // 게임 목록을 클릭하면 데이터를 갱신할 함수
@@ -55,10 +58,7 @@ const PartyBoard = ({ party }) => {
 
   return (
       <SafeAreaView>
-          <View style = {{alignItems: 'center', justifyContent: 'center'}}>
-            <Text>{nowGameBoard} 게시판</Text>
-          </View>
-          <View style={{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: '2%', marginTop:'2%'}} />
+          <LoadingScreen nowLoading = {isLoading} />
           <FlatList
               data = {gameBoardData}
               renderItem={({ item }) => <TouchableOpacity style = {styles.roundedCornerView} 
@@ -68,6 +68,15 @@ const PartyBoard = ({ party }) => {
               horizontal
           />
           <View style={{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: '2%', marginBottom:'2%'}} />
+          <View style = {{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20}}>
+            <Text style = {{fontSize: 20}}>{nowGameBoard} 게시판</Text>
+            <CommonButton 
+              preset = {{width: 100, height:35, backgroundColor: '#3333FF', justifyContent: 'center', alignItems: 'center', borderRadius: 10}}
+              font = {{fontSize: 15, color: '#FFFFFF'}}
+              handlePress = {() => router.push(`BoardWritePage/${nowGameBoard}`)}
+              title = "게시글 작성"/>
+          </View>
+          <View style={{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: '2%', marginTop:'2%'}} />
           <FlatList
               data={data}
               renderItem={({ item, index }) => (

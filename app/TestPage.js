@@ -1,7 +1,7 @@
 // import { PROVIDER_GOOGLE } from 'react-native-maps';
 // import MapView from 'react-native-maps';
 import { View, StyleSheet, Text, Button, SafeAreaView } from 'react-native'
-import { loadTestData } from '../../components'
+import { loadTestData } from '../components'
 
 const TestPage = () => {
   let data;

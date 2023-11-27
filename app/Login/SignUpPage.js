@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { SafeAreaView, Text, View, TextInput } from 'react-native'
-import { TextInputBox, CommonButton, saveData } from '../../../components'
-import styles from '../../../constants/preset'
-import { Link } from 'expo-router'
+import { TextInputBox, CommonButton, postSave } from '../../components'
+import styles from '../../constants/preset'
 
 const SignUpPage = () => {
     const [id, setId] = useState(''); // id -> 중복 검사 필요
@@ -32,7 +31,7 @@ const SignUpPage = () => {
         }
         
         try {
-            await saveData(item, "http://localhost:8080/api/member/signUp");
+            await postSave(item, "member/signUp");
             return true;
         } catch(error) {
             console.log("회원 가입 중 에러 발생");
@@ -85,7 +84,7 @@ const SignUpPage = () => {
             </View>
                 <CommonButton
                     preset = {styles.middleButton}
-                    font = {styles.middleFont}
+                    font = {styles.middleFontWhite}
                     title = "다음"
                     handlePress = {handleNext}
                 />

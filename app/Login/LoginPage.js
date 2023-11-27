@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { SafeAreaView } from 'react-native'
-import { TextInputBox, CommonButton, getData } from '../../../components'
-import styles from '../../../constants/preset'
-import { Link } from 'expo-router'
+import { TextInputBox, CommonButton, getData } from '../../components'
+import UserContext from '../../components/common/UserContext'
+import styles from '../../constants/preset'
+import { useRouter } from 'expo-router'
 
 const LoginPage = () => {
+    const router = useRouter();
+    const { uid, setUid } = useContext(UserContext);
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
 
@@ -14,17 +17,13 @@ const LoginPage = () => {
             username: id,
             password: password
         }
-        console.log(item);
         try {
-            const tempdata = await getData(item, 'http://localhost:8080/api/member/signIn');
-            console.log(tempdata);
+            const tempdata = await getData(item, 'member/signIn');
+            console.log(tempdata.member);
+            setUid(tempdata.member.id);
         } catch(error) {
             console.log("로그인 중 에러 발생");
-            const tempdata = [];
-            console.log(tempdata);
         }
-        
-        
     }
 
     return (
@@ -43,15 +42,21 @@ const LoginPage = () => {
             />
             <CommonButton
                 preset = {styles.middleButton}
-                font = {styles.middleFont}
+                font = {styles.middleFontWhite}
                 title = "로그인"
                 handlePress = {handleLogin}
             />
             <CommonButton
                 preset = {[styles.middleButton, {marginTop : 10}]}
-                font = {styles.middleFont}
+                font = {styles.middleFontWhite}
                 title = "회원가입"
-                handlePress = {() => (console.log("회원가입 버튼"))}
+                handlePress = {() => (router.push('Login/SignUpPage'))}
+            />
+            <CommonButton
+                preset = {[styles.middleButton, {marginTop : 10}]}
+                font = {styles.middleFontWhite}
+                title = "uid 확인"
+                handlePress = {() => (console.log(uid))}
             />
         </SafeAreaView>
     );
