@@ -32,13 +32,13 @@ const Home = () => {
         <Link href="TestPage">
           <Text style = {styles.middleFont}>테스트 페이지</Text>
         </Link>
-        <Link href="guild/GuildInformation">
+        <Link href="Guild/GuildInformation">
           <Text style = {styles.middleFont}>길드 페이지</Text>
         </Link>
-        <Link href="guild/GuildSearch">
+        <Link href="Guild/GuildSearch">
           <Text style = {styles.middleFont}>길드찾기 페이지</Text>
         </Link>
-        <Link href="guild/CreateGuild">
+        <Link href="Guild/CreateGuild">
           <Text style = {styles.middleFont}>길드생성 페이지</Text>
         </Link>
         <Link href="ApiTest">

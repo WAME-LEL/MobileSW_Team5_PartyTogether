@@ -7,6 +7,7 @@ const GuildRanking = ( {goBack} ) =>{
     const [guildRankings, setGuildRankings] = useState([]);
     const [myGuild, setMyGuild] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    // const { uid } = useContext(UserContext); //UserContext => uid
 
     useEffect(() => {
         fetchGuildRankings();
