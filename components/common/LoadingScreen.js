@@ -10,7 +10,7 @@ const LoadingScreen = ({ nowLoading }) => {
       onRequestClose={() => {}}>
       <View style={styles.modalBackground}>
         <Image
-          source={require('../../asset/icons/Loading.gif')}
+          source={require('../../assets/icons/Loading.gif')}
           style={styles.loadingImage}
         />
       </View>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, FlatList, Image } from 'react-native';
-import { loadUserData, CommonButton, ImageButton, postSave, UserContext } from '../components';
-import Icon_Location from '../asset/icons/Icon_Location.png';
+import { View, Text, SafeAreaView, StyleSheet, FlatList } from 'react-native';
+import { CommonButton, ImageButton, postSave, UserContext } from '../components';
+import Button_Location from '../assets/icons/Button_Location.png';
 import * as Location from 'expo-location';
 
 const GPSPage = () => {
@@ -12,15 +12,9 @@ const GPSPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isGPS, setIsGPS] = useState(false);
 
-  const toggleGPS = () => {
+  const toggleGPS = async () => {
     setIsGPS(!isGPS);
-    if(isGPS == true) {
-      console.log(isGPS);
-    }
-  }
-
-  useEffect(() => {
-    if((location == null && isGPS == true)) {
+    if((location == null)) {
       (async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
@@ -28,44 +22,60 @@ const GPSPage = () => {
           return;
         }
   
-        let location = await Location.getCurrentPositionAsync({});
+        const templocation = await Location.getCurrentPositionAsync({});
         setLocation(location);
         let text = 'Waiting..';
         if (errorMsg) {
           text = errorMsg;
-        } else if (location) {
-          text = JSON.stringify(location);
+          return;
         }
-        console.log(text);
+        const item = {
+          memberId: uid,
+          latitude: templocation.coords.latitude,
+          longitude: templocation.coords.longitude
+        }
+        console.log(item);
+        try {
+          const response = await postSave(item, "member/location");
+          console.log(response);
+          // 받은 데이터로 users 멤버를 채우기
+        } catch(error) {
+          console.log(error);
+        }
       })();
     }
-  }, [isGPS]);
+  }
 
   return (
-    <View style={styles.container}>
-      <View style = {{padding: 10}}>
-        <Text>GPS 페이지</Text>
+    <SafeAreaView>
+      <View style={styles.container}>
+        <View style = {{padding: 10}}>
+          <Text>탐색하기</Text>
+        </View>
+        <ImageButton preset = {{
+            width: 250,
+            height: 250,
+            borderRadius: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'skyblue'
+        }} imageUrl = {Button_Location} handlePress = {toggleGPS}></ImageButton>
+        <View style = {{padding: 10}}>
+          <Text>주변 사용자 리스트</Text>
+        </View>
+        <View>
+          {!isGPS ? <Text>먼저 GPS 탐색을 해주세요</Text> : 
+          (users == []) ? <Text>탐색중...</Text> : <FlatList
+            data={users}
+            renderItem={({ item }) => (
+              <View style = {{width: 400, height: 50, alignItems: 'center', justifyContent: 'center', border: '1px solid black', margin: 5}}>
+                <Text>{item}</Text>
+              </View>
+            )}
+          />}
+        </View>
       </View>
-      <ImageButton preset = {{
-          width: 250,
-          height: 250,
-          borderRadius: 20,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'skyblue'
-      }} imageUrl = {Icon_Location} handlePress = {() => {toggleGPS}}></ImageButton>
-      <View style = {{padding: 10}}>
-        <Text>주변 사용자 리스트</Text>
-      </View>
-      <FlatList
-        data={users}
-        renderItem={({ item }) => (
-          <View style = {{width: 400, height: 50, alignItems: 'center', justifyContent: 'center', border: '1px solid black', margin: 5}}>
-            <Text>{item}</Text>
-          </View>
-        )}
-      />
-    </View> 
+    </SafeAreaView> 
   );
 }
 

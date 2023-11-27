@@ -33,7 +33,6 @@ const postSave = async (item, endPoint) => {
 
     try {
         const response = await axios.post(url, item, config);
-        console.log(response.data);
         const loaddata = response.data;
         return loaddata;
     } catch(error) {
