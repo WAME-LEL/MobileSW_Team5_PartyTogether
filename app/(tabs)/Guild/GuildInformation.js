@@ -1,7 +1,7 @@
 import {View, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState, useEffect, useContext  } from 'react';
-import GuildRanking from './GuildRanking';
 import GuildMatch from './guildMatch/GuildMatch';
+import GuildRanking from './GuildRanking';
 import axios from 'axios';
 
 //ContextAPI
