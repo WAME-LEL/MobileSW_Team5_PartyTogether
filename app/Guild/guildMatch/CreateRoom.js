@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import MatchResult from './MatchResult';
 
-//방ID, 방에 입장한 각 길드정보(길드이름, 길드ID, 길드 멤버, 현재 길드포인트) 백엔드로부터 받아오기
+//방ID, 방에 입장한 각 길드정보(길드이름, 길드ID, 길드 멤버) 받아오기
 
 const CreateRoom = ( {goBack} ) => {
+    const [currentPage, setCurrentPage] = useState('CreateRoom');
     const [guildMembers1, setGuildMembers1] = useState(['Member 1A', 'Member 2A', 'Member 3A', 'Member 4A', 'Member 5A']);
     const [guildMembers2, setGuildMembers2] = useState(['Member 1B', 'Member 2B', 'Member 3B', 'Member 4B', 'Member 5B']);
 
@@ -11,15 +13,17 @@ const CreateRoom = ( {goBack} ) => {
         getMatchingData();
     }, []);
 
+    const toMatchResult = () => {
+        setCurrentPage('MatchResult');
+    };
+    if (currentPage === 'MatchResult') {
+        return <MatchResult goBack={() => setCurrentPage('CreateRoom')} />;
+    }
+
+
     const getMatchingData = () => {
         // 백으로부터 매칭된 각 길드정보, 방id 받아오는 로직
 
-    };
-
-    const showMatchResult = () => {
-        // 대전 결과 보기 로직
-        // 라이엇 API (전적 조회)
-        // 승패에 따른 포인트 지급
     };
 
     return (
@@ -50,8 +54,8 @@ const CreateRoom = ( {goBack} ) => {
                     ))}
                 </View>
 
-                <TouchableOpacity onPress={showMatchResult} style={styles.resultButton}>
-                    <Text style={styles.buttonText}>대전 결과 보기</Text>
+                <TouchableOpacity onPress={toMatchResult} style={styles.resultButton}>
+                    <Text style={styles.buttonText}>대전결과 조회</Text>
                 </TouchableOpacity>
             </View>
         </View>

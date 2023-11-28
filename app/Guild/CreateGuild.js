@@ -108,7 +108,7 @@ const CreateGuild = () =>{
                             <View style={[
                                 styles.radio,
                                 { backgroundColor: selectedGame === game.id ? 'blue' : 'white' }
-                            ]} />
+                            ]}/>
                             <Text style={styles.radioText}>{game.title}</Text>
                         </TouchableOpacity>
                     ))}

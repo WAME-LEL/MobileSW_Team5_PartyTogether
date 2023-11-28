@@ -5,7 +5,6 @@ import GuildRanking from './GuildRanking';
 import axios from 'axios';
 
 //ContextAPI
-//길드 정보(랭킹)
 
 const screenHeight = Dimensions.get('window').height;
 
@@ -61,7 +60,7 @@ const GuildInformation = () => {
 
 
     if (currentPage === 'GuildRanking') {
-        return <GuildRanking goBack={() => setCurrentPage('GuildInformation')} />;
+        return <GuildRanking guildInfo={guildInfo} goBack={() => setCurrentPage('GuildInformation')} />;
     }
     if (currentPage === 'GuildMatch') {
         return <GuildMatch goBack={() => setCurrentPage('GuildInformation')} />;

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-const GuildRanking = ( {goBack} ) =>{
+const GuildRanking = ( {goBack, guildInfo} ) =>{
     const [guildRankings, setGuildRankings] = useState([]);
     const [myGuild, setMyGuild] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +20,7 @@ const GuildRanking = ( {goBack} ) =>{
             console.log(res.data); // API에서 반환된 데이터
             setGuildRankings(res.data.data) //멤버목록
 
-            const foundGuild  = res.data.data.find(data => data.guildId === 102);
+            const foundGuild  = res.data.data.find(data => data.guildId === guildInfo.id); //내 길드정보 추출 (guildInfo로부터 guildId 값 받아옴)
             setMyGuild(foundGuild);
 
         } catch (error) {
