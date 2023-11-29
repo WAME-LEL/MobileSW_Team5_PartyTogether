@@ -2,23 +2,28 @@ import React, { useState } from 'react'
 import { SafeAreaView, Text, View, TextInput } from 'react-native'
 import { TextInputBox, CommonButton, postSave } from '../../components'
 import styles from '../../constants/preset'
+import { useEffect } from 'react'
+import { useRouter } from 'expo-router'
 
 const SignUpPage = () => {
+    const router = useRouter();
     const [id, setId] = useState(''); // id -> 중복 검사 필요
     const [password, setPassword] = useState(''); // 비밀번호
     const [passwordCheck, setPasswordCheck] = useState(''); // 비밀번호 확인
+    const [passwordText, setPasswordText] = useState(''); // 비밀 번호 일치 메세지
     const [nickname, setNickname] = useState(''); // 닉네임 -> 중복 검사 필요
-    const [isIdChecked, setIsIdChecked] = useState(false); // 아이디 중복 검사 여부
-    const [isNicknameChecked, setIsNicknameChecked] = useState(false); // 닉네임 중복 검사 여부
+    const [isPasswordSame, setIsPasswordSame] = useState(false); // 비밀번호 일치 여부
+    const [IdChecked, setIdChecked] = useState(false); // 아이디 중복 검사 여부
+    const [nicknameChecked, setNicknameChecked] = useState(false); // 닉네임 중복 검사 여부
 
     const idCheck = (entity) => {
         console.log("중복 확인 버튼 클릭");
         if(entity = "id") {
-            // 아이디 중복 확인
             console.log(id);
+            setIdChecked(true);
         } else {
-            // 닉네임 중복 확인, 조건문으로 나눠놓긴 했는데 수정될 확률 높음
             console.log(nickname);
+            setNicknameChecked(true);
         }
         
     }
@@ -39,9 +44,33 @@ const SignUpPage = () => {
         }
     }
 
+    useEffect(() => {
+        // const lengthPS = password.length;
+        // const lengthPSC = passwordCheck.length;
+        // if(lengthPS === 0 || lengthPSC === 0) {
+        //     setPasswordText('');
+        // } else if(lengthPS === lengthPSC) {
+        //     if(password === passwordCheck) {    
+        //         setPasswordText('비밀번호 일치!');
+        //         setIsPasswordSame(true);
+        //     } else {
+        //         setPasswordText('비밀번호 불일치!');
+        //         setIsPasswordSame(false);
+        //     }
+        // }
+        if(password === '' || passwordCheck === '') {
+            setIsPasswordSame(false);
+        } else {
+            if(password === passwordCheck) {
+                setIsPasswordSame(true);
+            } else {
+                setIsPasswordSame(false);
+            }
+        }
+    }, [password, passwordCheck])
+
     return (
         <SafeAreaView style = {styles.container}>
-            <Text style = {styles.middleFont}>회원가입 페이지</Text>
             <View style = {{paddingVertical : 10}}>
                 <Text style = {[styles.middleFont, {marginBottom : 5}]}>ID</Text>
                 <View style = {{flexDirection : 'row'}}>
@@ -62,6 +91,7 @@ const SignUpPage = () => {
                 data = {{title : '비밀번호', placeholder : '비밀번호를 입력하세요.', type : 'PW'}}
                 handleChange = {setPassword}
             />
+            <Text>{passwordText}</Text>
             <TextInputBox 
                 preset = {styles.middleBox}
                 font = {styles.middleFont}
@@ -86,7 +116,7 @@ const SignUpPage = () => {
                     preset = {styles.middleButton}
                     font = {styles.middleFontWhite}
                     title = "다음"
-                    handlePress = {handleNext}
+                    handlePress = {() => {router.push('Login/GameInfoPage')}}
                 />
         </SafeAreaView>
     )

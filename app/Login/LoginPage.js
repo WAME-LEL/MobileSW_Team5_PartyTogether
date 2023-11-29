@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router'
 
 const LoginPage = () => {
     const router = useRouter();
-    const { uid, setUid } = useContext(UserContext);
+    const { setUid } = useContext(UserContext);
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
 
@@ -51,12 +51,6 @@ const LoginPage = () => {
                 font = {styles.middleFontWhite}
                 title = "회원가입"
                 handlePress = {() => (router.push('Login/SignUpPage'))}
-            />
-            <CommonButton
-                preset = {[styles.middleButton, {marginTop : 10}]}
-                font = {styles.middleFontWhite}
-                title = "uid 확인"
-                handlePress = {() => (console.log(uid))}
             />
         </SafeAreaView>
     );

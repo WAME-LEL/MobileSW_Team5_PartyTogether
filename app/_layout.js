@@ -11,25 +11,34 @@ const StackLayout = () => {
                     headerStyle: {
                         backgroundColor:"#10101E"
                     },
+                    headerTitleAlign: 'center',
                     headerTintColor:"#fff"
                 }}
             >
                 <Stack.Screen name = "Login/LoginPage"
                     options = {{
-                        headerTitle: "Login",
+                        headerTitle: "로그인",
                     }}
+                />
+                <Stack.Screen name = "Login/SignUpPage"
+                    options = {{
+                        headerTitle: "회원가입",
+                    }}
+                />
+                <Stack.Screen name="MainPage"
+                            options={{
+                                headerTitle: "메인 페이지",
+                            }}
                 />
 
                 <Stack.Screen name="PartyBoard"
                             options={{
                                 headerTitle: "파티 게시판",
-                                headerTitleAlign: 'center'
                             }}
                 />
                 <Stack.Screen name="BoardWritePage/[gameName]"
                             options={{
                                 headerTitle: "게시글 작성",
-                                headerTitleAlign: 'center'
                             }}
                 />
             </Stack>

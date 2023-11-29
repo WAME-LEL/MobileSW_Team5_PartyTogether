@@ -23,12 +23,11 @@ const GPSPage = () => {
         }
   
         const templocation = await Location.getCurrentPositionAsync({});
-        setLocation(location);
-        let text = 'Waiting..';
+        setLocation(templocation);
         if (errorMsg) {
-          text = errorMsg;
           return;
         }
+        console.log(templocation);
         const item = {
           memberId: uid,
           latitude: templocation.coords.latitude,

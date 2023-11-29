@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'skyblue'
+        backgroundColor: '#FFFFFF'
     },
     middleBox : {
         width: 350,
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         width: 200,
         height: 50,
         borderRadius: 10,
-        backgroundColor: '#2222FF',
+        backgroundColor: '#CC0000',
         justifyContent: 'center',
         alignItems: 'center',
     },
