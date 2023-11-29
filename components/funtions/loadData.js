@@ -1,9 +1,13 @@
 import axios, { formToJSON } from 'axios';
+import Constants from 'expo-constants'
+
+
+const manifest = Constants
 
 const testData = (boardName) => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/board', {
+        const response = await fetch(`http:///34.22.100.104:8080/api/board`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -31,7 +35,7 @@ const getData = async (item, endPoint) => {
   
   const options = {
     method: 'GET',
-    url: `http://localhost:8080/api/${endPoint}`,
+    url: `http:///34.22.100.104:8080/api/${endPoint}`,
     params: {...item},
     headers: {
       'Content-Type': 'application/json'
@@ -57,7 +61,7 @@ const postData = async (item, endPoint) => {
 
   const options = {
     method: 'POST',
-    url: `http://localhost:8080/api/${endPoint}`,
+    url: `http:///34.22.100.104:8080/api/${endPoint}`,
     body: {...item},
     headers: {
       'Content-Type': 'application/json'

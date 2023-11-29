@@ -22,7 +22,7 @@ import axios from 'axios'
 // }
 
 const postSave = async (item, endPoint) => {
-  const url = `http://localhost:8080/api/${endPoint}`;
+  const url = `http://34.22.100.104:8080/api/${endPoint}`;
   const config = {
     header: {
       'Content-Type': 'application/json'
