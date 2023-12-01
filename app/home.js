@@ -40,6 +40,9 @@ const Home = () => {
         <Link href="ApiTest">
           <Text style = {styles.middleFont}>API 테스트 페이지</Text>
         </Link>
+        <Link href="MyPage">
+          <Text style = {styles.middleFont}>마이페이지</Text>
+        </Link>
     </View>
   );
 }

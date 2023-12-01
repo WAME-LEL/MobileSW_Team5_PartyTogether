@@ -1,6 +1,8 @@
 import { Stack, useRouter } from "expo-router";
 import { Button } from "react-native";
-import { UserProvider } from "../components";
+import styles from "../constants/preset";
+import Icon_User from "../assets/icons/Icon_User.png";
+import { UserProvider, ImageButton } from "../components";
 
 const StackLayout = () => {
     const router = useRouter()
@@ -9,10 +11,11 @@ const StackLayout = () => {
             <Stack
                 screenOptions = {{
                     headerStyle: {
-                        backgroundColor:"#10101E"
+                        backgroundColor:"#10101E",
                     },
                     headerTitleAlign: 'center',
-                    headerTintColor:"#fff"
+                    headerTintColor:"#fff",
+                    headerRight: () => (<ImageButton preset = {[{marginRight: '5%'}, styles.smallImageButton]} imageUrl = {Icon_User} handlePress = {() => {router.push("MyPage")}}/>)
                 }}
             >
                 <Stack.Screen name = "Login/LoginPage"
