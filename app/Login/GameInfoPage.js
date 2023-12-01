@@ -114,6 +114,12 @@ const GameInfoPage = () => {
             title = "회원가입"
             handlePress = {() => {handleNext()}}
         />
+        <CommonButton
+            preset = {styles.middleButton}
+            font = {styles.middleFontWhite}
+            title = "uid 확인"
+            handlePress = {() => {console.log(uid)}}
+        />
     </SafeAreaView>
     );
 }

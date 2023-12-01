@@ -9,10 +9,11 @@ const BoardCard = ({ items, handlePress }) => {
             <View style={styles.textContainer}>
                 <View style={styles.header}>
                     <Text style={styles.title}>{items.title}</Text>
-                    <Text style={styles.time}>{items.time}</Text>
+                    <Text style={styles.time}>{items.content2}</Text>
                 </View>
                 <View style={styles.body}>
                     <Text style={styles.content}>{items.content}</Text>
+                    <Text style={styles.content}>{items.content1}</Text>
                 </View>
             </View>
         </TouchableOpacity>

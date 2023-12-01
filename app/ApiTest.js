@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Text, ScrollView } from 'react-native';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { TextEncoder, TextDecoder } from 'text-encoding';
+
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
 const ChatScreen = () => {
   const [stompClient, setStompClient] = useState(null);
@@ -35,7 +39,6 @@ const ChatScreen = () => {
   useEffect(() => {
     connect();
 
-    // 연결 해제 함수를 반환하여 컴포넌트 언마운트 시 연결을 해제할 수 있도록 합니다.
     return () => {
       if (stompClient && stompClient.connected) {
         stompClient.disconnect();

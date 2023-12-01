@@ -23,7 +23,14 @@ const PartyBoard = () => {
       }
       try {
         const loadData = await getData(item, "board");
-        setData(loadData);
+        const processedData = loadData.map(item => ({
+          title: item.title,
+          nickname: item.nickname,
+          content1 : item.content, // 내용
+          content2 : item.time, // 시간
+          content3 : item.opentalk // 오픈 톡 ID
+        }));
+        setData(processedData);
       } catch(error) {
         setData([]);
       }

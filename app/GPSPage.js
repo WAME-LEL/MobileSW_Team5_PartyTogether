@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, FlatList } from 'react-native';
-import { CommonButton, ImageButton, postSave, UserContext } from '../components';
+import { CommonButton, ImageButton, postSave, getData, UserContext } from '../components';
 import Button_Location from '../assets/icons/Button_Location.png';
 import * as Location from 'expo-location';
 
@@ -35,9 +35,10 @@ const GPSPage = () => {
         }
         console.log(item);
         try {
-          const response = await postSave(item, "member/location");
+          await postSave(item, "member/location");
+          const response = await getData({memberId : uid}, "memberGame");
           console.log(response);
-          // 받은 데이터로 users 멤버를 채우기
+          setUsers(response);
         } catch(error) {
           console.log(error);
         }
@@ -68,7 +69,7 @@ const GPSPage = () => {
             data={users}
             renderItem={({ item }) => (
               <View style = {{width: 400, height: 50, alignItems: 'center', justifyContent: 'center', border: '1px solid black', margin: 5}}>
-                <Text>{item}</Text>
+                <Text>{item.nickname}</Text>
               </View>
             )}
           />}

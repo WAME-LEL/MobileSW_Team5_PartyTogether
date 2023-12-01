@@ -6,12 +6,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     bigImageButton : {
-        width: 200,
-        height: 200,
+        width: 170,
+        height: 170,
         borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        elevation: 5,
     },
     middleBox : {
         width: 350,

@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { SafeAreaView, Text, View, TextInput } from 'react-native'
-import { TextInputBox, CommonButton, postSave } from '../../components'
+import { TextInputBox, CommonButton, postSave, UserContext } from '../../components'
 import styles from '../../constants/preset'
 import { useEffect } from 'react'
 import { useRouter } from 'expo-router'
 
 const SignUpPage = () => {
     const router = useRouter();
+    const { uid, setUid } = useContext(UserContext); 
     const [id, setId] = useState(''); // id -> 중복 검사 필요
     const [password, setPassword] = useState(''); // 비밀번호
     const [passwordCheck, setPasswordCheck] = useState(''); // 비밀번호 확인
@@ -36,7 +37,11 @@ const SignUpPage = () => {
         }
         
         try {
-            await postSave(item, "member/signUp");
+            const response = await postSave(item, "member/signUp");
+            const memberId = response.data.memberId;
+            await setUid(memberId);
+            console.log(setUid);
+            router.push('Login/GameInfoPage')
             return true;
         } catch(error) {
             console.log("회원 가입 중 에러 발생");
@@ -116,7 +121,7 @@ const SignUpPage = () => {
                     preset = {styles.middleButton}
                     font = {styles.middleFontWhite}
                     title = "다음"
-                    handlePress = {() => {router.push('Login/GameInfoPage')}}
+                    handlePress = {() => {handleNext()}}
                 />
         </SafeAreaView>
     )

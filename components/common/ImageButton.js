@@ -11,8 +11,7 @@ const ImageButton = ({preset, imageUrl, handlePress}) => {
                      borderRadius: 10,
                      backgroundColor: '#CCFFFF',
                      alignItems: 'center',
-                     justifyContent: 'center', 
-                     elevation: 8,
+                     justifyContent: 'center',
                      }}>
                 <Image source={ imageUrl } style = {{width: '90%', height: '90%'}}/>
                 </View>
