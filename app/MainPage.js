@@ -19,23 +19,23 @@ const MainPage = () => {
                 <View style = {{flexDirection: 'row', paddingTop: '5%', marginBottom: '3%'}}>
                     <View style ={styles.container}>
                         <Text style = {styles.middleFont}>주변 탐색</Text>
-                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} imageUrl = {Icon_Location} handlePress = {() => {router.push('GPSPage')}}/>
+                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]}imageUrl = {Icon_Location} handlePress = {() => {router.push('GPSPage')}}/>
                     </View>
                     <View style = {{height: '50%', width: 1, backgroundColor: '#999999', marginTop: '17.5%'}}></View>
                     <View style ={styles.container}>
                         <Text style = {styles.middleFont}>길드 페이지</Text>
-                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} imageUrl = {Icon_Guild} handlePress = {() => {router.push('Guild/GuildInformation')}}/>
+                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Guild} handlePress = {() => {router.push('Guild/GuildInformation')}}/>
                     </View>
                 </View>
                 <View style = {{flexDirection: 'row', paddingBottom: '5%'}}>
                     <View style ={styles.container}>
                         <Text style = {styles.middleFont}>파티 게시판</Text>
-                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} imageUrl = {Icon_Party} handlePress = {() => {router.push('PartyBoard')}}/>
+                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Party} handlePress = {() => {router.push('PartyBoard')}}/>
                     </View>
                     <View style = {{height: '50%', width: 1, backgroundColor: '#999999', marginTop: '17.5%'}}></View>
                     <View style ={styles.container}>
                         <Text style = {styles.middleFont}>건의 사항</Text>
-                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} imageUrl = {Icon_Comment} handlePress = {ImagePress}/>
+                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Comment} handlePress = {ImagePress}/>
                     </View>
                 </View>
             </View>

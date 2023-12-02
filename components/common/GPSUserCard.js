@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
 import Icon_User from '../../assets/icons/Icon_User.png';
 
-const BoardCard = ({ items, handlePress }) => {
+const GPSUserCard = ({ items, handlePress }) => {
 
     const imageSource = items.imageUrl ? { uri: items.imageUrl } : Icon_User;
 
@@ -11,12 +11,13 @@ const BoardCard = ({ items, handlePress }) => {
             <Image source={imageSource} style={styles.image} />
             <View style={styles.textContainer}>
                 <View style={styles.header}>
-                    <Text style={styles.title}>{items.title}</Text>
-                    <Text style={styles.time}>{items.time}</Text>
+                    <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>
+                        닉네임 : {items.nickname}
+                    </Text>
+                    <Text style={styles.time}>유사도 : {items.similarity}%</Text>
                 </View>
                 <View style={styles.header}>
-                    <Text style={styles.content}>{items.content}</Text>
-                    <Text style={styles.time}>{items.nickname}</Text>
+                    <Text style={styles.content}>나이 : {items.age}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -26,6 +27,7 @@ const BoardCard = ({ items, handlePress }) => {
 const styles = StyleSheet.create({
     card: {
         flexDirection: 'row',
+        width: 350,
         padding: 10,
         margin: 10,
         backgroundColor: '#fff',
@@ -50,11 +52,16 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: 5,
     },
+    title: {
+        fontWeight: 'bold',
+        width: '60%',
+    },
     nickname: {
         fontWeight: 'bold',
     },
     time: {
         color: '#666',
+        width: '35%'
     },
     body: {
         // You can style this as needed
@@ -68,4 +75,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default BoardCard;
+export default GPSUserCard;

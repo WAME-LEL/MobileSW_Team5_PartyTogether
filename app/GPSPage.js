@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, FlatList } from 'react-native';
-import { CommonButton, ImageButton, postSave, getData, UserContext } from '../components';
-import Button_Location from '../assets/icons/Button_Location.png';
+import { View, Text, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
+import { CommonButton, ImageButton, GPSUserCard, postSave, getData, UserContext } from '../components';
+import Icon_LocationSearch from '../assets/icons/Icon_LocationSearch.gif';
+import styles from '../constants/preset';
 import * as Location from 'expo-location';
 
 const GPSPage = () => {
@@ -11,6 +12,7 @@ const GPSPage = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isGPS, setIsGPS] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const toggleGPS = async () => {
     setIsGPS(!isGPS);
@@ -49,58 +51,39 @@ const GPSPage = () => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <View style = {{padding: 10}}>
-          <Text>탐색하기</Text>
-        </View>
-        <ImageButton preset = {{
-            width: 250,
-            height: 250,
-            borderRadius: 20,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'skyblue'
-        }} imageUrl = {Button_Location} handlePress = {toggleGPS}></ImageButton>
-        <View style = {{padding: 10}}>
-          <Text>주변 사용자 리스트</Text>
-        </View>
-        <View>
-          {!isGPS ? <Text>먼저 GPS 탐색을 해주세요</Text> : 
-          (users == []) ? <Text>탐색중...</Text> : <FlatList
-            data={users}
-            renderItem={({ item }) => (
-              <View style = {{width: 400, height: 50, alignItems: 'center', justifyContent: 'center', border: '1px solid black', margin: 5}}>
-                <Text>{item.nickname}</Text>
-              </View>
-            )}
+          <View style = {{padding: 10}}>
+            <Text style = {styles.middleFont}>탐색하기</Text>
+          </View>
+          {!isGPS ? <ImageButton
+              preset = {[styles.hugeImageButton, {backgroundColor: '#CCCCCC'}]}
+              preset2 = {[styles.ImageButtonIn, {borderRadius: 30, backgroundColor: '#FFFFFF'}]}
+              handlePress = {toggleGPS}
+              imageUrl={Icon_LocationSearch}
+          /> : 
+          <ImageButton
+              preset = {[styles.hugeImageButton, {backgroundColor: '#CCCCCC'}]}
+              preset2 = {[styles.ImageButtonIn, {borderRadius: 30, backgroundColor: '#FFFFFF'}]}
+              handlePress = {toggleGPS}
+              imageUrl={require('../assets/icons/Icon_LocationSearchGif.gif')}
           />}
+          <View style = {{paddingTop: 5}}>
+            <Text style = {styles.smallFont}>주변 유저</Text>
+          </View>
+          <View style = {{height: '55%', alignItems: 'center', justifyContent: 'center'}}>
+            {!isGPS ? <Text style = {styles.middleFont}>먼저 GPS 탐색을 해주세요</Text> : 
+            (users.length === 0) ? <Text style = {styles.middleFont}>탐색중...</Text> : <FlatList
+              data={users}
+              showsVerticalScrollIndicator = {false}
+              renderItem={({ item }) => (
+                <GPSUserCard 
+                  items = {item}
+                />
+              )}
+            />}
         </View>
       </View>
     </SafeAreaView> 
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  drawer: {
-    width: 400,
-    height: '100%',
-    backgroundColor: 'skyblue',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    position: 'absolute',
-    flexDirection: 'row',
-    display: 'flex',
-    top: 0,
-    right: -350,
-  },
-  drawerText: {
-    fontSize: 20,
-    color: 'white',
-  },
-});
 
 export default GPSPage;

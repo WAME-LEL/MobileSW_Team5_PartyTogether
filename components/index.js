@@ -1,5 +1,7 @@
 import BoardCard from './common/BoardCard';
+import GPSUserCard from './common/GPSUserCard';
 import BoardModal from './common/BoardModal';
+import GPSUserModal from './common/GPSUserModal';
 import TextInputBox from './common/TextInputBox';
 import CommonButton from './common/CommonButton';
 import ImageButton from'./common/ImageButton';
@@ -10,6 +12,6 @@ import { UserProvider } from './common/UserProvider';
 import LoadingScreen from './common/LoadingScreen';
 
 export { 
-    BoardCard, BoardModal, TextInputBox, CommonButton, ImageButton, LoadingScreen, UserContext, UserProvider,
+    BoardCard, GPSUserCard, BoardModal, GPSUserModal, TextInputBox, CommonButton, ImageButton, LoadingScreen, UserContext, UserProvider,
     testData, getData, postSave, 
 }

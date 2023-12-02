@@ -21,17 +21,16 @@ const PartyBoard = () => {
       const item = {
         keyword: nowGameBoard
       }
+      const nowDate = new Date();
       try {
         const loadData = await getData(item, "board");
-        const processedData = loadData.map(item => ({
-          title: item.title,
-          nickname: item.nickname,
-          content1 : item.content, // 내용
-          content2 : item.time, // 시간
-          content3 : item.opentalk // 오픈 톡 ID
+        console.log(loadData);
+        const processedData = loadData.map((item) => ({
+          ...item,
+          time: dateToString((nowDate - new Date(item.time)) / 1000)
         }));
         setData(processedData);
-      } catch(error) {
+      } catch (error) {
         setData([]);
       }
       setIsLoading(false);
@@ -39,6 +38,18 @@ const PartyBoard = () => {
 
     fetchData();
   }, [nowGameBoard, page, entity]) // 게시판, 페이지, 데이터 수가 바뀌면 갱신하는데, 페이지와 데이터 수를 초기화 하는 과정 추가 필요
+
+  const dateToString = (date) => { // 계산한 초를 보기 쉽게 변환
+    if(date < 60) {
+      return `${Math.floor(date)}초 전`;
+    } else if(date >= 60 && date < 3600) {
+      return `${Math.floor(date / 60)}분 전`;
+    } else if(date >= 3600 && date < 86400) {
+      return `${Math.floor(date / 3600)}시간 전`;
+    } else {
+      return `${Math.floor(date / 86400)}일 전`;
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,6 +84,7 @@ const PartyBoard = () => {
           <LoadingScreen nowLoading = {isLoading} />
           <FlatList
               data = {gameBoardData}
+              showsVerticalScrollIndicator = {false}
               renderItem={({ item }) => <TouchableOpacity style = {styles.roundedCornerView} 
               onPress = {() => pressGameBoard(item.title)}
               ><Text>{item.title}</Text></TouchableOpacity>}
@@ -91,6 +103,7 @@ const PartyBoard = () => {
           <View style={{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: '2%', marginTop:'2%'}} />
           <FlatList
               data={data}
+              showsVerticalScrollIndicator = {false}
               renderItem={({ item, index }) => (
               <BoardCard 
                 items={item}
