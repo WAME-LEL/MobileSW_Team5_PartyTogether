@@ -23,7 +23,14 @@ const PartyBoard = () => {
       }
       try {
         const loadData = await getData(item, "board");
-        setData(loadData);
+        const processedData = loadData.map(item => ({
+          title: item.title,
+          nickname: item.nickname,
+          content1 : item.content, // 내용
+          content2 : item.time, // 시간
+          content3 : item.opentalk // 오픈 톡 ID
+        }));
+        setData(processedData);
       } catch(error) {
         setData([]);
       }
@@ -33,12 +40,21 @@ const PartyBoard = () => {
     fetchData();
   }, [nowGameBoard, page, entity]) // 게시판, 페이지, 데이터 수가 바뀌면 갱신하는데, 페이지와 데이터 수를 초기화 하는 과정 추가 필요
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const loadData = await getData({}, "game");
+      setGameBoardData(loadData);
+    }
+    fetchData();
+  }, [])
+
   const pressGameBoard = async (gameName) => { // 게임 목록을 클릭하면 데이터를 갱신할 함수
-    setIsLoading(true);
     setNowGameBoard(gameName);
-    // const temp = await loadBoardData(gameName);
-    // setData(temp); // 해당 데이터로 상태를 갱신
-    setIsLoading(false);
+  }
+
+  const handlePaging = () => {
+    console.log('페이지 변경 요청');
   }
 
   const printingModal = async (index) => {
@@ -52,19 +68,15 @@ const PartyBoard = () => {
     setModalVisible(!modalVisible);
   }
 
-  const handlePaging = () => {
-    console.log('페이지 변경 요청');
-  }
-
   return (
       <SafeAreaView>
           <LoadingScreen nowLoading = {isLoading} />
           <FlatList
               data = {gameBoardData}
               renderItem={({ item }) => <TouchableOpacity style = {styles.roundedCornerView} 
-              onPress = {() => pressGameBoard(item)}
-              ><Text>{item}</Text></TouchableOpacity>}
-              keyExtractor={index => index.toString()}
+              onPress = {() => pressGameBoard(item.title)}
+              ><Text>{item.title}</Text></TouchableOpacity>}
+              keyExtractor={item => item.id}
               horizontal
           />
           <View style={{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: '2%', marginBottom:'2%'}} />
@@ -87,7 +99,7 @@ const PartyBoard = () => {
               )}
               keyExtractor={item => item.id}
           />
-          {/* {(!isLoading) ? <BoardModal data = {data[currentData]} visible={modalVisible} onClose={toggleModal} /> : <View></View>} */}
+          {(!isLoading && data.length != 0) ? <BoardModal data = {data[currentData]} visible={modalVisible} onClose={toggleModal} /> : <></>}
           <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
             <TouchableOpacity style = {styles.Paging}
               onPress={handlePaging}>

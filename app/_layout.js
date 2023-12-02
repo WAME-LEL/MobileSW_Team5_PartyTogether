@@ -1,6 +1,8 @@
 import { Stack, useRouter } from "expo-router";
 import { Button } from "react-native";
-import { UserProvider } from "../components";
+import styles from "../constants/preset";
+import Icon_User from "../assets/icons/Icon_User.png";
+import { UserProvider, ImageButton } from "../components";
 
 const StackLayout = () => {
     const router = useRouter()
@@ -9,27 +11,37 @@ const StackLayout = () => {
             <Stack
                 screenOptions = {{
                     headerStyle: {
-                        backgroundColor:"#10101E"
+                        backgroundColor:"#10101E",
                     },
-                    headerTintColor:"#fff"
+                    headerTitleAlign: 'center',
+                    headerTintColor:"#fff",
+                    headerRight: () => (<ImageButton preset = {[{marginRight: '5%'}, styles.smallImageButton]} imageUrl = {Icon_User} handlePress = {() => {router.push("MyPage")}}/>)
                 }}
             >
                 <Stack.Screen name = "Login/LoginPage"
                     options = {{
-                        headerTitle: "Login",
+                        headerTitle: "로그인",
                     }}
+                />
+                <Stack.Screen name = "Login/SignUpPage"
+                    options = {{
+                        headerTitle: "회원가입",
+                    }}
+                />
+                <Stack.Screen name="MainPage"
+                            options={{
+                                headerTitle: "메인 페이지",
+                            }}
                 />
 
                 <Stack.Screen name="PartyBoard"
                             options={{
                                 headerTitle: "파티 게시판",
-                                headerTitleAlign: 'center'
                             }}
                 />
                 <Stack.Screen name="BoardWritePage/[gameName]"
                             options={{
                                 headerTitle: "게시글 작성",
-                                headerTitleAlign: 'center'
                             }}
                 />
             </Stack>

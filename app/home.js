@@ -7,7 +7,6 @@ const Home = () => {
 
   return (
     <View>
-      <Text>Home</Text>
         <Link href="MainPage">
           <Text style = {styles.middleFont}>메인 페이지로</Text>
         </Link>
@@ -40,6 +39,9 @@ const Home = () => {
         </Link>
         <Link href="ApiTest">
           <Text style = {styles.middleFont}>API 테스트 페이지</Text>
+        </Link>
+        <Link href="MyPage">
+          <Text style = {styles.middleFont}>마이페이지</Text>
         </Link>
     </View>
   );

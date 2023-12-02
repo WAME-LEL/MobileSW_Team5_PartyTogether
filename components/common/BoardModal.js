@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import Icon_Close from '../../assets/icons/Icon_Close.png';
 
 const BoardModal = ({ data, visible, onClose }) => {
 
@@ -12,7 +13,7 @@ const BoardModal = ({ data, visible, onClose }) => {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>제목</Text>
+          <Text style={styles.modalText}>{data.title}</Text>
           <Text style={styles.modalText}>{data.nickname}</Text>
           <Text style={styles.modalText}>{data.content}</Text>
           <Text style={styles.modalText}>{data.time}</Text>
@@ -22,7 +23,7 @@ const BoardModal = ({ data, visible, onClose }) => {
               style={styles.button}
               onPress={onClose}
             >
-              <Text>닫기</Text>
+              <Image source = {Icon_Close} style = {{width: '100%', height: '100%'}} resizeMode = "contain" ></Image>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}
               onPress={() => console.log(data)}>
@@ -59,7 +60,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    backgroundColor: '#F194FF',
+    width: 50,
+    height: 50,
     borderRadius: 20,
     padding: 10,
     elevation: 2,

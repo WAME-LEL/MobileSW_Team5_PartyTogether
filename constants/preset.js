@@ -6,12 +6,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     bigImageButton : {
-        width: 200,
-        height: 200,
+        width: 170,
+        height: 170,
         borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'skyblue'
+        backgroundColor: '#FFFFFF',
+        elevation: 5,
+    },
+    smallImageButton : {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: '#FFFFFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+
     },
     middleBox : {
         width: 350,
@@ -23,7 +33,7 @@ const styles = StyleSheet.create({
         width: 200,
         height: 50,
         borderRadius: 10,
-        backgroundColor: '#2222FF',
+        backgroundColor: '#CC0000',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -53,7 +63,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#00ccff',
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
 });
 
 export default styles;

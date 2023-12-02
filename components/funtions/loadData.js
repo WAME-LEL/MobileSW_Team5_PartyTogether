@@ -1,9 +1,9 @@
-import axios, { formToJSON } from 'axios';
+import axios from 'axios';
 
 const testData = (boardName) => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/board', {
+        const response = await fetch(`http://34.22.100.104:8080/api/board`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -28,10 +28,9 @@ const testData = (boardName) => {
 }
 
 const getData = async (item, endPoint) => {
-  
   const options = {
     method: 'GET',
-    url: `http://localhost:8080/api/${endPoint}`,
+    url: `http://34.22.100.104:8080/api/${endPoint}`,
     params: {...item},
     headers: {
       'Content-Type': 'application/json'
@@ -57,7 +56,7 @@ const postData = async (item, endPoint) => {
 
   const options = {
     method: 'POST',
-    url: `http://localhost:8080/api/${endPoint}`,
+    url: `http://34.22.100.104:8080/api/${endPoint}`,
     body: {...item},
     headers: {
       'Content-Type': 'application/json'
