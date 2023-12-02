@@ -1,5 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator  } from 'react-native';
 import React, { useState, useContext } from 'react';
+import { UserContext } from '../../components'
 import axios from 'axios';
 
 //길드 목록을 받아서 정보표시(이름, 하는게임, 인원수)
@@ -10,7 +11,7 @@ const GuildSearch = () =>{
     const [showGuilds, setShowGuilds] = useState(false); //길드목록 show여부 상태변수
     const [isLoading, setIsLoading] = useState(false);
     // const { uid } = useContext(UserContext);
-    const [userId, setUserId] = useState(154); //가입하는 유저id (임시)
+    const [uid, setUid] = useState(402); //가입하는 유저id (임시)
 
     //길드찾기
     const loadGuilds = async () => {
@@ -18,7 +19,7 @@ const GuildSearch = () =>{
       setIsLoading(true);
 
       try {
-        const res = await axios.get('http://localhost:8080/api/guilds');
+        const res = await axios.get('http://34.22.100.104:8080/api/guilds');
         console.log(res.data); // API에서 반환된 데이터
         setGuilds(res.data.data) //길드목록
 
@@ -35,8 +36,8 @@ const GuildSearch = () =>{
     const joinGuild = async (guildId) => { //선택한 길드의 id 값 전달
     
       try {
-        const res = await axios.post('http://localhost:8080/api/member/guild/join', {
-          memberId: userId, //유저id
+        const res = await axios.post('http://34.22.100.104:8080/api/member/guild/join', {
+          memberId: uid, //유저id
           guildId: guildId //가입 희망하는 길드id
         });
     
@@ -112,14 +113,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f8f8', // 박스의 배경색
         bottom: 0,
         width: '100%',
-      },
-      button: {
+    },
+    button: {
         backgroundColor: '#f05454', // 버튼의 배경 색상
         padding: 15,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
-      },
+    },
     buttonText: {
         color: '#fff',
         fontSize: 16,

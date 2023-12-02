@@ -1,28 +1,45 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import MatchResult from './MatchResult';
+import axios from 'axios';
 
 //방ID, 방에 입장한 각 길드정보(길드이름, 길드ID, 길드 멤버) 받아오기
 
 const CreateRoom = ( {goBack} ) => {
     const [currentPage, setCurrentPage] = useState('CreateRoom');
-    const [guildMembers1, setGuildMembers1] = useState(['Member 1A', 'Member 2A', 'Member 3A', 'Member 4A', 'Member 5A']);
-    const [guildMembers2, setGuildMembers2] = useState(['Member 1B', 'Member 2B', 'Member 3B', 'Member 4B', 'Member 5B']);
+    const [firstGuild, setFirstGuild] = useState(null);
+    const [secondGuild, setSecondGuild] = useState(null);
+    const [roomNumber,setRoomNumber] = useState(1);
 
     useEffect(() => {
         getMatchingData();
     }, []);
 
     const toMatchResult = () => {
-        setCurrentPage('MatchResult');
+
+        if (firstGuild && secondGuild && firstGuild.length === secondGuild.length) {
+            setCurrentPage('MatchResult');
+        } else {
+            // 인원수가 다르면 경고 메시지 표시
+            alert('두 길드의 인원수가 동일하지 않습니다.');
+        }
     };
     if (currentPage === 'MatchResult') {
         return <MatchResult goBack={() => setCurrentPage('CreateRoom')} />;
     }
 
 
-    const getMatchingData = () => {
+    const getMatchingData = async () => {
         // 백으로부터 매칭된 각 길드정보, 방id 받아오는 로직
+        try {
+            const res = await axios.get(`http://34.22.100.104:8080/api/guildWar?roomNumber=${roomNumber}`);
+            console.log(res.data); // API에서 반환된 데이터
+            setFirstGuild(res.data.data.first);
+            setSecondGuild(res.data.data.second);
+
+        } catch (error) {
+            console.error('There was an error!', error);
+        }
 
     };
 
@@ -35,23 +52,31 @@ const CreateRoom = ( {goBack} ) => {
                 <Text style={styles.title}>길드전</Text>
             </View>
 
-            <Text>방 ID : OOO </Text>
+            <Text>Room Number : {roomNumber} </Text>
             
             <View style={styles.subContainer}>
-                <Text style={styles.guildName}>길드 1</Text>
                 <View style={styles.guildContainer}>
-                    {guildMembers1.map((member, index) => (
-                        <Text key={index} style={styles.member}>{member}</Text>
-                    ))}
+                    {firstGuild && (
+                        <>
+                            <Text style={styles.guildName}>{firstGuild[0]?.guildName}</Text>
+                            {firstGuild.map((member, index) => (
+                                <Text key={index} style={styles.guildMemberContainer}>{index + 1}. {member.memberName}</Text>
+                            ))}
+                        </>
+                    )}
                 </View>
 
                 <Text style={styles.vsText}>VS</Text>
 
-                <Text style={styles.guildName}>길드 2</Text>
                 <View style={styles.guildContainer}>
-                    {guildMembers2.map((member, index) => (
-                        <Text key={index} style={styles.member}>{member}</Text>
-                    ))}
+                    {secondGuild && (
+                        <>
+                            <Text style={styles.guildName}>{secondGuild[0]?.guildName}</Text>
+                            {secondGuild.map((member, index) => (
+                                <Text key={index} style={styles.guildMemberContainer}>{index + 1}. {member.memberName}</Text>
+                            ))}
+                        </>
+                    )}
                 </View>
 
                 <TouchableOpacity onPress={toMatchResult} style={styles.resultButton}>
@@ -71,7 +96,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
-    guildContainer: {
+    guildMemberContainer: {
         fontSize: 18,
         fontWeight: 'bold',
         marginTop: 10,
@@ -79,6 +104,15 @@ const styles = StyleSheet.create({
         borderColor: '#000', // 검은색 테두리
         borderRadius: 10, // 모서리 둥근 정도
         padding : 10,
+        backgroundColor: 'white', 
+    },
+    guildContainer:{
+        marginTop: 10,
+        borderWidth: 1, // 1픽셀 테두리 너비
+        borderColor: '#000', // 검은색 테두리
+        borderRadius: 10, // 모서리 둥근 정도
+        padding : 10,
+        backgroundColor: '#F0F0F0', 
     },
     header: {
         backgroundColor: '#333',

@@ -1,5 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { UserContext } from '../../components'
 import axios from 'axios';
 
 
@@ -16,7 +17,7 @@ const GuildRanking = ( {goBack, guildInfo} ) =>{
     const fetchGuildRankings = async () => {
         try {
 
-            const res = await axios.get('http://localhost:8080/api/guilds');
+            const res = await axios.get('http://34.22.100.104:8080/api/guilds');
             console.log(res.data); // API에서 반환된 데이터
             setGuildRankings(res.data.data) //멤버목록
 

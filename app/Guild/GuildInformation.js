@@ -1,5 +1,6 @@
-import {View, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
-import React, { useState, useEffect, useContext  } from 'react';
+import {View, Modal, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../../components'
 import GuildMatch from './guildMatch/GuildMatch';
 import GuildRanking from './GuildRanking';
 import axios from 'axios';
@@ -10,35 +11,53 @@ const screenHeight = Dimensions.get('window').height;
 
 const GuildInformation = () => {
     const [currentPage, setCurrentPage] = useState('GuildInformation');
+    const [isLoading, setIsLoading] = useState(false);
     // const { uid } = useContext(UserContext); //uid 저장
-    const [guildId, setGuildId] = useState(102); // guildId 상태 추가
+    const [uid, setUid] = useState(106); //임시 유저id
     const [guildMembers, setGuildMembers] = useState([]); //멤버목록 상태변수
     const [guildInfo, setGuildInfo] = useState({}); //길드정보 상태변수
     const [guildGame, setGuildGame] = useState({}); //길드게임 상태변수
     const [memberCnt, setmemberCnt] = useState({}); //길드멤버수 상태변수
 
 
+    const LoadingModal = () => (
+        <Modal
+            transparent={true}
+            animationType="none"
+            visible={isLoading}
+            onRequestClose={() => {}}>
+            <View style={styles.modalBackground}>
+                <View style={styles.activityIndicatorWrapper}>
+                    <ActivityIndicator animating={isLoading} />
+                    <Text style={styles.loadingText}>길드정보 불러오는 중...</Text>
+                </View>
+            </View>
+        </Modal>
+    );
+
     //멤버 목록 받아오기
     const fetchGuildMembers = async () => {
         try {
-            const res = await axios.get(`http://localhost:8080/api/guild/members?guildId=${guildId}`);
+            const res = await axios.get(`http://34.22.100.104:8080/api/guild/members?memberId=${uid}`);
             console.log(res.data); // API에서 반환된 데이터
             setGuildMembers(res.data.data) //멤버목록
 
         } catch (error) {
             console.error('There was an error!', error);
         }
-    }; 
+    };
 
     //길드정보 받아오기
     const fetchGuildInfo = async () => {
+        setIsLoading(true);
 
         try {
-            const res = await axios.get(`http://localhost:8080/api/guild?guildId=${guildId}`);
+            const res = await axios.get(`http://34.22.100.104:8080/api/guild?memberId=${uid}`);
             console.log(res.data); // API에서 반환된 데이터
             setGuildInfo(res.data.data.guild) //길드정보
             setGuildGame(res.data.data.guild.game) //하는게임
             setmemberCnt(res.data.data.guild.member) //멤버수
+            setIsLoading(false);
         } catch (error) {
             console.error('There was an error!', error);
         }
@@ -63,7 +82,7 @@ const GuildInformation = () => {
         return <GuildRanking guildInfo={guildInfo} goBack={() => setCurrentPage('GuildInformation')} />;
     }
     if (currentPage === 'GuildMatch') {
-        return <GuildMatch goBack={() => setCurrentPage('GuildInformation')} />;
+        return <GuildMatch guildInfo={guildInfo} goBack={() => setCurrentPage('GuildInformation')} />;
     }
 
     return (
@@ -72,6 +91,7 @@ const GuildInformation = () => {
                 <Text style={styles.title}>길드 정보</Text>
             </View>
 
+            <LoadingModal />
 
             <View style={styles.guildInfoContentBox}>
 
@@ -197,6 +217,27 @@ const styles = StyleSheet.create({
         paddingTop: 5, // 상단 패딩
         paddingBottom: 5, // 하단 패딩
         fontWeight: '500',  
+    },
+    modalBackground: {
+        flex: 1,
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        backgroundColor: '#00000040' // 어두운 배경
+    },
+    activityIndicatorWrapper: {
+        backgroundColor: '#FFFFFF',
+        height: 100,
+        width: 200,
+        borderRadius: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around'
+    },
+    loadingText: { 
+        marginTop: 10, 
+        fontSize: 16, 
+        color: '#000', 
     },
 });
 

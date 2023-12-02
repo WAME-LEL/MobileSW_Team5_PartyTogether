@@ -1,12 +1,12 @@
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../../components'
 import axios from 'axios';
-
 
 
 const CreateGuild = () =>{
     // const { uid } = useContext(UserContext); //UserContext => uid
-    const [userId, setUserId] = useState(152);  //userId 임시
+    const [uid, setUid] = useState(152);  //userId 임시
     const [games, setGames] = useState([]);
     const [guildName, setGuildName] = useState('');
     const [guildDescription, setGuildDescription] = useState('');
@@ -15,7 +15,7 @@ const CreateGuild = () =>{
     //게임리스트 받기
     const getGameList = async () => {
         try {
-            const res = await axios.get('http://localhost:8080/api/game',);
+            const res = await axios.get('http://34.22.100.104:8080/api/game',);
             console.log(res)
             setGames(res.data.data); // API에서 반환된 데이터
 
@@ -40,11 +40,11 @@ const CreateGuild = () =>{
 
             try {
                 // 백엔드 서버에 길드 생성 요청을 보냅니다.
-                const response = await axios.post('http://localhost:8080/api/guild/registration', {
+                const response = await axios.post('http://34.22.100.104:8080/api/guild/registration', {
                     guildName: guildName,
                     guildIntroduce: guildDescription,
                     guildGame: gameInfo.id, //선택한 게임 id
-                    guildLeader: userId,
+                    guildLeader: uid,
                 });
                 console.log('백엔드 응답:', response.data);
                 
