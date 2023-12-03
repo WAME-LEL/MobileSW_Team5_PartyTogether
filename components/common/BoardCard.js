@@ -7,13 +7,14 @@ const BoardCard = ({ items, handlePress }) => {
     const imageSource = items.imageUrl ? { uri: items.imageUrl } : Icon_User;
 
     return (
-        <TouchableOpacity style={styles.card} onPress={handlePress}>
+        <TouchableOpacity style={styles.boardCard} onPress={handlePress}>
             <Image source={imageSource} style={styles.image} />
             <View style={styles.textContainer}>
                 <View style={styles.header}>
                     <Text style={styles.title}>{items.title}</Text>
-                    <Text style={styles.time}>{items.time}</Text>
+                    <Text style={styles.time}>{items.processedTime}</Text>
                 </View>
+                <View style = {styles.middleLine}></View>
                 <View style={styles.header}>
                     <Text style={styles.content}>{items.content}</Text>
                     <Text style={styles.time}>{items.nickname}</Text>
@@ -24,10 +25,13 @@ const BoardCard = ({ items, handlePress }) => {
 };
 
 const styles = StyleSheet.create({
-    card: {
+    boardCard: {
         flexDirection: 'row',
-        padding: 10,
-        margin: 10,
+        width: '94%',
+        height: 70,
+        padding: '2%',
+        marginHorizontal: '3%',
+        marginBottom: '3%',
         backgroundColor: '#fff',
         borderRadius: 8,
         elevation: 3, // for Android shadow
@@ -35,6 +39,12 @@ const styles = StyleSheet.create({
         shadowColor: '#333',
         shadowOpacity: 0.3,
         shadowRadius: 2,
+    },
+    middleLine : {
+        borderBottomColor: '#CCCCCC', 
+        borderBottomWidth: 1, 
+        marginHorizontal: 1, 
+        marginBottom: '2%'
     },
     image: {
         width: 50,
@@ -48,7 +58,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 5,
+        height: '45%',
     },
     nickname: {
         fontWeight: 'bold',

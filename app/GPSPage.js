@@ -69,7 +69,7 @@ const GPSPage = () => {
           <View style = {{paddingTop: 5}}>
             <Text style = {styles.smallFont}>주변 유저</Text>
           </View>
-          <View style = {{height: '55%', alignItems: 'center', justifyContent: 'center'}}>
+          <View style = {{ alignItems: 'center', justifyContent: 'center'}}>
             {!isGPS ? <Text style = {styles.middleFont}>먼저 GPS 탐색을 해주세요</Text> : 
             (users.length === 0) ? <Text style = {styles.middleFont}>탐색중...</Text> : <FlatList
               data={users}

@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import { Text, View, SafeAreaView, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
 import { BoardCard, getData, BoardModal, LoadingScreen, UserContext, CommonButton } from "../components"
 import { useRouter } from 'expo-router';
+import styles from '../constants/preset';
 
 const PartyBoard = () => {
   const router = useRouter();
@@ -27,7 +28,8 @@ const PartyBoard = () => {
         console.log(loadData);
         const processedData = loadData.map((item) => ({
           ...item,
-          time: dateToString((nowDate - new Date(item.time)) / 1000)
+          time: new Date(item.time),
+          processedTime: dateToString((nowDate - new Date(item.time)) / 1000)
         }));
         setData(processedData);
       } catch (error) {
@@ -40,20 +42,21 @@ const PartyBoard = () => {
   }, [nowGameBoard, page, entity]) // 게시판, 페이지, 데이터 수가 바뀌면 갱신하는데, 페이지와 데이터 수를 초기화 하는 과정 추가 필요
 
   const dateToString = (date) => { // 계산한 초를 보기 쉽게 변환
-    if(date < 60) {
-      return `${Math.floor(date)}초 전`;
-    } else if(date >= 60 && date < 3600) {
-      return `${Math.floor(date / 60)}분 전`;
-    } else if(date >= 3600 && date < 86400) {
-      return `${Math.floor(date / 3600)}시간 전`;
+    const localTime = date - 32400; // 서버랑 시간이 9시간 차이남
+    console.log(localTime);
+    if(localTime < 60) {
+      return `${Math.floor(localTime)}초 전`;
+    } else if(localTime >= 60 && localTime < 3600) {
+      return `${Math.floor(localTime / 60)}분 전`;
+    } else if(localTime >= 3600 && localTime < 86400) {
+      return `${Math.floor(localTime / 3600)}시간 전`;
     } else {
-      return `${Math.floor(date / 86400)}일 전`;
+      return `${Math.floor(localTime / 86400)}일 전`;
     }
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
       const loadData = await getData({}, "game");
       setGameBoardData(loadData);
     }
@@ -82,38 +85,42 @@ const PartyBoard = () => {
   return (
       <SafeAreaView>
           <LoadingScreen nowLoading = {isLoading} />
-          <FlatList
-              data = {gameBoardData}
-              showsVerticalScrollIndicator = {false}
-              renderItem={({ item }) => <TouchableOpacity style = {styles.roundedCornerView} 
-              onPress = {() => pressGameBoard(item.title)}
-              ><Text>{item.title}</Text></TouchableOpacity>}
-              keyExtractor={item => item.id}
-              horizontal
-          />
+          {(!isLoading && data.length != 0) ? <BoardModal items = {data[currentData]} visible={modalVisible} onClose={toggleModal} /> : <></>}
+          <View style = {[styles.container, {marginHorizontal: '2%'}]}>
+            <FlatList
+                data = {gameBoardData}
+                showsHorizontalScrollIndicator = {false}
+                renderItem={({ item }) => <TouchableOpacity style = {styles.gameNameBox} 
+                onPress = {() => pressGameBoard(item.title)}
+                ><Text style = {styles.smallFont}>{item.title}</Text></TouchableOpacity>}
+                keyExtractor={item => item.id}
+                horizontal
+            />
+          </View>
           <View style={{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: '2%', marginBottom:'2%'}} />
           <View style = {{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20}}>
-            <Text style = {{fontSize: 20}}>{nowGameBoard} 게시판</Text>
+            <Text style = {styles.middleFont}>{nowGameBoard} 게시판</Text>
             <CommonButton 
-              preset = {{width: 100, height:35, backgroundColor: '#3333FF', justifyContent: 'center', alignItems: 'center', borderRadius: 10}}
+              preset = {styles.smallButton}
               font = {{fontSize: 15, color: '#FFFFFF'}}
               handlePress = {() => router.push(`BoardWritePage/${nowGameBoard}`)}
               title = "게시글 작성"/>
           </View>
-          <View style={{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: '2%', marginTop:'2%'}} />
-          <FlatList
-              data={data}
-              showsVerticalScrollIndicator = {false}
-              renderItem={({ item, index }) => (
-              <BoardCard 
-                items={item}
-                handlePress={() => printingModal(index)}
-              />
-              )}
-              keyExtractor={item => item.id}
-          />
-          {(!isLoading && data.length != 0) ? <BoardModal data = {data[currentData]} visible={modalVisible} onClose={toggleModal} /> : <></>}
-          <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+          <View style = {{ borderBottomColor: '#999999', borderBottomWidth: 1, margin: '2%', marginBottom: '3%'}} />
+          <View style = {{height: '75%'}}>
+            <FlatList
+                data={data}
+                showsVerticalScrollIndicator = {false}
+                renderItem={({ item, index }) => (
+                <BoardCard 
+                  items={item}
+                  handlePress={() => printingModal(index)}
+                />
+                )}
+                keyExtractor={index => index.id}
+            />
+          </View>
+          <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: '5%'}}>
             <TouchableOpacity style = {styles.Paging}
               onPress={handlePaging}>
               <Text>이전 페이지</Text>
@@ -129,20 +136,5 @@ const PartyBoard = () => {
       </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-  roundedCornerView: {
-    padding: 10,
-    margin: 10, 
-    backgroundColor: '#CCCCCC',
-    borderRadius: 50
-  },
-  Paging: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 5,
-    margin: 5,
-  }
-});
 
 export default PartyBoard

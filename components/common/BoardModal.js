@@ -2,7 +2,8 @@ import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Icon_Close from '../../assets/icons/Icon_Close.png';
 
-const BoardModal = ({ data, visible, onClose }) => {
+const BoardModal = ({ items, visible, onClose }) => {
+  
 
   return (
     <Modal
@@ -13,11 +14,11 @@ const BoardModal = ({ data, visible, onClose }) => {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>{data.title}</Text>
-          <Text style={styles.modalText}>{data.nickname}</Text>
-          <Text style={styles.modalText}>{data.content}</Text>
-          <Text style={styles.modalText}>{data.time}</Text>
-          <Text style={styles.modalText}>{data.openChat}</Text>
+          <Text style={styles.modalText}>{items.title}</Text>
+          <Text style={styles.modalText}>{items.nickname}</Text>
+          <Text style={styles.modalText}>{items.content}</Text>
+          <Text style={styles.modalText}>{items.processedTime}</Text>
+          <Text style={styles.modalText}>{items.openChat}</Text>
           <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
             <TouchableOpacity
               style={styles.button}
@@ -26,7 +27,7 @@ const BoardModal = ({ data, visible, onClose }) => {
               <Image source = {Icon_Close} style = {{width: '100%', height: '100%'}} resizeMode = "contain" ></Image>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}
-              onPress={() => console.log(data)}>
+              onPress={() => console.log(items)}>
               <Text>채팅 버튼 추가</Text>
             </TouchableOpacity>
           </View> 
@@ -42,13 +43,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  inView: {
+    
+  },
   modalView: {
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
-    width: 400,
-    height: 300,
-    padding: 35,
+    width: '94%',
+    height: 'auto',
+    padding: '3%',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {

@@ -5,6 +5,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    gameNameBox : {
+        padding: 10,
+        margin: 10, 
+        backgroundColor: '#CCCCCC',
+        borderRadius: 50
+    },
     hugeImageButton : {
         width: 250,
         height: 250,
@@ -29,8 +35,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#FFFFFF',
         justifyContent: 'center',
-        alignItems: 'center',
-
+        alignItems: 'center'
     },
     ImageButtonIn : {
         width: '80%',
@@ -43,6 +48,7 @@ const styles = StyleSheet.create({
         width: 350,
         height: 50, 
         borderColor: 'gray',
+        backgroundColor: '#FFFFFF',
         borderWidth: 1,
     },
     middleButton : {
@@ -52,6 +58,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#CC0000',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    smallButton : {
+        width : 100,
+        height : 35,
+        borderRadius: 17.5,
+        backgroundColor: '#ff6600',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     middleFont : {
         fontSize: 20,
@@ -70,15 +84,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         color: 'white'
-    },
-    smallButton : {
-        width : 100,
-        height : 50,
-        borderColor: 'gray',
-        borderRadius: 10,
-        backgroundColor: '#00ccff',
-        justifyContent: 'center',
-        alignItems: 'center'
     },
 });
 

@@ -7,7 +7,7 @@ const GPSUserCard = ({ items, handlePress }) => {
     const imageSource = items.imageUrl ? { uri: items.imageUrl } : Icon_User;
 
     return (
-        <TouchableOpacity style={styles.card} onPress={handlePress}>
+        <TouchableOpacity style={styles.boardCard} onPress={handlePress}>
             <Image source={imageSource} style={styles.image} />
             <View style={styles.textContainer}>
                 <View style={styles.header}>
@@ -25,11 +25,13 @@ const GPSUserCard = ({ items, handlePress }) => {
 };
 
 const styles = StyleSheet.create({
-    card: {
+    boardCard: {
         flexDirection: 'row',
-        width: 350,
-        padding: 10,
-        margin: 10,
+        width: '94%',
+        height: 'auto',
+        padding: '2%',
+        marginHorizontal: '3%',
+        marginBottom: '3%',
         backgroundColor: '#fff',
         borderRadius: 8,
         elevation: 3, // for Android shadow
