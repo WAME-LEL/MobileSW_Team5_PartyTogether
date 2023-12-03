@@ -18,7 +18,7 @@ const ChatScreen = () => {
   // const memberId = 153;
 
   const connect = () => {
-    const socket = new SockJS('http://192.168.50.28:8080/chat');
+    const socket = new SockJS('http://34.22.100.104:8080/chat');
     const client = Stomp.over(socket);
 
     client.connect({}, () => {
