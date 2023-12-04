@@ -1,15 +1,17 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import MatchResult from './MatchResult';
+import { UserContext } from '../../../components'
 import axios from 'axios';
 
 //방ID, 방에 입장한 각 길드정보(길드이름, 길드ID, 길드 멤버) 받아오기
 
-const CreateRoom = ( {goBack} ) => {
+const CreateRoom = ( {goBack, roomNumber, guildInfo} ) => {
     const [currentPage, setCurrentPage] = useState('CreateRoom');
     const [firstGuild, setFirstGuild] = useState(null);
     const [secondGuild, setSecondGuild] = useState(null);
-    const [roomNumber,setRoomNumber] = useState(1);
+    const [uid, setUid] = useState(402); //임시 유저id
+    // const { uid } = useContext(UserContext); //uid 저장
 
     useEffect(() => {
         getMatchingData();
@@ -25,7 +27,7 @@ const CreateRoom = ( {goBack} ) => {
         }
     };
     if (currentPage === 'MatchResult') {
-        return <MatchResult goBack={() => setCurrentPage('CreateRoom')} />;
+        return <MatchResult guildInfo={guildInfo} goBack={() => setCurrentPage('CreateRoom')} />;
     }
 
 
@@ -43,10 +45,24 @@ const CreateRoom = ( {goBack} ) => {
 
     };
 
+    const roomExit = async () => {
+        try {
+            const reponse = await axios.post('http://34.22.100.104:8080/api/guildWar/exit', {
+                memberId: uid,
+            })
+
+            console.log('백엔드 응답 :',reponse.data);
+        } catch (error) {
+            console.error('방 나가기 실패:', error);
+        }
+
+        goBack();
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={goBack} style={styles.backButton}>
+                <TouchableOpacity onPress={roomExit} style={styles.backButton}>
                     <Text style={styles.buttonText}>나가기</Text>
                 </TouchableOpacity>
                 <Text style={styles.title}>길드전</Text>

@@ -39,9 +39,10 @@ const GuildMatch = ( {goBack, guildInfo} ) => {
             const resRoomNumber = response.data.data.roomNumber;
             setRoomNumber(resRoomNumber);
 
+
             setCurrentPage('CreateRoom');
             setIsLoading(false);
-            
+            setRoomId('');
 
         } catch (error) {
             setIsLoading(false);
@@ -50,7 +51,7 @@ const GuildMatch = ( {goBack, guildInfo} ) => {
 
     };
     if (currentPage === 'CreateRoom') {
-        return <CreateRoom goBack={() => setCurrentPage('GuildMatch')} roomNumber={roomNumber}/>;
+        return <CreateRoom goBack={() => setCurrentPage('GuildMatch')} roomNumber={roomNumber} guildInfo={guildInfo}/>;
     }
 
     const toJoinRoom = async () => {
@@ -71,6 +72,8 @@ const GuildMatch = ( {goBack, guildInfo} ) => {
                 setCurrentPage('CreateRoom');
                 setIsLoading(false);
                 console.log('백엔드 응답:', response.data);
+
+                setRoomId('');
             }
             else if (response.data === 'failed') {
                 console.log('백엔드 응답:', response.data);
@@ -116,7 +119,7 @@ const GuildMatch = ( {goBack, guildInfo} ) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#D3D3D3', 
+        backgroundColor: '#D3D3D3',
     },
     contentBox: {
         flex: 1,

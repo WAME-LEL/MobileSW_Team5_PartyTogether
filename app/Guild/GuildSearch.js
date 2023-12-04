@@ -51,9 +51,6 @@ const GuildSearch = () =>{
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>길드 가입</Text>
-            </View>
 
             {isLoading && (
               <ActivityIndicator style={styles.loadingContainer} size="large" color="#0000ff" />

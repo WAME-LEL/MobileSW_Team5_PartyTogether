@@ -44,6 +44,45 @@ const StackLayout = () => {
                                 headerTitle: "게시글 작성",
                             }}
                 />
+                <Stack.Screen name="Guild/GuildInformation"
+                            options={{
+                                headerTitle: "길드 정보",
+                            }}
+                />
+                <Stack.Screen name="Guild/GuildRanking"
+                            options={{
+                                headerTitle: "길드 랭킹",
+                                headerShown: false,
+                            }}
+                />
+                <Stack.Screen name="Guild/GuildSearch"
+                            options={{
+                                headerTitle: "길드 찾기",
+                            }}
+                />
+                <Stack.Screen name="Guild/CreateGuild"
+                            options={{
+                                headerTitle: "길드 생성",
+                            }}
+                />
+                <Stack.Screen name="Guild/guildMatch/CreateRoom"
+                            options={{
+                                headerTitle: " ",
+                                headerShown: false,
+                            }}
+                />
+                <Stack.Screen name="Guild/guildMatch/GuildMatch"
+                            options={{
+                                headerTitle: "길드전",
+                                headerShown: false,
+                            }}
+                />
+                <Stack.Screen name="Guild/guildMatch/MatchResult"
+                            options={{
+                                headerTitle: "결과 확인",
+                                headerShown: false,
+                            }}
+                />
             </Stack>
         </UserProvider>
     )

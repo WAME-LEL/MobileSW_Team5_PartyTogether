@@ -73,9 +73,6 @@ const CreateGuild = () =>{
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>길드 생성</Text>
-            </View>
 
             <View style={styles.contentBox}>
                 <Text>길드명 입력</Text>

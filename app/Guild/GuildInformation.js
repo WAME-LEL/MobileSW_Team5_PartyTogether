@@ -87,9 +87,6 @@ const GuildInformation = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>길드 정보</Text>
-            </View>
 
             <LoadingModal />
 
