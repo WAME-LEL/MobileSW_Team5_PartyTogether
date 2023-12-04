@@ -21,6 +21,7 @@ const StackLayout = () => {
                 <Stack.Screen name = "Login/LoginPage"
                     options = {{
                         headerTitle: "로그인",
+                        headerRight: () => (null)
                     }}
                 />
                 <Stack.Screen name = "Login/SignUpPage"
@@ -31,6 +32,7 @@ const StackLayout = () => {
                 <Stack.Screen name="MainPage"
                             options={{
                                 headerTitle: "메인 페이지",
+                                headerLeft: () => (null)
                             }}
                 />
 
