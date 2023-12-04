@@ -48,7 +48,7 @@ const StackLayout = () => {
                 />
                 <Stack.Screen name="Guild/GuildInformation"
                             options={{
-                                headerTitle: "길드 정보",
+                                headerTitle: "길드 페이지",
                             }}
                 />
                 <Stack.Screen name="Guild/GuildRanking"
@@ -83,6 +83,11 @@ const StackLayout = () => {
                             options={{
                                 headerTitle: "결과 확인",
                                 headerShown: false,
+                            }}
+                />
+                <Stack.Screen name="Guild/GuildMenu"
+                            options={{
+                                headerTitle: "길드 메뉴",
                             }}
                 />
             </Stack>

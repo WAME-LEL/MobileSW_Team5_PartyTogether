@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#333',
         padding: 10,
         alignItems: 'center',
+        justifyContent: 'center',
     },
     backButton: {
         backgroundColor: 'skyblue',
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 30,
         marginVertical: 10, // 버튼 사이 간격
-        width: '30%', // 버튼 너비
+        width: '40%', // 버튼 너비
         alignItems: 'center',
     },
     input: {

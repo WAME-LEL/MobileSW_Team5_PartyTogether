@@ -50,7 +50,7 @@ const MatchResult = ( {goBack, guildInfo} ) => {
     }, [gameInfo]);
 
     const handleSearch = async() => {
-        api_key='RGAPI-352f9fdb-f62f-4cdb-a74f-56ed2adf58fc'
+        api_key='RGAPI-93960387-d990-4126-9517-47c7d660d4a3'
 
         try {
             const userRes = await axios.get(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${nickname}?api_key=${api_key}`);
@@ -179,7 +179,7 @@ const MatchResult = ( {goBack, guildInfo} ) => {
                                     <Text style={styles.winnerGuild}>
                                         {myWinData === true ? `${myGuild}  WIN !!!` : `${myGuild}  LOSE...`}
                                     </Text>
-                                    <Text> </Text>
+                                    
                                     <Text> </Text>
                                     <Text style={styles.winnerGuild}>
                                         {myWinData === true ? "길드 포인트 +1500 GET!!" : "길드 포인트 +500 GET!!"}
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     winnerGuild: {
-        fontSize: 40,
+        fontSize: 30,
         fontWeight: 'bold', // 굵은 글씨체
         color: 'yellow',
         textAlign: 'center',
@@ -330,11 +330,12 @@ const styles = StyleSheet.create({
         height: 70,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'orange',
     },
     additionalText: {
         fontSize: 20,
         fontWeight: 'bold', // 굵은 폰트
+        color: 'white',
     },
     blueTeam: {
         fontSize: 20,
@@ -350,7 +351,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     boldText: {
-        fontSize: 15,
+        fontSize: 13,
         fontWeight: 'bold', // 굵은 글씨체
     },
 })

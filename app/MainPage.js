@@ -24,7 +24,7 @@ const MainPage = () => {
                     <View style = {{height: '50%', width: 1, backgroundColor: '#999999', marginTop: '17.5%'}}></View>
                     <View style ={styles.container}>
                         <Text style = {styles.middleFont}>길드 페이지</Text>
-                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Guild} handlePress = {() => {router.push('Guild/GuildInformation')}}/>
+                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Guild} handlePress = {() => {router.push('Guild/GuildMenu')}}/>
                     </View>
                 </View>
                 <View style = {{flexDirection: 'row', paddingBottom: '5%'}}>

@@ -106,14 +106,14 @@ const CreateRoom = ( {goBack, roomNumber, guildInfo} ) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#D3D3D3', 
+        backgroundColor: '#D3D3D3',
     },
     subContainer: {
         flex: 1,
         justifyContent: 'center',
     },
     guildMemberContainer: {
-        fontSize: 18,
+        fontSize: 13,
         fontWeight: 'bold',
         marginTop: 10,
         borderWidth: 1, // 1픽셀 테두리 너비
@@ -123,17 +123,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'white', 
     },
     guildContainer:{
-        marginTop: 10,
         borderWidth: 1, // 1픽셀 테두리 너비
         borderColor: '#000', // 검은색 테두리
         borderRadius: 10, // 모서리 둥근 정도
-        padding : 10,
+        padding : 5,
         backgroundColor: '#F0F0F0', 
     },
     header: {
         backgroundColor: '#333',
         padding: 10,
         alignItems: 'center',
+        justifyContent: 'center',
     },
     backButton: {
         backgroundColor: 'skyblue',
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     vsText: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginVertical: 20,
+        marginVertical: 5,
     },
     resultButton: {
         backgroundColor: 'green',

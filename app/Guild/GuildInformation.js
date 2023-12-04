@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         borderWidth: 1, // 테두리 두께 설정
         borderColor: '#ddd', // 테두리 색상 설정
         elevation: 3, //테두리 그림자
-        height: screenHeight / 2, //contentBox크기를 전체화면의 1/2로 설정
+        height: 370,
 
     },
     guildMemberTitleContentBox: {
