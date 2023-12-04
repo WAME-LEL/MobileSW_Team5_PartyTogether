@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
 import Icon_User from '../../assets/icons/Icon_User.png';
 
-const BoardCard = ({ items, handlePress }) => {
+const GPSUserCard = ({ items, handlePress }) => {
 
     const imageSource = items.imageUrl ? { uri: items.imageUrl } : Icon_User;
 
@@ -11,13 +11,13 @@ const BoardCard = ({ items, handlePress }) => {
             <Image source={imageSource} style={styles.image} />
             <View style={styles.textContainer}>
                 <View style={styles.header}>
-                    <Text style={styles.title}>{items.title}</Text>
-                    <Text style={styles.time}>{items.processedTime}</Text>
+                    <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>
+                        닉네임 : {items.nickname}
+                    </Text>
+                    <Text style={styles.time}>유사도 : {items.similarity}%</Text>
                 </View>
-                <View style = {styles.middleLine}></View>
                 <View style={styles.header}>
-                    <Text style={styles.content}>{items.content}</Text>
-                    <Text style={styles.time}>{items.nickname}</Text>
+                    <Text style={styles.content}>나이 : {items.age}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     boardCard: {
         flexDirection: 'row',
         width: '94%',
-        height: 70,
+        height: 'auto',
         padding: '2%',
         marginHorizontal: '3%',
         marginBottom: '3%',
@@ -39,12 +39,6 @@ const styles = StyleSheet.create({
         shadowColor: '#333',
         shadowOpacity: 0.3,
         shadowRadius: 2,
-    },
-    middleLine : {
-        borderBottomColor: '#CCCCCC', 
-        borderBottomWidth: 1, 
-        marginHorizontal: 1, 
-        marginBottom: '2%'
     },
     image: {
         width: 50,
@@ -58,13 +52,18 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: '45%',
+        marginBottom: 5,
+    },
+    title: {
+        fontWeight: 'bold',
+        width: '60%',
     },
     nickname: {
         fontWeight: 'bold',
     },
     time: {
         color: '#666',
+        width: '35%'
     },
     body: {
         // You can style this as needed
@@ -78,4 +77,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default BoardCard;
+export default GPSUserCard;

@@ -15,12 +15,13 @@ const StackLayout = () => {
                     },
                     headerTitleAlign: 'center',
                     headerTintColor:"#fff",
-                    headerRight: () => (<ImageButton preset = {[{marginRight: '5%'}, styles.smallImageButton]} imageUrl = {Icon_User} handlePress = {() => {router.push("MyPage")}}/>)
+                    headerRight: () => (<ImageButton preset = {[{marginRight: 10}, styles.smallImageButton]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20, backgroundColor: '#FFFFFF'}]} imageUrl = {Icon_User} handlePress = {() => {router.push("MyPage")}}/>)
                 }}
             >
                 <Stack.Screen name = "Login/LoginPage"
                     options = {{
                         headerTitle: "로그인",
+                        headerRight: () => (null)
                     }}
                 />
                 <Stack.Screen name = "Login/SignUpPage"
@@ -31,6 +32,7 @@ const StackLayout = () => {
                 <Stack.Screen name="MainPage"
                             options={{
                                 headerTitle: "메인 페이지",
+                                headerLeft: () => (null)
                             }}
                 />
 

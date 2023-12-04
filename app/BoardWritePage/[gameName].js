@@ -29,10 +29,9 @@ const BoardWritePage = () => {
         console.log(item);
         try {
             await postSave(item, "board/save");
-            setIsLoading(false);
-            return true;
+            router.push('PartyBoard');
         } catch(error) {
-            console.log("회원 가입 중 에러 발생");
+            console.log("게시글 작성 중 오류 발생");
             setIsLoading(false);
             return false;
         }

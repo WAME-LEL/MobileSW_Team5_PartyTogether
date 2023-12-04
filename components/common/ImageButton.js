@@ -1,19 +1,16 @@
 import { Image, TouchableOpacity, View, Text } from 'react-native'
 
-const ImageButton = ({preset, imageUrl, handlePress}) => {
+const ImageButton = ({preset, preset2, imageUrl, handlePress}) => {
+
     return (
         <TouchableOpacity style = {preset}
             onPress = {handlePress}
             >
-                <View style = {
-                    {width:'80%',
-                     height: '80%',
-                     borderRadius: 10,
-                     backgroundColor: '#CCFFFF',
-                     alignItems: 'center',
-                     justifyContent: 'center',
-                     }}>
-                <Image source={ imageUrl } style = {{width: '90%', height: '90%'}}/>
+                <View style={preset2}>
+                <Image 
+                    source={ imageUrl } 
+                    style = {{width: '90%', height: '90%', resizeMode: 'contain'}}
+                />
                 </View>
         </TouchableOpacity>
     )

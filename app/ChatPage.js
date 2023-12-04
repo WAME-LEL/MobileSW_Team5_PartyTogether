@@ -13,6 +13,8 @@ const ChatPage = () => {
   const [stompClient, setStompClient] = useState(null);
   const [messages, setMessages] = useState([]);
 
+  // 34.22.100.104
+
   const connect = () => {
     var socket = new SockJS('http://34.22.100.104:8080/chat');
     const client = Stomp.over(socket);

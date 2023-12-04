@@ -1,8 +1,11 @@
 import react, { useState, useEffect, useContext } from 'react';
-import { Text, View, FlatList, SafeAreaView, CheckBox } from 'react-native';
-import { getData, CommonButton, UserContext, postSave } from '../../components'
+import { Text, View, FlatList, SafeAreaView, Dimensions } from 'react-native';
+import { getData, CommonButton, UserContext, postSave, LoadingScreen } from '../../components'
 import styles from '../../constants/preset'
 import { useRouter } from 'expo-router';
+import { CheckBox } from 'react-native-elements';
+
+const { width, height } = Dimensions.get('window');
 
 // const items = [
 //     {id: 1, title: '리그오브레전드', isChecked: false},
@@ -29,6 +32,7 @@ const GameInfoPage = () => {
                 ...loaddata,
                 isChecked: false
             }));
+            console.log(initializeGames)
             setGames(initializeGames);
             setIsLoading(false);
         }
@@ -94,31 +98,28 @@ const GameInfoPage = () => {
     }
     
     return (
-    <SafeAreaView>
-        <Text>게임 정보 페이지</Text>
-        {!isLoading ? <FlatList
-            data = {games}
-            renderItem = {({item, index}) =>
-                <View style = {{flexDirection: 'row', margin: 10}}>
-                    <CheckBox
-                        value={item.isChecked}
-                        onValueChange={() => {handleChecked(index)}}
-                        style = {{marginRight : 5}}
-                    />
-                    <Text>{item.title}</Text>
-                </View>}
-        /> : <></>}
+    <SafeAreaView style = {styles.container}>
+        <LoadingScreen nowLoading = {isLoading} />
+        <View style = {{margin: '2%', height: height * 0.75}}>
+            {!isLoading ? <FlatList
+                data = {games}
+                contentContainerStyle = {{alignItems: 'center', justifyContent: 'center'}}
+                renderItem = {({item, index}) =>
+                    <View style = {{width: 300}}>
+                        <CheckBox
+                            title = {item.title}
+                            checked={item.isChecked}
+                            onPress={() => {handleChecked(index)}}
+                            containerStyle = {{backgroundColor: '#FFFFFF', borderRadius: 5,}}
+                        />
+                    </View>}
+            /> : <></>}
+        </View>
         <CommonButton
             preset = {styles.middleButton}
             font = {styles.middleFontWhite}
             title = "회원가입"
             handlePress = {() => {handleNext()}}
-        />
-        <CommonButton
-            preset = {styles.middleButton}
-            font = {styles.middleFontWhite}
-            title = "uid 확인"
-            handlePress = {() => {console.log(uid)}}
         />
     </SafeAreaView>
     );
