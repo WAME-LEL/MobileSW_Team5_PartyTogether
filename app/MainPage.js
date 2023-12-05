@@ -2,7 +2,7 @@ import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native'
 import { ImageButton } from '../components'
 import Icon_Location from '../assets/icons/Icon_Location.png';
 import Icon_Guild from '../assets/icons/Icon_Guild.png';
-import Icon_Party from '../assets/icons/Icon_Party.png';
+import Icon_Board from '../assets/icons/Icon_Board.png';
 import Icon_Comment from '../assets/icons/Icon_Comment.png';
 import styles from '../constants/preset';
 import { useRouter } from 'expo-router';
@@ -12,7 +12,7 @@ const MainPage = () => {
     const ImagePress = () => {
         console.log('이미지 버튼 눌림');
     }
-    
+
     return (
         <SafeAreaView style = {styles.container}>
             <View>
@@ -29,8 +29,8 @@ const MainPage = () => {
                 </View>
                 <View style = {{flexDirection: 'row', paddingBottom: '5%'}}>
                     <View style ={styles.container}>
-                        <Text style = {styles.middleFont}>파티 게시판</Text>
-                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Party} handlePress = {() => {router.push('PartyBoard')}}/>
+                        <Text style = {styles.middleFont}>게시판</Text>
+                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Board} handlePress = {() => {router.push('ChoiceBoard')}}/>
                     </View>
                     <View style = {{height: '50%', width: 1, backgroundColor: '#999999', marginTop: '17.5%'}}></View>
                     <View style ={styles.container}>
@@ -38,6 +38,12 @@ const MainPage = () => {
                         <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Comment} handlePress = {ImagePress}/>
                     </View>
                 </View>
+                <TouchableOpacity onPress = {() =>(router.push(`ChatPage/${555}`))}>
+                    <Text>임시 채팅 페이지 : targetID : 555</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress = {() =>(router.push(`ChatPage/${204}`))}>
+                    <Text>임시 채팅 페이지 : targetID : 204</Text>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     )

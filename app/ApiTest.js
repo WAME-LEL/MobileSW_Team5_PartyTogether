@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { View, TextInput, Button, Text, ScrollView, Alert, StyleSheet } from 'react-native';
+import { UserContext } from '../components'
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { TextEncoder, TextDecoder } from 'text-encoding';
@@ -8,6 +9,7 @@ global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
 const ChatScreen = () => {
+  const { uid } = useContext(UserContext);
   const [stompClient, setStompClient] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');

@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
 import Icon_User from '../../assets/icons/Icon_User.png';
 
-const BoardCard = ({ items, handlePress }) => {
+const EventCard = ({ items, handlePress }) => {
 
     const imageSource = items.imageUrl ? { uri: items.imageUrl } : Icon_User;
 
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default BoardCard;
+export default EventCard;
