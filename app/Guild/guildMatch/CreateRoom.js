@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal  } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import MatchResult from './MatchResult';
 import { UserContext } from '../../../components'
@@ -10,11 +10,13 @@ const CreateRoom = ( {goBack, roomNumber, guildInfo} ) => {
     const [currentPage, setCurrentPage] = useState('CreateRoom');
     const [firstGuild, setFirstGuild] = useState(null);
     const [secondGuild, setSecondGuild] = useState(null);
-    const [uid, setUid] = useState(402); //임시 유저id
-    // const { uid } = useContext(UserContext); //uid 저장
+    const [modalVisible, setModalVisible] = useState(false);
+    // const [uid, setUid] = useState(402); //임시 유저id
+    const { uid } = useContext(UserContext); //uid 저장
 
     useEffect(() => {
         getMatchingData();
+        setModalVisible(true);
     }, []);
 
     const toMatchResult = () => {
@@ -32,6 +34,7 @@ const CreateRoom = ( {goBack, roomNumber, guildInfo} ) => {
 
 
     const getMatchingData = async () => {
+
         // 백으로부터 매칭된 각 길드정보, 방id 받아오는 로직
         try {
             const res = await axios.get(`http://34.22.100.104:8080/api/guildWar?roomNumber=${roomNumber}`);
@@ -69,6 +72,31 @@ const CreateRoom = ( {goBack, roomNumber, guildInfo} ) => {
             </View>
 
             <Text>Room Number : {roomNumber} </Text>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalTitle}>길드전 안내</Text>
+                        <Text style={styles.modalText}>길드전 결과는 '대전결과 조회'를 통해 확인하실 수 있습니다.</Text>
+                        <Text style={styles.warnningTitle}>주의</Text>
+                        <Text style={styles.warnningText}>부적절한 방식을 통해 포인트를 획득할 경우 길드 전체에 불이익이 발생할 수 있습니다.</Text>
+                        <Text style={styles.warnningText}>길드전 종료 후 5분 이내로 길드 포인트를 수락하지 않을 경우, 입수가 불가능합니다.</Text>
+                        <TouchableOpacity
+                            style={styles.buttonClose}
+                            onPress={() => setModalVisible(false)}
+                        >
+                            <Text style={styles.textStyle}>닫기</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
             
             <View style={styles.subContainer}>
                 <View style={styles.guildContainer}>
@@ -175,6 +203,55 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center', // 버튼을 중앙에 위치시킴
     },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "#333333",
+        borderRadius: 10,
+        padding: 35,
+        alignItems: "center",
+        
+    },
+    modalTitle: {
+        marginBottom: 15,
+        textAlign: "center",
+        fontWeight: "bold",
+        fontSize: 25,
+        color: 'white',
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        color: 'white',
+    },
+    warnningTitle: {
+        marginBottom: 10,
+        textAlign: "center",
+        fontWeight: "bold",
+        fontSize: 20,
+        color: 'red',
+    },
+    warnningText: {
+        marginBottom: 15,
+        textAlign: "center",
+        color: 'red',
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    }
 });
 
 export default CreateRoom

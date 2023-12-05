@@ -1,6 +1,5 @@
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { UserContext } from '../../components'
 import axios from 'axios';
 
 
@@ -8,7 +7,6 @@ const GuildRanking = ( {goBack, guildInfo} ) =>{
     const [guildRankings, setGuildRankings] = useState([]);
     const [myGuild, setMyGuild] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    // const { uid } = useContext(UserContext); //UserContext => uid
 
     useEffect(() => {
         fetchGuildRankings();
@@ -19,7 +17,7 @@ const GuildRanking = ( {goBack, guildInfo} ) =>{
 
             const res = await axios.get('http://34.22.100.104:8080/api/guilds');
             console.log(res.data); // API에서 반환된 데이터
-            setGuildRankings(res.data.data) //멤버목록
+            setGuildRankings(res.data.data) //길드목록
 
             const foundGuild  = res.data.data.find(data => data.guildId === guildInfo.id); //내 길드정보 추출 (guildInfo로부터 guildId 값 받아옴)
             setMyGuild(foundGuild);

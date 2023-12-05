@@ -10,8 +10,8 @@ const GuildSearch = () =>{
     const [guilds, setGuilds] = useState([]); //길드목록 받아오는 상태변수
     const [showGuilds, setShowGuilds] = useState(false); //길드목록 show여부 상태변수
     const [isLoading, setIsLoading] = useState(false);
-    // const { uid } = useContext(UserContext);
-    const [uid, setUid] = useState(402); //가입하는 유저id (임시)
+    const { uid } = useContext(UserContext);
+    // const [uid, setUid] = useState(402); //가입하는 유저id (임시)
 
     //길드찾기
     const loadGuilds = async () => {
