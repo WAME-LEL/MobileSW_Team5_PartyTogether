@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -23,8 +23,6 @@ const convertUnixTimestamp = (unixTimestamp) => {
     return `${year}-${formattedMonth}-${formattedDay} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 };
 
-
-
 const MatchResult = ( {goBack, guildInfo} ) => {
     const [nickname, setNickname] = useState(''); //검색창에 입력한 닉네임
     const [userInfo,setUserInfo] = useState(null); //입력한 닉네임에 대한 유저정보
@@ -36,6 +34,7 @@ const MatchResult = ( {goBack, guildInfo} ) => {
     const [gameInfo,setGameInfo] = useState(null);  //해당 대전정보
     const [startDateTime,setStartDateTime] = useState('');
     const [endDateTime,setendDateTime] = useState('');
+    const [timeDiffer,setTimeDiffer] = useState(false);
 
     useEffect(() => {
         setMyGuild(guildInfo.name);
@@ -46,8 +45,24 @@ const MatchResult = ( {goBack, guildInfo} ) => {
             const endDateTimeRes = convertUnixTimestamp(gameInfo.gameEndTimestamp);
             setStartDateTime(startDateTimeRes);
             setendDateTime(endDateTimeRes);
+
+            checkTimeDifference(endDateTimeRes);
         }
     }, [gameInfo]);
+
+    const checkTimeDifference = (endDateTime) => {
+        const currentTime = new Date();
+        const endTime = new Date(endDateTime);
+
+        const timeDiff = currentTime - endTime; // 밀리초 단위의 차이
+        const minutesDiff = timeDiff / 60000; // 분 단위로 변환
+
+        if (minutesDiff >= 5) {
+            setTimeDiffer(true);
+        } else {
+            setTimeDiffer(false); // 시간 만료 상태를 false로 설정
+        }
+    };
 
     const handleSearch = async() => {
         api_key='RGAPI-93960387-d990-4126-9517-47c7d660d4a3'
@@ -104,6 +119,11 @@ const MatchResult = ( {goBack, guildInfo} ) => {
     };
 
     const winnerPointPayments = async () => {
+        if (timeDiffer) {
+            alert("포인트지급 시간이 만료되어 포인트를 받을 수 없습니다.");
+            return; // 함수를 여기서 종료하고, 포인트 지급을 하지 않습니다.
+        }
+
         try {
             const response = await axios.post('http://34.22.100.104:8080/api/guild/point/add', {
                 // POST 요청에 필요한 데이터
@@ -182,7 +202,7 @@ const MatchResult = ( {goBack, guildInfo} ) => {
                                     
                                     <Text> </Text>
                                     <Text style={styles.winnerGuild}>
-                                        {myWinData === true ? "길드 포인트 +1500 GET!!" : "길드 포인트 +500 GET!!"}
+                                        {myWinData === true ? "길드 포인트 +1500 GET!!" : " 길드 포인트 +0"}
                                     </Text>
                                 </>
                             )}
@@ -192,7 +212,7 @@ const MatchResult = ( {goBack, guildInfo} ) => {
             </View>
 
             <TouchableOpacity onPress={apiGet} style={styles.additionalBox}>
-                    <Text style={styles.additionalText}>포인트 수락</Text>
+                    <Text style={styles.additionalText}>포인트 수락 / 나가기</Text>
             </TouchableOpacity>
         </View>
     );

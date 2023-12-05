@@ -1,19 +1,9 @@
 import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image  } from 'react-native';
 import React, { useState } from 'react';
-import GuildInformation from './GuildInformation';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 
 const GuildMenu = () => {
     const router = useRouter();
-
-    const toGuildSearch = () => {
-        console.log('길드 찾기 클릭');
-    };
-
-    const toCreatGuild = () => {
-        console.log('길드 생성 클릭');
-    };
-
 
     return (
         <SafeAreaView>
