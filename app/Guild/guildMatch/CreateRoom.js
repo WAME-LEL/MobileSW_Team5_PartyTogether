@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, Modal  } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import MatchResult from './MatchResult';
 import { UserContext } from '../../../components'
 import axios from 'axios';
