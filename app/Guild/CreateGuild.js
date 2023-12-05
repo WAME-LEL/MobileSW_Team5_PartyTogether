@@ -5,8 +5,8 @@ import axios from 'axios';
 
 
 const CreateGuild = () =>{
-    // const { uid } = useContext(UserContext); //UserContext => uid
-    const [uid, setUid] = useState(152);  //userId 임시
+    const { uid } = useContext(UserContext); //UserContext => uid
+    // const [uid, setUid] = useState(152);  //userId 임시
     const [games, setGames] = useState([]);
     const [guildName, setGuildName] = useState('');
     const [guildDescription, setGuildDescription] = useState('');

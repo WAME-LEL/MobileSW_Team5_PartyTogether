@@ -11,8 +11,8 @@ const CreateRoom = ( {goBack, roomNumber, guildInfo} ) => {
     const [firstGuild, setFirstGuild] = useState(null);
     const [secondGuild, setSecondGuild] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
-    const [uid, setUid] = useState(402); //임시 유저id
-    // const { uid } = useContext(UserContext); //uid 저장
+    // const [uid, setUid] = useState(402); //임시 유저id
+    const { uid } = useContext(UserContext); //uid 저장
 
     useEffect(() => {
         getMatchingData();

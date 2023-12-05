@@ -9,8 +9,8 @@ const GuildMatch = ( {goBack, guildInfo} ) => {
     const [isLoading, setIsLoading] = useState(false);
     const [roomId, setRoomId] = useState(''); //사용자가 입력한 방 번호
     const [roomNumber,setRoomNumber] = useState(''); //서버에서 반환 받은 방 번호
-    const [uid, setUid] = useState(402); //임시 유저id
-    // const { uid } = useContext(UserContext); //uid 저장
+    // const [uid, setUid] = useState(402); //임시 유저id
+    const { uid } = useContext(UserContext); //uid 저장
 
     const LoadingModal = () => (
         <Modal

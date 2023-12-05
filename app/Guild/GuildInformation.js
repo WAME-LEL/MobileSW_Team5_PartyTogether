@@ -12,8 +12,8 @@ const screenHeight = Dimensions.get('window').height;
 const GuildInformation = () => {
     const [currentPage, setCurrentPage] = useState('GuildInformation');
     const [isLoading, setIsLoading] = useState(false);
-    // const { uid } = useContext(UserContext); //uid 저장
-    const [uid, setUid] = useState(106); //임시 유저id
+    const { uid } = useContext(UserContext); //uid 저장
+    // const [uid, setUid] = useState(106); //임시 유저id
     const [guildMembers, setGuildMembers] = useState([]); //멤버목록 상태변수
     const [guildInfo, setGuildInfo] = useState({}); //길드정보 상태변수
     const [guildGame, setGuildGame] = useState({}); //길드게임 상태변수
