@@ -12,13 +12,14 @@ const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [memberId, setMemberId] = useState(153);
+  const [roomId, setRoomId] = useState(1);
 
   const currentSubscription = useRef(null);
 
   // const memberId = 153;
 
   const connect = () => {
-    const socket = new SockJS('http://34.22.100.104:8080/chat');
+    const socket = new SockJS('http://192.168.50.28:8080/chat');
     const client = Stomp.over(socket);
 
     client.connect({}, () => {
@@ -34,7 +35,7 @@ const ChatScreen = () => {
     }
 
     currentSubscription.current = stompClient.subscribe(topic, (message) => {
-      if(topic === `/topic/member.${memberId}`){
+      if (topic === `/topic/member.${memberId}`) {
         // 알람창 띄우기
         alert(message.body);
         Alert.alert('새 알림', message.body, [
@@ -46,12 +47,12 @@ const ChatScreen = () => {
           { text: 'OK', onPress: () => console.log('OK Pressed') },
         ]);
         console.log('Received: ', message.body);
-      }else{
+      } else {
         setMessages(prevMessages => [...prevMessages, JSON.parse(message.body)]);
       }
 
       console.log('Received: ', message.body);
-      
+
       // 메시지 처리 로직
       console.log(message.body);
     });
@@ -79,10 +80,11 @@ const ChatScreen = () => {
   const sendMessage = (messageContent) => {
     if (stompClient && stompClient.connected) {
       const message = {
-        senderId:memberId,
+        senderId: memberId,
         content: messageContent,
-       };
-      stompClient.send("/app/sendMessage", {}, JSON.stringify(message));
+      };
+      //roomid와 일치하는 채팅방에 메시지 전송
+      stompClient.send(`/app/chat/${roomId}/sendMessage`, {}, JSON.stringify(message));
       console.log(JSON.stringify(message));
       setInputMessage(''); // 입력 필드 초기화
     } else {
@@ -96,13 +98,23 @@ const ChatScreen = () => {
       <View style={styles.container}>
         <Button title="밑에 id 입력하고 클릭 후 채팅버튼" onPress={() => switchSubscription('/topic/public')} />
         <Button title="알림 상태" onPress={() => switchSubscription(`/topic/member.${memberId}`)} />
-        <Text>{memberId}</Text>
+        <Button title="채팅방" onPress={() => switchSubscription(`/topic/chat.${roomId}`)} /> 
+
+        <Text>memberId:{memberId}</Text>
+        <Text>roomId:{roomId}</Text>
       </View>
       <Text>설정할 memberId</Text>
       <TextInput
         style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
         onChangeText={text => setMemberId(text)}
         value={memberId}
+      />
+
+      <Text>설정할 roomId</Text>
+      <TextInput
+        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        onChangeText={text => setRoomId(text)}
+        value={roomId}
       />
       <ScrollView style={{ flex: 1 }}>
         {messages.map((msg, index) => (
