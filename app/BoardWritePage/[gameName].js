@@ -14,7 +14,6 @@ const BoardWritePage = () => {
     const [content, setContent] = useState('');
     const [writerNick, setWriterNick] = useState('');
     const [openChat, setOpenChat] = useState('');
-    const [time, setTime] = useState('');
 
     const handleWrite = async () => {
         setIsLoading(true);

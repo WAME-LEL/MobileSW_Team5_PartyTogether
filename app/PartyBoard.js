@@ -1,8 +1,10 @@
 import { useState, useEffect, useContext } from 'react'
-import { Text, View, SafeAreaView, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, SafeAreaView, FlatList, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { BoardCard, getData, BoardModal, LoadingScreen, UserContext, CommonButton } from "../components"
 import { useRouter } from 'expo-router';
 import styles from '../constants/preset';
+
+const { width, height } = Dimensions.get('window');
 
 const PartyBoard = () => {
   const router = useRouter();
@@ -31,6 +33,7 @@ const PartyBoard = () => {
           time: new Date(item.time),
           processedTime: dateToString((nowDate - new Date(item.time)) / 1000)
         }));
+        processedData.sort((a, b) => b.time - a.time);
         setData(processedData);
       } catch (error) {
         setData([]);
@@ -82,10 +85,16 @@ const PartyBoard = () => {
     setModalVisible(!modalVisible);
   }
 
+  const handleChat = (targetId) => {
+    console.log(targetId);
+    toggleModal();
+    router.push(`ChatPage/${targetId}`)
+  }
+
   return (
       <SafeAreaView>
           <LoadingScreen nowLoading = {isLoading} />
-          {(!isLoading && data.length != 0) ? <BoardModal items = {data[currentData]} visible={modalVisible} onClose={toggleModal} /> : <></>}
+          {(!isLoading && data.length != 0) ? <BoardModal items = {data[currentData]} visible={modalVisible} onClose={toggleModal} handleChat = {() => handleChat(data[currentData].memberId)} /> : <></>}
           <View style = {[styles.container, {marginHorizontal: '2%'}]}>
             <FlatList
                 data = {gameBoardData}
@@ -107,7 +116,7 @@ const PartyBoard = () => {
               title = "게시글 작성"/>
           </View>
           <View style = {{ borderBottomColor: '#999999', borderBottomWidth: 1, margin: '2%', marginBottom: '3%'}} />
-          <View style = {{height: '75%'}}>
+          <View style = {{height: height * 0.7}}>
             <FlatList
                 data={data}
                 showsVerticalScrollIndicator = {false}
