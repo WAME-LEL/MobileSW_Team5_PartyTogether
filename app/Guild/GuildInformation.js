@@ -60,6 +60,7 @@ const GuildInformation = () => {
             setmemberCnt(res.data.data.guild.member) //멤버수
             setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             console.error('There was an error!', error);
         }
 
@@ -67,6 +68,7 @@ const GuildInformation = () => {
     }
 
     useEffect(() => {
+
         fetchGuildInfo();
         fetchGuildMembers(); 
     }, []);
