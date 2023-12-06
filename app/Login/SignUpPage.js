@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { SafeAreaView, Text, View, TextInput, ScrollView } from 'react-native'
-import { TextInputBox, CommonButton, postSave, UserContext, DropDownModal, DropDownBox, LoadingScreen } from '../../components'
+import { TextInputBox, CommonButton, postSave, UserContext, DropDownModal, DropDownBox, LoadingScreen, getData } from '../../components'
 import styles from '../../constants/preset'
 import { useEffect } from 'react'
 import { useRouter } from 'expo-router'
@@ -18,7 +18,6 @@ const SignUpPage = () => {
     const [birthYear, setBirthYear] = useState(2000); // 생년
     const [birthYearList, setBirthYearList] = useState([]); // 생년 리스트
     const [dropBirthYear, setDropBirthYear] = useState(false); // 생년 드롭다운 상태 관리
-    const [passwordText, setPasswordText] = useState(''); // 비밀 번호 일치 메세지
     const [nickname, setNickname] = useState(''); // 닉네임 -> 중복 검사 필요
     const [isPasswordSame, setIsPasswordSame] = useState(false); // 비밀번호 일치 여부
     const [isPasswordSecure, setIsPasswordSecure] = useState(false); // 비밀번호 안전 여부
@@ -55,16 +54,42 @@ const SignUpPage = () => {
         setDropEmail(!dropEmail);
     }
 
-    const idCheck = (entity) => {
-        console.log("중복 확인 버튼 클릭");
-        if(entity == "id") {
-            console.log('ID:', id);
-            alert('아이디 중복 확인 완료!');
-            setIdChecked(true);
-        } else {
-            console.log('Nickname: ', nickname);
-            alert('닉네임 중복 확인 완료!');
-            setNicknameChecked(true);
+    const idCheck = async (entity) => {
+        setIsLoading(true);
+        try {
+            if(entity == "id") {
+                if(id == '') {
+                    alert('공백 불가!');
+                } else {
+                    const checkId = await getData({username: id}, 'member/username/duplicate');
+                    if(checkId == 'usable') {
+                        alert('아이디 중복 확인 완료!');
+                        setIdChecked(true);
+                    } else {
+                        alert('이미 사용중인 아이디입니다.');
+                        setIdChecked(false);
+                    }
+                }
+            } else {
+                if(id == '') {
+                    alert('공백 불가!');
+                    return;
+                } else {
+                    const checkId = await getData({nickname: id}, 'member/nickname/duplicate');
+                    if(checkId == 'usable') {
+                        alert('닉네임 중복 확인 완료!');
+                        setNicknameChecked(true);
+                    } else {
+                        alert('이미 사용중인 닉네임입니다.');
+                        setNicknameChecked(false);
+                    }
+                }
+            }
+        } catch (error) {
+            alert('중복 확인 중 에러 발생');
+            console.log(error);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -90,7 +115,7 @@ const SignUpPage = () => {
                 const response = await postSave(item, "member/signUp");
                 const memberId = response.data.memberId;
                 await setUid(memberId);
-                console.log(setUid);
+                setIsLoading(false);
                 router.push('Login/GameInfoPage');
             } catch(error) {
                 alert('회원가입 중 에러가 발생했습니다.\n 다시 시도해주세요');
@@ -136,8 +161,17 @@ const SignUpPage = () => {
         setIsPasswordSame(isSame);
     }, [passwordCheck])
 
+    useEffect(() => {
+        setIdChecked(false);
+    }, [id])
+
+    useEffect(() => {
+        setNicknameChecked(false);
+    }, [nickname])
+
     return (
         <SafeAreaView style = {styles.container}>
+            <LoadingScreen nowLoading = {isLoading} />
             <DropDownModal items = {birthYearList} visible = {dropBirthYear} onClose = {toggleBirthModal} onSelectItem = {setBirthYear}></DropDownModal>
             <DropDownModal items = {emailDomainList} visible = {dropEmail} onClose = {toggleEmailModal} onSelectItem = {setEmailDomain}></DropDownModal>
             <ScrollView contentContainerStyle = {styles.container}>

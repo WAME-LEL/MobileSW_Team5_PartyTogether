@@ -32,7 +32,6 @@ const GameInfoPage = () => {
                 ...loaddata,
                 isChecked: false
             }));
-            console.log(initializeGames)
             setGames(initializeGames);
             setIsLoading(false);
         }
@@ -41,7 +40,6 @@ const GameInfoPage = () => {
 
     useEffect(() => {
         const checkedNumber = games.filter(game => game.isChecked).length;
-        console.log(checkedNumber);
         if( checkedNumber < 5) {
             setAbleCheck(true);
         } else {
@@ -65,7 +63,7 @@ const GameInfoPage = () => {
                 };
                 setGames(updatedGames);
             } else {
-                console.log('5개 이상 선택 불가');
+                alert('5개 이상 선택 불가');
             }
         }
     };
@@ -83,14 +81,13 @@ const GameInfoPage = () => {
                     gameList: sendingGames, 
                 }
                 try {
-                    console.log(item);
                     const response = await postSave(item, "member/game");
-                    console.log(response);
-                    console.log(uid);
+                    setIsLoading(false);
                     router.push('Login/LoginPage');
                 } catch(error) {
-                    console.log(error);
-                }
+                    alert("게임 정보 저장 중 에러 발생");
+                    setIsLoading(false);
+                } 
             }
             setIsLoading(false);
         }

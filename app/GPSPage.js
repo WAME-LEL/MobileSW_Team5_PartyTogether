@@ -50,6 +50,8 @@ const GPSPage = () => {
         }
         console.log(item);
         try {
+          const saveLoc = await postSave(item, 'member/location')
+          console.log(saveLoc);
           const response = await getData({memberId : uid}, "memberGame");
           console.log(response);
           const processedData = response.filter(item => item.distance <= 2)
