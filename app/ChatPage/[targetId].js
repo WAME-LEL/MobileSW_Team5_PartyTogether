@@ -24,20 +24,22 @@ const ChatPage = () => {
     const subscribeToTopic = (topic) => {
         currentSubscription.current = stompClient.subscribe(topic, (message) => {
             const receivedMessage = JSON.parse(message.body);
-            const newTime = new Date(receivedMessage.timestamp + 32400000);
-            console.log(newTime);
-            const processedMessage = {
-                _id: receivedMessage.id || Math.random().toString(36).substring(10),    
-                text: receivedMessage.content,
-                createdAt: newTime,
-                user: {
-                  _id: receivedMessage.senderId,
-                  name: (receivedMessage.senderId == uid) ? 'MyName' : 'OtherName',
-                  avatar: (!receivedMessage.avatar) ? Icon_User : receivedMessage.avatar,
-                },
+            if(receivedMessage.senderId != uid) {
+                const newTime = new Date(receivedMessage.timestamp);
+                console.log(newTime);
+                const processedMessage = {
+                    _id: receivedMessage.id || Math.random().toString(36).substring(10),    
+                    text: receivedMessage.content,
+                    createdAt: newTime,
+                    user: {
+                    _id: receivedMessage.senderId,
+                    name: (receivedMessage.senderId == uid) ? 'MyName' : 'OtherName',
+                    avatar: (!receivedMessage.avatar) ? Icon_User : receivedMessage.avatar,
+                    },
+                }
+                console.log(processedMessage);
+                setMessages(prevMessages => [...prevMessages, processedMessage]);
             }
-            console.log(processedMessage);
-            setMessages(prevMessages => [...prevMessages, processedMessage]);
             console.log('Received: ', message.body);
             console.log(message.body);
         });
@@ -52,6 +54,18 @@ const ChatPage = () => {
                 receiverId: targetId
             };
             stompClient.send(`/app/chat/${roomId}/sendMessage`, {}, JSON.stringify(messageToSend));
+
+            const addMyMessage = {
+                _id: Math.random().toString(36).substring(10),
+                text: messageToSend.content,
+                createdAt: new Date(),
+                user: {
+                  _id: uid,
+                  name: 'MyName',
+                  avatar: Icon_User,
+                },
+            }
+            setMessages(prevMessages => [...prevMessages, addMyMessage]);
             
             setInputMessage('');
         } else {
@@ -107,7 +121,7 @@ const ChatPage = () => {
                     const processedMessage = loadMessage.map(message => ({
                         _id: Math.random().toString(36).substring(10),
                         text: (message.content) ? message.content : '',
-                        createdAt: new Date(message.timestamp + 32400),
+                        createdAt: new Date(message.timestamp),
                         user: {
                           _id: message.senderId,
                           name: (message.senderId == uid) ? 'MyName' : 'OtherName',

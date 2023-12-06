@@ -35,29 +35,33 @@ const MyPage = () => {
             setCurrentData(0);
             try {
                 const loadData = await getData(item, endPoint);
-                if(endPoint == 'board/member') {
-                    const processedData = loadData.map(item => {
-                        return {
-                            id: item.boardId,
-                            title: item.title,
-                            type: item.type,
-                        };
-                    });
-                    setItems(processedData);
-                } else if (endPoint == 'chatRoom/info') {
-                    console.log(loadData)
-                    const processedData = loadData.map(item => {
-                        return {
-                            id: item.roomId,
-                            title: item.name,
-                            oneId: item.oneId,
-                            otherId: item.otherId
-                        };
-                    });
-                    console.log(processedData);
-                    setItems(processedData);
+                if(loadData == 'nothing') {
+                    setItems([]);
                 } else {
-
+                    if(endPoint == 'board/member') {
+                        const processedData = loadData.map(item => {
+                            return {
+                                id: item.boardId,
+                                title: item.title,
+                                type: item.type,
+                            };
+                        });
+                        setItems(processedData);
+                    } else if (endPoint == 'chatRoom/info') {
+                        console.log(loadData)
+                        const processedData = loadData.map(item => {
+                            return {
+                                id: item.roomId,
+                                title: item.name,
+                                oneId: item.oneId,
+                                otherId: item.otherId
+                            };
+                        });
+                        console.log(processedData);
+                        setItems(processedData);
+                    } else {
+    
+                    }
                 }
             } catch (error) {
                 alert("데이터 로딩 중 오류 발생");
@@ -136,13 +140,18 @@ const MyPage = () => {
                     </View>
                     <View style = {styles.contentView}>
                         {(!isLoading) ? 
-                            items?.map((item, index) => (
-                                <TouchableOpacity key = {index} style = {styles.contentBox} onPress = {() => handleAction(item)}>
-                                    <View style = {styles.contentInBox}>
-                                        <Text>{item.title}</Text>
-                                    </View>
-                                </TouchableOpacity> 
-                        )): <></>}
+                            items.length != 0 ?
+                                items?.map((item, index) => (
+                                    <TouchableOpacity key = {index} style = {styles.contentBox} onPress = {() => handleAction(item)}>
+                                        <View style = {styles.contentInBox}>
+                                            <Text>{item.title}</Text>
+                                        </View>
+                                    </TouchableOpacity>))
+                                :
+                                <View style = {{alignItems: 'center', justifyContent: 'center'}}>
+                                    <Text></Text>
+                                </View>
+                        : <></>}
                     </View>
                 </View>            
         </SafeAreaView>

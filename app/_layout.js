@@ -1,5 +1,4 @@
 import { Stack, useRouter } from "expo-router";
-import { Modal, Text } from "react-native";
 import styles from "../constants/preset";
 import Icon_User from "../assets/icons/Icon_User.png";
 import { UserProvider, ImageButton, SocketProvider } from "../components";
@@ -29,6 +28,13 @@ const StackLayout = () => {
                     <Stack.Screen name = "Login/SignUpPage"
                         options = {{
                             headerTitle: "회원가입",
+                            headerRight: () => (null)
+                        }}
+                    />
+                    <Stack.Screen name = "Login/GameInfoPage"
+                        options = {{
+                            headerTitle: "회원가입",
+                            headerRight: () => (null)
                         }}
                     />
                     <Stack.Screen name="MainPage"
@@ -37,7 +43,6 @@ const StackLayout = () => {
                                     headerLeft: () => (null)
                                 }}
                     />
-
                     <Stack.Screen name="PartyBoard"
                                 options={{
                                     headerTitle: "파티 게시판",

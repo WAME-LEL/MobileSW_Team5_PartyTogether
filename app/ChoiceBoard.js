@@ -5,12 +5,14 @@ import Icon_Event from '../assets/icons/Icon_Event.png'
 import styles from '../constants/preset';
 import { useRouter } from 'expo-router';
 
+const {width, height} = Dimensions.get('window');
+
 const ChoiceBoard = () => {
     const router = useRouter();
 
     return (
         <SafeAreaView style = {styles.container}>
-            <View>
+            <View style = {{paddingVertical: height * 0.3}}>
                 <View style = {{flexDirection: 'row', paddingTop: '5%', marginBottom: '3%'}}>
                     <View style ={styles.container}>
                         <Text style = {styles.middleFont}>파티 게시판</Text>

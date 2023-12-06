@@ -4,10 +4,8 @@ import axios from 'axios';
 
 const AITest = () => {
     const RIOT_API_KEY = 'RGAPI-d9e3aaa3-4814-492b-b5c1-fcca28fcf4d7'   // Riot API Key
-
     const OPENAI_API_KEY = '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' // OpenAI API Key
     const model = 'gpt-4'       //  모델
-
 
     const [summonerName, setSummonerName] = useState('');   //소환사(리그오브레전드의 유저) 이름
     const [myMatchData, setMyMatchData] = useState('');     //소환사의 최근 전적 데이터
