@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { View, SafeAreaView, Text, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
-import { UserContext, LoadingScreen, getData } from '../components'
+import { UserContext, LoadingScreen, getData, BoardModal } from '../components'
 import Icon_User from '../assets/icons/Icon_User.png'
 import { useRouter } from 'expo-router'
 
@@ -12,6 +12,8 @@ const MyPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [items, setItems] = useState([]);
     const [nowMenu, setNowMenu] = useState('Board');
+    const [modalVisible, setModalVisible] = useState(false);
+    const [currentData, setCurrentData] = useState(0);
     const router = useRouter();
 
     useEffect(() => {
@@ -27,28 +29,36 @@ const MyPage = () => {
         fetchData();
     }, [])
 
-    const handleAction = (item) => {
-        if (nowMenu == 'Board') {
-            console.log('보드 모달 창 띄우기');
-        } else if (nowMenu == 'Chat') { 
-            console.log('채팅 페이지와 연결');
-            if(item.oneId == uid) {
-                router.push(`ChatPage/${item.otherId}`)
-            } else {
-                router.push(`ChatPage/${item.oneId}`)
-            }
-        } else if (nowMenu == 'Option') {
-
-        }
-    }
-
     const handleMenuPress = (menu) => {
         const fetchData = async (item, endPoint) => {
             setIsLoading(true);
+            setCurrentData(0);
             try {
                 const loadData = await getData(item, endPoint);
-                console.log(loadData);
-                setItems(loadData);
+                if(endPoint == 'board/member') {
+                    const processedData = loadData.map(item => {
+                        return {
+                            id: item.boardId,
+                            title: item.title,
+                            type: item.type,
+                        };
+                    });
+                    setItems(processedData);
+                } else if (endPoint == 'chatRoom/info') {
+                    console.log(loadData)
+                    const processedData = loadData.map(item => {
+                        return {
+                            id: item.roomId,
+                            title: item.name,
+                            oneId: item.oneId,
+                            otherId: item.otherId
+                        };
+                    });
+                    console.log(processedData);
+                    setItems(processedData);
+                } else {
+
+                }
             } catch (error) {
                 alert("데이터 로딩 중 오류 발생");
                 return [];
@@ -74,6 +84,26 @@ const MyPage = () => {
         } else {
             alert('뭐누른거지');
             console.log(menu);
+        }
+    }
+
+    const toggleModal = () => {
+        setModalVisible(!modalVisible);
+    }
+
+    const handleAction = (item) => {
+        if (nowMenu == 'Board') {
+            console.log('보드 모달 창 띄우기');
+            toggleModal();
+        } else if (nowMenu == 'Chat') { 
+            console.log('채팅 페이지와 연결');
+            if(item.oneId == uid) {
+                router.push(`ChatPage/${item.otherId}`)
+            } else {
+                router.push(`ChatPage/${item.oneId}`)
+            }
+        } else if (nowMenu == 'Option') {
+
         }
     }
 
@@ -108,7 +138,9 @@ const MyPage = () => {
                         {(!isLoading) ? 
                             items?.map((item, index) => (
                                 <TouchableOpacity key = {index} style = {styles.contentBox} onPress = {() => handleAction(item)}>
-                                    <Text>{item.name}</Text>
+                                    <View style = {styles.contentInBox}>
+                                        <Text>{item.title}</Text>
+                                    </View>
                                 </TouchableOpacity> 
                         )): <></>}
                     </View>
@@ -175,9 +207,19 @@ const styles = StyleSheet.create({
         height: '9%',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 10,
-        backgroundColor: 'white',
+        backgroundColor: '#DDDDDD',
+        borderRadius: 12,
+        padding: 3,
         marginVertical: '1%'
+    },
+    contentInBox : {
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 1,
     },
     titleFont: {
         fontSize: 20,
