@@ -8,9 +8,9 @@ import axios from 'axios';
 
 const CreateRoom = ( {goBack, roomNumber, guildInfo} ) => {
     const [currentPage, setCurrentPage] = useState('CreateRoom');
-    const [firstGuild, setFirstGuild] = useState(null);
-    const [secondGuild, setSecondGuild] = useState(null);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [firstGuild, setFirstGuild] = useState(null); //첫 번째 입장 길드
+    const [secondGuild, setSecondGuild] = useState(null); //두 번째 입장 길드
+    const [modalVisible, setModalVisible] = useState(false); //안내문
     // const [uid, setUid] = useState(402); //임시 유저id
     const { uid } = useContext(UserContext); //uid 저장
 

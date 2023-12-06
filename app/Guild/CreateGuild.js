@@ -39,7 +39,7 @@ const CreateGuild = () =>{
             }
 
             try {
-                // 백엔드 서버에 길드 생성 요청을 보냅니다.
+                // 백엔드 서버에 길드 생성 요청
                 const response = await axios.post('http://34.22.100.104:8080/api/guild/registration', {
                     guildName: guildName,
                     guildIntroduce: guildDescription,

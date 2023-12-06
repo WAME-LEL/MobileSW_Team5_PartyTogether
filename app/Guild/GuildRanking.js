@@ -4,14 +4,15 @@ import axios from 'axios';
 
 
 const GuildRanking = ( {goBack, guildInfo} ) =>{
-    const [guildRankings, setGuildRankings] = useState([]);
-    const [myGuild, setMyGuild] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [guildRankings, setGuildRankings] = useState([]); //길드 목록
+    const [myGuild, setMyGuild] = useState(null); //자신이 속한 길드
+    const [isLoading, setIsLoading] = useState(true); //로딩
 
     useEffect(() => {
         fetchGuildRankings();
     }, []);
 
+    //길드랭킹 목록 요청
     const fetchGuildRankings = async () => {
         try {
 

@@ -28,13 +28,13 @@ const MatchResult = ( {goBack, guildInfo} ) => {
     const [userInfo,setUserInfo] = useState(null); //입력한 닉네임에 대한 유저정보
     const [playMember,setPlayMenber] = useState(null); //게임에 첨여한 플레이어 uid
     const [myWinData,setMyWinData] = useState(''); //입력한 닉네임에 대한 승리데이터
-    const [myGuild, setMyGuild] = useState(null);
-    const [guildId, setGuildId] = useState(null);
+    const [myGuild, setMyGuild] = useState(null); //자신이 속한 길드 이름
+    const [guildId, setGuildId] = useState(null); //자신이 속한 길드id
     const [playMemberNickname,setPlayMemberNickname] = useState(null); //게임에 참여한 플레이어 실제 닉네임
     const [gameInfo,setGameInfo] = useState(null);  //해당 대전정보
-    const [startDateTime,setStartDateTime] = useState('');
-    const [endDateTime,setendDateTime] = useState('');
-    const [timeDiffer,setTimeDiffer] = useState(false);
+    const [startDateTime,setStartDateTime] = useState(''); //대전이 시작한 시간
+    const [endDateTime,setendDateTime] = useState(''); //대전이 종료된 시간
+    const [timeDiffer,setTimeDiffer] = useState(false); //현재시각과 대전 종료 시간의 시차
 
     // 처음 화면실행
     useEffect(() => {
