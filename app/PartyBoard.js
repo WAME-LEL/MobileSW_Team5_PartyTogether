@@ -1,7 +1,9 @@
 import { useState, useEffect, useContext } from 'react'
-import { Text, View, SafeAreaView, FlatList, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
-import { BoardCard, getData, BoardModal, LoadingScreen, UserContext, CommonButton } from "../components"
+import { Text, View, SafeAreaView, FlatList, TouchableOpacity, Dimensions, Image } from 'react-native'
+import { BoardCard, getData, BoardModal, LoadingScreen, UserContext, CommonButton, ImageButton } from "../components"
 import { useRouter } from 'expo-router';
+import Icon_LeftArrow from '../assets/icons/Icon_LeftArrow.png';
+import Icon_RightArrow from '../assets/icons/Icon_RightArrow.png';
 import styles from '../constants/preset';
 
 const { width, height } = Dimensions.get('window');
@@ -14,13 +16,14 @@ const PartyBoard = () => {
   const [nowGameBoard, setNowGameBoard] = useState('리그오브레전드'); // 현재 출력할 게시판
   const [data, setData] = useState([]) // 데이터 관리 배열
   const [currentData, setCurrentData] = useState(0);
-  const [page, setPage] = useState(1) // 페이지 관리 숫자
+  const [page, setPage] = useState(0) // 페이지 관리 숫자
   const [entity, setEntity] = useState(10) // 페이지 한 번에 가져올 데이터 수
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
+      setPage(0);
       const item = {
         keyword: nowGameBoard
       }
@@ -42,7 +45,7 @@ const PartyBoard = () => {
     }
 
     fetchData();
-  }, [nowGameBoard, page, entity]) // 게시판, 페이지, 데이터 수가 바뀌면 갱신하는데, 페이지와 데이터 수를 초기화 하는 과정 추가 필요
+  }, [nowGameBoard]) // 게시판, 페이지, 데이터 수가 바뀌면 갱신하는데, 페이지와 데이터 수를 초기화 하는 과정 추가 필요
 
   const dateToString = (date) => { // 계산한 초를 보기 쉽게 변환
     const localTime = date - 32400; // 서버랑 시간이 9시간 차이남
@@ -70,8 +73,21 @@ const PartyBoard = () => {
     setNowGameBoard(gameName);
   }
 
-  const handlePaging = () => {
+  const handlePaging = (upDown) => {
     console.log('페이지 변경 요청');
+    if(upDown == 'Down') {
+      if(page == 0) {
+        console.log('첫 페이지');
+      } else {
+        setPage(page - 1);
+      }
+    } else {
+      if(data.length < (page + 1) * entity) {
+        console.log('마지막 페이지');
+      } else {
+        setPage(page + 1);
+      }
+    }
   }
 
   const printingModal = async (index) => {
@@ -95,7 +111,7 @@ const PartyBoard = () => {
       <SafeAreaView>
           <LoadingScreen nowLoading = {isLoading} />
           {(!isLoading && data.length != 0) ? <BoardModal items = {data[currentData]} visible={modalVisible} onClose={toggleModal} handleChat = {() => handleChat(data[currentData].memberId)} /> : <></>}
-          <View style = {[styles.container, {marginHorizontal: '2%'}]}>
+          <View style = {[styles.container, {marginHorizontal: width * 0.01,height: height * 0.08}]}>
             <FlatList
                 data = {gameBoardData}
                 showsHorizontalScrollIndicator = {false}
@@ -106,8 +122,8 @@ const PartyBoard = () => {
                 horizontal
             />
           </View>
-          <View style={{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: '2%', marginBottom:'2%'}} />
-          <View style = {{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20}}>
+          <View style={{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: width * 0.01, marginBottom: height * 0.01}} />
+          <View style = {{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: width * 0.02}}>
             <Text style = {styles.middleFont}>{nowGameBoard} 게시판</Text>
             <CommonButton 
               preset = {styles.smallButton}
@@ -115,10 +131,10 @@ const PartyBoard = () => {
               handlePress = {() => router.push(`BoardWritePage/${nowGameBoard}`)}
               title = "게시글 작성"/>
           </View>
-          <View style = {{ borderBottomColor: '#999999', borderBottomWidth: 1, margin: '2%', marginBottom: '3%'}} />
-          <View style = {{height: height * 0.7}}>
+          <View style = {{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: width * 0.01, marginVertical: height * 0.01}} />
+          <View style = {{height: height * 0.7, marginBottom: height * 0.02 }}>
             <FlatList
-                data={data}
+                data={data.slice((page) * entity, (page + 1) * entity)}
                 showsVerticalScrollIndicator = {false}
                 renderItem={({ item, index }) => (
                 <BoardCard 
@@ -129,18 +145,24 @@ const PartyBoard = () => {
                 keyExtractor={index => index.id}
             />
           </View>
-          <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: '5%'}}>
-            <TouchableOpacity style = {styles.Paging}
-              onPress={handlePaging}>
-              <Text>이전 페이지</Text>
-            </TouchableOpacity>
-            <View style = {styles.Paging}>
-              <Text>{page}</Text>
+          <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: height * 0.01 }}>
+            {!(page < 1) ? 
+            <ImageButton
+              preset = {[styles.smallImageButton, {width: 20, height: 20, backgroundColor: 'none', position: 'absolute', Left: '35%'}]}
+              preset2 = {[styles.ImageButtonIn, {backgroundColor: 'none'}]}
+              imageUrl = {Icon_LeftArrow}
+              handlePress = {() => handlePaging('Down')}
+            /> : <></>}
+            <View style = {[styles.smallImageButton, {width: 30, height: 30, backgroundColor: 'none', position: 'absolute', Left: '50%'}]}>
+              <Text style = {[styles.middleFont, {fontWeight: 'none'}]}>{page + 1}</Text>
             </View>
-            <TouchableOpacity style = {styles.Paging}
-              onPress={handlePaging}>
-            <Text>다음 페이지</Text>
-            </TouchableOpacity>
+            {(data.length > (page + 1) * entity) ? 
+            <ImageButton
+              preset = {[styles.smallImageButton, {width: 20, height: 20, backgroundColor: 'none', position: 'absolute', right: '35%'}]}
+              preset2 = {[styles.ImageButtonIn, {backgroundColor: 'none'}]}
+              imageUrl = {Icon_RightArrow}
+              handlePress = {() => handlePaging('Up')}
+            /> : <></>}
           </View>
       </SafeAreaView>
     );

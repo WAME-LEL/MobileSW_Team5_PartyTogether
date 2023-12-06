@@ -41,8 +41,13 @@ const getData = async (item, endPoint) => {
 
     try {
         const response = await axios.request(options);
-        const loaddata = response.data.data;
-        return loaddata;
+        if(response.data.data) {
+          const loaddata = response.data.data;
+          return loaddata;
+        } else {
+          const loaddata = response.data;
+          return loaddata;
+        }
     } catch(error) {
         console.log(error);
         return error;
@@ -53,11 +58,8 @@ const getData = async (item, endPoint) => {
 }
 
 const postData = async (item, endPoint) => {
-
-  const options = {
-    method: 'POST',
-    url: `http://34.22.100.104:8080/api/${endPoint}`,
-    body: {...item},
+  const url = `http://34.22.100.104:8080/api/${endPoint}`;
+  const config = {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -66,8 +68,7 @@ const postData = async (item, endPoint) => {
   const fetchData = async () => {
 
     try {
-        const response = await axios.request(options);
-        console.log(response.data);
+        const response = await axios.post(url, item, config);
         const loaddata = response.data;
         return loaddata;
     } catch(error) {
@@ -76,7 +77,7 @@ const postData = async (item, endPoint) => {
     }
   }
 
-    const data = fetchData();
+    const data = await fetchData();
     return data;
 }
 

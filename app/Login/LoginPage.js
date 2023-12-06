@@ -9,7 +9,7 @@ const {width, height} = Dimensions.get('window');
 
 const LoginPage = () => {
     const router = useRouter();
-    const { setUid } = useContext(UserContext);
+    const { setUid, setNickname } = useContext(UserContext);
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +24,7 @@ const LoginPage = () => {
             const tempdata = await getData(item, 'member/signIn');
             console.log(tempdata.member);
             await setUid(tempdata.member.id);
+            await setNickname(tempdata.member.nickname);
             router.push('MainPage');
         } catch(error) {
             alert("로그인 중 에러 발생");

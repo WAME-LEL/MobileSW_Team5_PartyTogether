@@ -41,7 +41,7 @@ const postSave = async (item, endPoint) => {
     }
   }
 
-    const data = fetchData();
+    const data = await fetchData();
     return data;
 }
 

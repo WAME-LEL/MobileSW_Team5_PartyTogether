@@ -6,6 +6,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     gameNameBox : {
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: 10,
         margin: 10, 
         backgroundColor: '#CCCCCC',

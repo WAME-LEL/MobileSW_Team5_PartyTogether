@@ -86,7 +86,7 @@ const ChatScreen = () => {
         content: messageContent,
       };
       //roomid와 일치하는 채팅방에 메시지 전송
-      stompClient.send(`/app/chat/${roomId}/sendMessage`, {}, JSON.stringify(message));
+      stompClient.send(`/app/member/555/sendMessage`, {}, JSON.stringify(message));
       console.log(JSON.stringify(message));
       setInputMessage(''); // 입력 필드 초기화
     } else {
