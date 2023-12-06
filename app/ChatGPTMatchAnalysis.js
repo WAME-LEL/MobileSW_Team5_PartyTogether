@@ -14,7 +14,6 @@ const AITest = () => {
     const [gptResult, setGptResult] = useState('');         //GPT 분석 결과
     const [state, setState] = useState("");                 //상태
 
-
     const handlePress = async () => {
         setState("전적을 가져오는 중 입니다.");
         try {
