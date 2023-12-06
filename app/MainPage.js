@@ -44,8 +44,8 @@ const MainPage = () => {
                     </View>
                     <View style = {{height: '50%', width: 1, backgroundColor: '#999999', marginTop: '17.5%'}}></View>
                     <View style ={styles.container}>
-                        <Text style = {styles.middleFont}>건의 사항</Text>
-                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Comment} handlePress = {ImagePress}/>
+                        <Text style = {styles.middleFont}>게임 컨설팅</Text>
+                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Comment} handlePress = {() => {router.push('ChatGPTMatchAnalysis')}}/>
                     </View>
                 </View>
             </View>

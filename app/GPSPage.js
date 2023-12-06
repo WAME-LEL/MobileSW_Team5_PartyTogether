@@ -15,6 +15,7 @@ const GPSPage = () => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(0);
+  const [infoText, setInfoText] = useState('GPS 탐색을 해주세요')
   const [isLoading, setIsLoading] = useState(true);
   const [isGPS, setIsGPS] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -49,10 +50,13 @@ const GPSPage = () => {
         }
         console.log(item);
         try {
-          await postSave(item, "member/location");
           const response = await getData({memberId : uid}, "memberGame");
           console.log(response);
-          setUsers(response);
+          const processedData = response.filter(item => item.distance <= 2)
+          if(processedData.length == 0) {
+            setInfoText('주변 2KM 이내 유저가 없습니다.');
+          }
+          setUsers(processedData);
           setIsGPS(!isGPS);
         } catch(error) {
           console.log(error);
@@ -102,12 +106,13 @@ const GPSPage = () => {
           <View style = {{paddingVertical: '2%'}}>
             <Text style = {styles.middleFont}>주변 유저</Text>
           </View>
-          <View style = {{width: width, height: height * 0.45}}>
+          <View style = {{width: width, height: height * 0.45, borderBottomWidth: 1, borderTopWidth:1, borderTopColor: "#CCCCCC", borderBottomColor: "#CCCCCC", paddingVertical: height * 0.01}}>
             {isGPS ? <View style = {{width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'}}><Text style = {styles.middleFont}>탐색중...</Text></View> : 
-            (users.length === 0) ? <View style = {{width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'}}><Text style = {styles.smallFont}>먼저 GPS 탐색을 해주세요.</Text></View> 
+            (users.length === 0) ? <View style = {{width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'}}><Text style = {styles.smallFont}>{infoText}</Text></View> 
             : <FlatList
               data={users}
               showsVerticalScrollIndicator = {false}
+              keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => (
                 <GPSUserCard 
                   items = {item}

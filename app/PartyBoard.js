@@ -21,7 +21,7 @@ const PartyBoard = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async () => { // 게시판이 바뀔 때 마다 데이터를 갱신
       setIsLoading(true);
       setPage(0);
       const item = {
@@ -61,7 +61,7 @@ const PartyBoard = () => {
     }
   }
 
-  useEffect(() => {
+  useEffect(() => { // 처음 로딩될 때 DB의 전체 게임 목록을 가져옴
     const fetchData = async () => {
       const loadData = await getData({}, "game");
       setGameBoardData(loadData);
@@ -90,21 +90,24 @@ const PartyBoard = () => {
     }
   }
 
-  const printingModal = async (index) => {
+  const printingModal = async (index) => { // 게시판 카드를 누를 경우 모달 상태 활성화
     console.log('게시판 카드 누름');
     console.log(index);
     await setCurrentData(index);
     toggleModal();
   };
 
-  const toggleModal = () => {
+  const toggleModal = () => { // 모달 상태 변경
     setModalVisible(!modalVisible);
   }
 
-  const handleChat = (targetId) => {
-    console.log(targetId);
-    toggleModal();
-    router.push(`ChatPage/${targetId}`)
+  const handleChat = (targetId) => { // 채팅 페이지로 이동, 내가 쓴 글이면 이동하지 않음
+    if(targetId == uid) {
+      alert('내가 쓴 글입니다.');
+    } else {
+      toggleModal();
+      router.push(`ChatPage/${targetId}`)
+    } 
   }
 
   return (
