@@ -42,6 +42,7 @@ const GuildSearch = () =>{
         });
     
         console.log('백엔드 응답:', res.data);
+        alert('길드 가입 완료');
         
       } catch (error) {
         console.error('가입 요청 중 오류 발생:', error);

@@ -76,6 +76,7 @@ const GuildMatch = ( {goBack, guildInfo} ) => {
                 setRoomId('');
             }
             else if (response.data === 'failed') {
+                setIsLoading(false);
                 console.log('백엔드 응답:', response.data);
             }
             

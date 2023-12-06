@@ -61,6 +61,7 @@ const GuildInformation = () => {
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
+            alert('길드에 가입되어 있지 않습니다');
             console.error('There was an error!', error);
         }
 
@@ -68,9 +69,8 @@ const GuildInformation = () => {
     }
 
     useEffect(() => {
-
         fetchGuildInfo();
-        fetchGuildMembers(); 
+        fetchGuildMembers();
     }, []);
 
     const toGuildMatch = () => {

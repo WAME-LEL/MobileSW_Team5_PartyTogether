@@ -69,7 +69,7 @@ const MatchResult = ( {goBack, guildInfo} ) => {
 
     //검색버튼 
     const handleSearch = async() => {
-        api_key='RGAPI-d9c60b12-2f5d-4e3b-9c40-0f2bbb26d7ac'
+        api_key='RGAPI-d9e3aaa3-4814-492b-b5c1-fcca28fcf4d7'
 
         try {
             const userRes = await axios.get(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${nickname}?api_key=${api_key}`);

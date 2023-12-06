@@ -19,6 +19,10 @@ const CreateRoom = ( {goBack, roomNumber, guildInfo} ) => {
         setModalVisible(true);
     }, []);
 
+    const refreshData = () => {
+        getMatchingData();
+    };
+
     const toMatchResult = () => {
 
         if (firstGuild && secondGuild && firstGuild.length === secondGuild.length) {
@@ -126,6 +130,9 @@ const CreateRoom = ( {goBack, roomNumber, guildInfo} ) => {
 
                 <TouchableOpacity onPress={toMatchResult} style={styles.resultButton}>
                     <Text style={styles.buttonText}>대전결과 조회</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={refreshData} style={styles.refreshButton}>
+                    <Text style={styles.buttonText}>새로고침</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -252,7 +259,16 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
-    }
+    },
+    refreshButton: {
+        backgroundColor: 'blue',
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 30,
+        marginVertical: 10,
+        alignItems: 'center',
+        alignSelf: 'center', // 버튼을 중앙에 위치시킴
+    },
 });
 
 export default CreateRoom

@@ -50,6 +50,7 @@ const CreateGuild = () =>{
                 
                 // 입력 필드를 비움
                 resetForm();
+                alert('길드 생성 완료');
 
             } catch (error) {
                 console.error('길드 생성 중 에러 발생:', error);
