@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, SafeAreaView, StyleSheet, TouchableOpacity, FlatList, Modal, TextInput } from 'react-native';
+import { View, Text, Button, SafeAreaView, StyleSheet, TouchableOpacity, FlatList, Modal, TextInput, Dimensions , Image } from 'react-native';
 import { Link } from 'expo-router';
+import Icon_Close from '../assets/icons/Icon_Close.png';
 import axios from 'axios';
+import { CommonButton } from '../components';
+
+const { width, height } = Dimensions.get('window');
 
 const EventPage = () => {
     const [events,setEvents] = useState(null);
@@ -13,24 +17,25 @@ const EventPage = () => {
     //이벤트 url 추가
     const addEvent = async () => {
         try {
-            // 백엔드 서버에 길드 생성 요청을 보냅니다.
-            const response = await axios.post('http://34.22.100.104:8080/api/event/add', {
-                name: eventName,
-                url: eventURL,
-                period: eventPeriod,
-            });
-            console.log('백엔드 응답:', response.data);
+            // 이벤트 이름, url, 기간을 전송하고 이벤트 리스트에 추가함
+            // const response = await axios.post('http://34.22.100.104:8080/api/event/add', {
+            //     name: eventName,
+            //     url: eventURL,
+            //     period: eventPeriod,
+            // });
+            // console.log('백엔드 응답:', response.data);
             
             setModalVisible(false);
 
             setEventName('');
             setEventURL('');
             setEventPeriod('');
-
+            alert('이벤트 추가 요청 완료')
             fetchEvent();
             
         } catch (error) {
-            console.error('이벤트추가 중 에러 발생:', error);
+            console.error('이벤트추가 요청 중 에러 발생:', error);
+            alert('이벤트 추가 요청 중 에러 발생');
         }
     };
 
@@ -55,8 +60,7 @@ const EventPage = () => {
             style={styles.itemBox}
         >
             <Text>
-                {item.name}{'\n'}
-                {item.url}{'\n'}
+                제목 : {item.name}{'\n'}
                 이벤트 기간 : {item.period}
              </Text>
         </Link>  
@@ -64,10 +68,11 @@ const EventPage = () => {
 
     return (
         <SafeAreaView>
-            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.addButton}>
-                <Text style={{color: 'white'}}>이벤트url 추가</Text>
-            </TouchableOpacity>
-
+            <View style = {{alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.addButton}>
+                    <Text style={{color: 'white'}}>이벤트 추가 요청</Text>
+                </TouchableOpacity>
+            </View>
             <View style={styles.separator} />
 
             <FlatList
@@ -84,11 +89,25 @@ const EventPage = () => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
+                        <View style = {{alignItems: 'center', justifyContent: 'center'}}>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Image source = {Icon_Close} style = {{width: '100%', height: '100%'}} resizeMode = "contain" ></Image>
+                            </TouchableOpacity>
+                        </View>
                         <TextInput style={styles.inputField} placeholder="이벤트 이름" onChangeText={setEventName} value={eventName} />
                         <TextInput style={styles.inputField} placeholder="URL" onChangeText={setEventURL} value={eventURL} />
                         <TextInput style={styles.inputField} placeholder="이벤트 기간" onChangeText={setEventPeriod} value={eventPeriod} />
-
-                        <Button title="추가하기" onPress={addEvent} />
+                        <View style = {{alignItems: 'center', justifyContent: 'center'}}>
+                            <CommonButton 
+                                preset = {styles.middleButton}
+                                font = {styles.middleFontWhite}
+                                title="요청 전송" 
+                                handlePress={() => addEvent()} 
+                            />
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -146,5 +165,26 @@ const styles = StyleSheet.create({
         width: '100%', // 입력 필드의 가로 길이
         marginBottom: 10, // 하단 여백
     },
+    button: {
+        width: 20,
+        height: 20,
+        borderRadius: 10, // 더 둥글게
+        justifyContent: 'center', // 센터 정렬
+        alignItems: 'center', // 센터 정렬
+        marginBottom: 20
+    },
+    middleButton : {
+        width: 200,
+        height: 50,
+        borderRadius: 10,
+        backgroundColor: '#CC0000',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    middleFontWhite: {
+        fontSize: 20,
+        color: 'white',
+        fontWeight: 'bold',
+    }
 });
 export default EventPage;

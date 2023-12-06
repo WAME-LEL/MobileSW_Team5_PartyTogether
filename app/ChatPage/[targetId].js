@@ -107,7 +107,7 @@ const ChatPage = () => {
                     const loadMessage = await getData({roomId: roomId}, 'chatMessage'); // 채팅방 기록 가져옴
                     const toTarget = `senderMemberId: ${uid}, sendingContent: ${nickname}님이 채팅을 시작했습니다.` // 전송할 알림 내용 
                     const response = await postData({memberId: targetId, message: toTarget}, 'notification/send'); // 상대방에게 알림 전송
-                    const processedMessage = loadMessage.map(message => ({ // 가져온 채팅 기록 가공공
+                    const processedMessage = loadMessage.map(message => ({ // 가져온 채팅 기록 가공
                         _id: Math.random().toString(36).substring(10),
                         text: (message.content) ? message.content : '',
                         createdAt: new Date(message.timestamp),
@@ -139,7 +139,7 @@ const ChatPage = () => {
                 marginBottom: 10,
               },
               right: {
-                // 현재 사용자 말풍선의 배경색 변경 (선택 사항)
+                // 현재 사용자 말풍선의 배경색 변경
                 backgroundColor: '#0084ff',
                 marginBottom: 10,
               },

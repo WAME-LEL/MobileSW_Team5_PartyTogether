@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, SafeAreaView, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import { CommonButton, ImageButton, GPSUserCard, GPSUserModal, postSave, getData, UserContext } from '../components';
-import Icon_LocationSearch from '../assets/icons/Icon_LocationSearch.gif';
+import Icon_LocationSearch from '../assets/icons/Icon_LocationSearch.gif'; // 어쩌다 보니까 gif 됐는데 사진임
 import styles from '../constants/preset';
 import * as Location from 'expo-location';
 import { useRouter } from 'expo-router'
@@ -28,7 +28,7 @@ const GPSPage = () => {
   useEffect(() => {
     if(isGPS == true) {
       (async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
+        let { status } = await Location.requestForegroundPermissionsAsync(); // 권한 얻기 위해 물어봄
         if (status !== 'granted') {
           setErrorMsg('Permission to access location was denied');
           alert('위치 권한 중 오류 발생!');
@@ -37,30 +37,27 @@ const GPSPage = () => {
           return;
         }
   
-        const templocation = await Location.getCurrentPositionAsync({});
+        const templocation = await Location.getCurrentPositionAsync({}); // 현재 위치 받아옴
         setLocation(templocation);
         if (errorMsg) {
           return;
         }
-        console.log(templocation);
         const item = {
           memberId: uid,
           latitude: templocation.coords.latitude,
           longitude: templocation.coords.longitude
         }
-        console.log(item);
         try {
-          const saveLoc = await postSave(item, 'member/location')
-          console.log(saveLoc);
-          const response = await getData({memberId : uid}, "memberGame");
-          console.log(response);
-          const processedData = response.filter(item => item.distance <= 2)
-          if(processedData.length == 0) {
+          const saveLoc = await postSave(item, 'member/location') // DB 저장
+          const response = await getData({memberId : uid}, "memberGame"); // DB에 저장되어 있는 내 위치 정보로 주변 유저 정보 불러옴
+          const processedData = response.filter(item => item.distance <= 2) // 2KM 이내 유저만 필터링 할지 그냥 위치 순으로 다 출력할지 고민중, 필터링 할거면 사실 서버에서 해야하는데
+          if(processedData.length == 0) { // 유저가 없을 경우
             setInfoText('주변 2KM 이내 유저가 없습니다.');
           }
           setUsers(processedData);
           setIsGPS(!isGPS);
         } catch(error) {
+          alert('위치 저장 중 오류 발생!');
           console.log(error);
         }
       })();

@@ -1,6 +1,8 @@
 import React from 'react';
-import { TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, View, Image, StyleSheet, Dimensions } from 'react-native';
 import Icon_User from '../../assets/icons/Icon_User.png';
+
+const {width, height} = Dimensions.get('window');
 
 const GPSUserCard = ({ items, handlePress }) => {
 
@@ -16,6 +18,7 @@ const GPSUserCard = ({ items, handlePress }) => {
                     </Text>
                     <Text style={styles.time}>유사도 : {items.similarity}%</Text>
                 </View>
+                <View style = {styles.middleLine}></View>
                 <View style={styles.header}>
                     <Text style={styles.content}>나이 : {items.age}</Text>
                 </View>
@@ -27,11 +30,14 @@ const GPSUserCard = ({ items, handlePress }) => {
 const styles = StyleSheet.create({
     boardCard: {
         flexDirection: 'row',
-        width: '94%',
-        height: 'auto',
-        padding: '2%',
-        marginHorizontal: '3%',
-        marginBottom: '3%',
+        width: width * 0.94,
+        height: height * 0.1,
+        paddingHorizontal: width * 0.02,
+        paddingVertical: height * 0.01,
+        marginHorizontal: width * 0.03,
+        marginBottom: height * 0.01,
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: '#fff',
         borderRadius: 8,
         elevation: 3, // for Android shadow
@@ -40,10 +46,16 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 2,
     },
+    middleLine : {
+        borderBottomColor: '#CCCCCC', 
+        borderBottomWidth: 1, 
+        marginHorizontal: 1, 
+        marginBottom: '2%'
+    },
     image: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
     },
     textContainer: {
         flex: 1,
@@ -52,29 +64,25 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 5,
+        height: '50%',
+        alignItems: 'center',
     },
     title: {
-        fontWeight: 'bold',
-        width: '60%',
+        width : width * 0.35,
+    },
+    time: {
+        width : width * 0.35,
+    },
+    content: {
+        width : width * 0.5,
     },
     nickname: {
         fontWeight: 'bold',
+        width : width * 0.2,
     },
     time: {
         color: '#666',
-        width: '35%'
-    },
-    body: {
-        // You can style this as needed
-    },
-    content: {
-        // You can style this as needed
-    },
-    openChat: {
-        color: 'blue',
-        textDecorationLine: 'underline',
-    },
+    }
 });
 
 export default GPSUserCard;

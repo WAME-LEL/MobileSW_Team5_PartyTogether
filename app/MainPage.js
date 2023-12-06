@@ -1,11 +1,12 @@
 import { SafeAreaView, View, Text, Dimensions } from 'react-native'
-import { ImageButton, UserContext, SocketContext } from '../components'
+import { ImageButton, UserContext, SocketContext, postSave } from '../components'
 import Icon_Location from '../assets/icons/Icon_Location.png';
 import Icon_Guild from '../assets/icons/Icon_Guild.png';
 import Icon_Board from '../assets/icons/Icon_Board.png';
 import Icon_Analyze from '../assets/icons/Icon_Analyze.png';
 import styles from '../constants/preset';
 import { useRouter } from 'expo-router';
+import * as Location from 'expo-location';
 import { useContext, useEffect } from 'react';
 import SockJS from 'sockjs-client';
 
@@ -13,17 +14,33 @@ const { width, height } = Dimensions.get('window');
 
 const MainPage = () => {
     const { socket, setSocket } = useContext(SocketContext);
+    const { uid } = useContext(UserContext);
     const router = useRouter();
 
     useEffect(() => {
         if(socket == null) {
-            setSocket(new SockJS(`http://34.22.100.104:8080/chat`));
+            setSocket(new SockJS(`http://34.22.100.104:8080/chat`)); // 서버 소켓 연결
         }
+        (async () => { // 처음 메인 페이지에 들어왔을 때 위치를 업데이트 하는 것이 맞는 것 같음
+            let { status } = await Location.requestForegroundPermissionsAsync(); // 권한 얻기 위해 물어봄
+            if (status !== 'granted') {
+                alert('위치 권한 중 오류 발생!');
+                return;
+            }
+            try {
+                const templocation = await Location.getCurrentPositionAsync({}); // 현재 위치 받아옴
+                const item = {
+                memberId: uid,
+                latitude: templocation.coords.latitude,
+                longitude: templocation.coords.longitude
+            }
+                const saveLoc = await postSave(item, 'member/location') // DB 저장
+            } catch (error) {
+                alert('위치 저장 중 오류 발생!');
+                console.log(error);
+            }
+        })();
     },[])
-
-    const ImagePress = () => {
-        console.log('이미지 버튼 눌림');
-    }
 
     return (
         <SafeAreaView style = {styles.container}>

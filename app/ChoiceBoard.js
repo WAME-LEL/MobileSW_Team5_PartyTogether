@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router';
 
 const {width, height} = Dimensions.get('window');
 
-const ChoiceBoard = () => {
+const ChoiceBoard = () => { // 얘는 걍 파티 게시판, 이벤트 게시판 선택하는 페이지
     const router = useRouter();
 
     return (

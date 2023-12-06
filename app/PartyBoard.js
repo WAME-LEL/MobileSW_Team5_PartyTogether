@@ -151,7 +151,7 @@ const PartyBoard = () => {
   return (
       <SafeAreaView>
           <LoadingScreen nowLoading = {isLoading} />
-          {(!isLoading && data.length != 0) ? <BoardModal items = {data[currentData]} visible={modalVisible} onClose={toggleModal} handleChat = {() => handleChat(data[currentData].memberId)} /> : <></>}
+          {(!isLoading && data.length != 0) ? <BoardModal width = {width} items = {data[currentData]} visible={modalVisible} onClose={toggleModal} handleChat = {() => handleChat(data[currentData].memberId)} /> : <></>}
           <View style = {[styles.container, {marginHorizontal: width * 0.01,height: height * 0.08}]}>
             <FlatList
                 data = {gameBoardData}
@@ -178,8 +178,9 @@ const PartyBoard = () => {
                 data={data.slice((page) * entity, (page + 1) * entity)}
                 showsVerticalScrollIndicator = {false}
                 renderItem={({ item, index }) => (
-                <BoardCard 
-                  items={item}
+                <BoardCard
+                  width = {width}
+                  items = {item}
                   handlePress={() => printingModal(index)}
                 />
                 )}

@@ -7,9 +7,9 @@ import { useRouter } from 'expo-router'
 
 const SignUpPage = () => {
     const router = useRouter();
-    const { uid, setUid } = useContext(UserContext); // uid
+    const { setUid } = useContext(UserContext); // uid
     const [id, setId] = useState(''); // id -> 중복 검사 필요
-    const [email, setEmail] = useState(''); // 이메일
+    const [email, setEmail] = useState(''); // 이메일, 지금 안씀
     const [emailDomain, setEmailDomain] = useState('naver.com'); // 이메일 도메인
     const [dropEmail, setDropEmail] = useState(false); // 이메일 드롭다운 상태 관리
     const [emailDomainList, setEmailDomainList] = useState([]); // 이메일 도메인 리스트
@@ -29,7 +29,7 @@ const SignUpPage = () => {
         const fetchData = () => {
           const currentYear = new Date().getFullYear();
           const years = [];
-          for (let i = currentYear; i >= currentYear - 150; i--) {
+          for (let i = currentYear; i >= currentYear - 150; i--) { // 드롭다운 메뉴 만든거에 들어갈 생년 리스트와 이메일 도메인 리스트
             years.push({label: i, value: i});
           }
           setBirthYearList(years);
@@ -46,22 +46,22 @@ const SignUpPage = () => {
         fetchData();
       }, [])
 
-    const toggleBirthModal = () => {
+    const toggleBirthModal = () => { // 드롭 다운 메뉴 출력
         setDropBirthYear(!dropBirthYear);
     }
 
-    const toggleEmailModal = () => {
+    const toggleEmailModal = () => { // 이것도
         setDropEmail(!dropEmail);
     }
 
-    const idCheck = async (entity) => {
+    const idCheck = async (entity) => { // 중복 검사
         setIsLoading(true);
         try {
-            if(entity == "id") {
+            if(entity == "id") { // 얘는 id
                 if(id == '') {
                     alert('공백 불가!');
                 } else {
-                    const checkId = await getData({username: id}, 'member/username/duplicate');
+                    const checkId = await getData({username: id}, 'member/username/duplicate'); // 없으면 usable, 있으면 depulicate 준대요
                     if(checkId == 'usable') {
                         alert('아이디 중복 확인 완료!');
                         setIdChecked(true);
@@ -70,8 +70,8 @@ const SignUpPage = () => {
                         setIdChecked(false);
                     }
                 }
-            } else {
-                if(id == '') {
+            } else { // 얘는 닉네임
+                if(id == '') { 
                     alert('공백 불가!');
                     return;
                 } else {
@@ -95,15 +95,15 @@ const SignUpPage = () => {
 
     const handleNext = async () => {
         setIsLoading(true);
-        if(!IdChecked) {
+        if(!IdChecked) { // 아이디가 중복 되었는지 확인
             alert('아이디 중복 확인을 해주세요.');
-        } else if(!nicknameChecked) {
+        } else if(!nicknameChecked) { // 닉네임이 중복되었는지 확인
             alert('닉네임 중복 확인을 해주세요.');
-        } else if(!isPasswordSecure) {
+        } else if(!isPasswordSecure) { // 비밀번호에 영어, 숫자, 특수문자가 포함되었는지 확인
             alert('비밀번호가 안전하지 않습니다.');
-        } else if(!isPasswordSame) {
+        } else if(!isPasswordSame) { // 비밀번호와 비밀번호 확인이 일치하는지 확인
             alert('비밀번호가 일치하지 않습니다.');
-        } else {
+        } else { // 다 하면 회원가입 가능
             const item = {
                 nickname: nickname,
                 username: id,
@@ -112,11 +112,11 @@ const SignUpPage = () => {
                 birthYear: birthYear
             }
             try {
-                const response = await postSave(item, "member/signUp");
-                const memberId = response.data.memberId;
-                await setUid(memberId);
-                setIsLoading(false);
-                router.push('Login/GameInfoPage');
+                const response = await postSave(item, "member/signUp"); // 서버에 저장
+                const memberId = response.data.memberId; // 배정된 uid 받아옴
+                await setUid(memberId); // uid 저장
+                setIsLoading(false); // 로딩 해제
+                router.push('Login/GameInfoPage'); // 게임 선택 페이지로
             } catch(error) {
                 alert('회원가입 중 에러가 발생했습니다.\n 다시 시도해주세요');
             }
@@ -137,8 +137,8 @@ const SignUpPage = () => {
           return containsLetter && containsNumber && containsSpecialChar;
     }
 
-    const passwordSameChecking = (pw, pwc) => {
-        if(pw === '' || pwc === '') {
+    const passwordSameChecking = (pw, pwc) => { // 비밀번호와 비밀번호 확인 일치
+        if(pw === '' || pwc === '') { // 공백이면 무조건 false
             return false
         } else {
             if(pw === pwc) {
@@ -161,7 +161,7 @@ const SignUpPage = () => {
         setIsPasswordSame(isSame);
     }, [passwordCheck])
 
-    useEffect(() => {
+    useEffect(() => { // 중복 검사 이후 수정 후 통과하는 것을 막기 위해, 변경 시 다시 검사하도록 함
         setIdChecked(false);
     }, [id])
 
@@ -195,7 +195,7 @@ const SignUpPage = () => {
                 <View style = {{flexDirection : 'row', alignItems:'center'}}>
                     <TextInput style = {[styles.middleBox, {width : 150}]} 
                         onChangeText = {setNickname}
-                        placeholder = " 입력 안해도 됩니다"
+                        placeholder = " E-Mail"
                     />
                     <Text style = {{marginHorizontal: 5}}>@</Text>
                     <DropDownBox

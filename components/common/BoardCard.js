@@ -1,6 +1,8 @@
 import React from 'react';
-import { TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, View, Image, StyleSheet, Dimensions } from 'react-native';
 import Icon_User from '../../assets/icons/Icon_User.png';
+
+const {width, height} = Dimensions.get('window'); // 이거 왜 상위에서 넘겨주니까 인식을 못하냐
 
 const BoardCard = ({ items, handlePress }) => {
 
@@ -27,11 +29,14 @@ const BoardCard = ({ items, handlePress }) => {
 const styles = StyleSheet.create({
     boardCard: {
         flexDirection: 'row',
-        width: '94%',
-        height: 70,
-        padding: '2%',
-        marginHorizontal: '3%',
-        marginBottom: '3%',
+        width: width * 0.94,
+        height: height * 0.1,
+        paddingHorizontal: width * 0.02,
+        paddingVertical: height * 0.01,
+        marginHorizontal: width * 0.03,
+        marginBottom: height * 0.01,
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: '#fff',
         borderRadius: 8,
         elevation: 3, // for Android shadow
@@ -47,9 +52,9 @@ const styles = StyleSheet.create({
         marginBottom: '2%'
     },
     image: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
     },
     textContainer: {
         flex: 1,
@@ -58,18 +63,25 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: '45%',
+        height: '50%',
+        alignItems: 'center',
+    },
+    title: {
+        width : width * 0.5,
+    },
+    time: {
+        width : width * 0.2,
+    },
+    content: {
+        width : width * 0.5,
     },
     nickname: {
         fontWeight: 'bold',
+        width : width * 0.2,
     },
     time: {
         color: '#666',
-    },
-    openChat: {
-        color: 'blue',
-        textDecorationLine: 'underline',
-    },
+    }
 });
 
 export default BoardCard;

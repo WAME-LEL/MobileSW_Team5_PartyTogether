@@ -1,8 +1,9 @@
 import React from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native';
 import Icon_Close from '../../assets/icons/Icon_Close.png';
 import Icon_Chatting from '../../assets/icons/Icon_Chatting.png';
-import { useRouter } from 'expo-router'
+
+const {width, height} = Dimensions.get('window');
 
 const BoardModal = ({ items, visible, onClose, handleChat }) => {
 
@@ -11,7 +12,7 @@ const BoardModal = ({ items, visible, onClose, handleChat }) => {
       animationType='fade'
       transparent={true}
       visible={visible}
-      onRequestClose={onClose} // 안드로이드에서 물리적 뒤로 가기 버튼을 눌렀을 때의 처리
+      onRequestClose={onClose}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -22,7 +23,7 @@ const BoardModal = ({ items, visible, onClose, handleChat }) => {
             </View>
             <View style = {[styles.lineContainer, {flexDirection: 'row'}]}>
               <Text style={styles.titleText}>닉네임 :</Text>
-              <Text style={[styles.modalText,  {marginRight: 10}]}>{items.nickname}</Text>
+              <Text style={{marginRight: 10, fontSize: 16}}>{items.nickname}</Text>
               <TouchableOpacity style={styles.button}
                 onPress={() => handleChat()}
               >
@@ -69,11 +70,11 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EEEEEE',
   },  
   modalView: {
-    margin: 20,
+    margin: width * 0.05,
     backgroundColor: '#EEEEEE',
     borderRadius: 10, // 둥근 모서리 조정
-    width: '90%', // 너비 조정
-    padding: 15, // 패딩 조정
+    width: width * 0.9, // 너비 조정
+    padding: width * 0.03, // 패딩 조정
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     width: '100%',
+    padding: width * 0.02,
     alignItems: 'center',
   },
   button: {
@@ -99,10 +101,11 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 16, // 폰트 크기 조정
+    width: width * 0.65,
   },
   titleText: { // 제목 텍스트 스타일 추가
     marginLeft: '2%',
-    width: 65,
+    width: width * 0.15,
     fontSize: 16,
     fontWeight: 'bold',
   },

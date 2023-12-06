@@ -11,10 +11,11 @@ const StackLayout = () => {
                 <Stack
                     screenOptions = {{
                         headerStyle: {
-                            backgroundColor:"#10101E",
+                            backgroundColor:"#CC0000",
                         },
                         headerTitleAlign: 'center',
                         headerTintColor:"#fff",
+                        headerTitleStyle: {fontSize: 20, fontWeight: 'bold'},
                         headerRight: () => (<ImageButton preset = {[{marginRight: 10}, styles.smallImageButton]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20, backgroundColor: '#FFFFFF'}]} imageUrl = {Icon_User} handlePress = {() => {router.push("MyPage")}}/>)
                     }}
                 >
@@ -61,6 +62,26 @@ const StackLayout = () => {
                     <Stack.Screen name="MyPage"
                                 options={{
                                     headerTitle: "마이페이지",
+                                }}
+                    />
+                    <Stack.Screen name="GPSPage"
+                                options={{
+                                    headerTitle: "주변 탐색",
+                                }}
+                    />
+                    <Stack.Screen name="EventPage"
+                                options={{
+                                    headerTitle: "이벤트 페이지",
+                                }}
+                    />
+                    <Stack.Screen name="ChoiceBoard"
+                                options={{
+                                    headerTitle: "게시판 선택",
+                                }}
+                    />
+                    <Stack.Screen name="ChatGPTMatchAnalysis"
+                                options={{
+                                    headerTitle: "GPT 컨설팅",
                                 }}
                     />
                     <Stack.Screen name="Guild/GuildInformation"
