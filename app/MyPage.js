@@ -1,37 +1,85 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { View, SafeAreaView, Text, Image, Dimensions, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
-import { UserContext, LoadingScreen } from '../components'
+import { View, SafeAreaView, Text, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
+import { UserContext, LoadingScreen, getData } from '../components'
 import Icon_User from '../assets/icons/Icon_User.png'
+import { useRouter } from 'expo-router'
 
 const { width, height } = Dimensions.get('window');
 
 const MyPage = () => {
-    const { uid } = useContext(UserContext);
-    const [nickname, setNickname] = useState('');
+    const { uid, nickname } = useContext(UserContext);
     const [imageUri, setImageUri] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const [items, setItems] = useState([{label: "라벨1", value: "밸류1"}]);
+    const [items, setItems] = useState([]);
+    const [nowMenu, setNowMenu] = useState('Board');
+    const router = useRouter();
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                // uid를 통해 정보 불러오기
-                setNickname('닉네임');
+                handleMenuPress('Board');
                 setImageUri(Icon_User);
             } catch (error) {
                 alert("마이페이지 로딩 중 오류 발생");
             }
-            setIsLoading(false);
         }
         fetchData();
     }, [])
 
+    const handleAction = (item) => {
+        if (nowMenu == 'Board') {
+            console.log('보드 모달 창 띄우기');
+        } else if (nowMenu == 'Chat') { 
+            console.log('채팅 페이지와 연결');
+            if(item.oneId == uid) {
+                router.push(`ChatPage/${item.otherId}`)
+            } else {
+                router.push(`ChatPage/${item.oneId}`)
+            }
+        } else if (nowMenu == 'Option') {
+
+        }
+    }
+
+    const handleMenuPress = (menu) => {
+        const fetchData = async (item, endPoint) => {
+            setIsLoading(true);
+            try {
+                const loadData = await getData(item, endPoint);
+                console.log(loadData);
+                setItems(loadData);
+            } catch (error) {
+                alert("데이터 로딩 중 오류 발생");
+                return [];
+            }
+            setIsLoading(false);
+        }
+
+        if(menu === 'Board'){
+            const item = {
+                memberId: uid,
+            }
+            setNowMenu('Board');
+            fetchData(item, 'board/member');
+        } else if(menu === 'Chat'){
+            const item = {
+                memberId: uid,
+            }
+            setNowMenu('Chat');
+            fetchData(item, 'chatRoom/info');
+        } else if(menu === 'Option'){
+            setNowMenu('Option');
+            setItems([]);
+        } else {
+            alert('뭐누른거지');
+            console.log(menu);
+        }
+    }
+
     return (
         <SafeAreaView>
             <LoadingScreen nowLoading = {isLoading} />
-            {!isLoading ? 
-            <>
                 <View style = {styles.headerView}>
                     <View style = {styles.imageContainer}>
                         <Image 
@@ -46,26 +94,25 @@ const MyPage = () => {
                 </View>
                 <View style = {styles.middleView}>
                     <View style = {styles.menuView}>
-                        <TouchableOpacity style = {styles.menuBox}>
+                        <TouchableOpacity style = {styles.menuBox} onPress = {() => handleMenuPress('Board')}>
                             <Text style = {styles.titleFont}>내 글</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style = {styles.menuBox}>
+                        <TouchableOpacity style = {styles.menuBox} onPress = {() => handleMenuPress('Chat')}>
                             <Text style = {styles.titleFont}>내 채팅</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style = {styles.menuBox}>
+                        <TouchableOpacity style = {styles.menuBox} onPress = {() => handleMenuPress('Option')}>
                             <Text style = {styles.titleFont}>환경설정</Text>
                         </TouchableOpacity>
                     </View>
                     <View style = {styles.contentView}>
-                        {items.map((item, index) => (
-                            <TouchableOpacity key = {index} style = {styles.contentBox}>
-                                <Text style = {styles.titleFont}>{item.label}</Text>
-                            </TouchableOpacity>
-                        ))}
+                        {(!isLoading) ? 
+                            items?.map((item, index) => (
+                                <TouchableOpacity key = {index} style = {styles.contentBox} onPress = {() => handleAction(item)}>
+                                    <Text>{item.name}</Text>
+                                </TouchableOpacity> 
+                        )): <></>}
                     </View>
-                </View>
-            </> : <></>}
-            
+                </View>            
         </SafeAreaView>
     )
 }
@@ -96,6 +143,7 @@ const styles = StyleSheet.create({
         width: '65%',
         height: '100%',
         alignItems: 'center',
+        backgroundColor: 'white'
     },
     imageContainer: {
         width: '35%', 

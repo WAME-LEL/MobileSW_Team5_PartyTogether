@@ -76,7 +76,7 @@ const GameInfoPage = () => {
             const checkedGames = games.filter(game => game.isChecked);
             const sendingGames = checkedGames.map(({ isChecked, ...rest }) => rest);
             if(sendingGames.length === 0) {
-                console.log("게임을 선택해주셈");
+                alert("게임을 선택 안했잖슴");
             } else {
                 const item = {
                     memberId: uid,

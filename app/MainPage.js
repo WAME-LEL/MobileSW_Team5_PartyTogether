@@ -1,14 +1,24 @@
 import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native'
-import { ImageButton } from '../components'
+import { ImageButton, UserContext, SocketContext } from '../components'
 import Icon_Location from '../assets/icons/Icon_Location.png';
 import Icon_Guild from '../assets/icons/Icon_Guild.png';
 import Icon_Board from '../assets/icons/Icon_Board.png';
 import Icon_Comment from '../assets/icons/Icon_Comment.png';
 import styles from '../constants/preset';
 import { useRouter } from 'expo-router';
+import { useContext, useEffect } from 'react';
+import SockJS from 'sockjs-client';
 
 const MainPage = () => {
+    const { socket, setSocket } = useContext(SocketContext);
     const router = useRouter();
+
+    useEffect(() => {
+        if(socket == null) {
+            setSocket(new SockJS(`http://34.22.100.104:8080/chat`));
+        }
+    },[])
+
     const ImagePress = () => {
         console.log('이미지 버튼 눌림');
     }
@@ -38,12 +48,6 @@ const MainPage = () => {
                         <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Comment} handlePress = {ImagePress}/>
                     </View>
                 </View>
-                <TouchableOpacity onPress = {() =>(router.push(`ChatPage/${555}`))}>
-                    <Text>임시 채팅 페이지 : targetID : 555</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress = {() =>(router.push(`ChatPage/${204}`))}>
-                    <Text>임시 채팅 페이지 : targetID : 204</Text>
-                </TouchableOpacity>
             </View>
         </SafeAreaView>
     )

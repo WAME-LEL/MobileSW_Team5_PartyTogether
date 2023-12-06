@@ -21,7 +21,7 @@ const ChatScreen = () => {
   // const memberId = 153;
 
   const connect = () => {
-    const socket = new SockJS('http://192.168.50.28:8080/chat');
+    const socket = new SockJS('http://34.22.100.104:8080/chat');
     const client = Stomp.over(socket);
 
     client.connect({}, () => {
@@ -86,7 +86,7 @@ const ChatScreen = () => {
         content: messageContent,
       };
       //roomid와 일치하는 채팅방에 메시지 전송
-      stompClient.send(`/app/chat/${roomId}/sendMessage`, {}, JSON.stringify(message));
+      stompClient.send(`/app/member/555/sendMessage`, {}, JSON.stringify(message));
       console.log(JSON.stringify(message));
       setInputMessage(''); // 입력 필드 초기화
     } else {

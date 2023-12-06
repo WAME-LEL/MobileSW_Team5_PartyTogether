@@ -2,10 +2,8 @@ import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Image, FlatList } from 'react-native';
 import Icon_Close from '../../assets/icons/Icon_Close.png';
 import Icon_Chatting from '../../assets/icons/Icon_Chatting.png';
-import { useRouter } from 'expo-router'
 
 const GPSUserModal = ({ items, visible, onClose, handleChat }) => {
-  const router = useRouter();  
 
   return (
     <Modal

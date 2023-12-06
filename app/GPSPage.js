@@ -72,9 +72,12 @@ const GPSPage = () => {
   }
   
   const handleChat = (targetId) => {
-    console.log(targetId);
-    toggleModal();
-    router.push(`ChatPage/${targetId}`);
+    if(targetId == uid) {
+      alert('내가 쓴 글입니다.');
+    } else {
+      toggleModal();
+      router.push(`ChatPage/${targetId}`);
+    }
   }
 
   return (
