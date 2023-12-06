@@ -5,7 +5,7 @@ import axios from 'axios';
 const AITest = () => {
     const RIOT_API_KEY = 'RGAPI-d9e3aaa3-4814-492b-b5c1-fcca28fcf4d7'   // Riot API Key
     const OPENAI_API_KEY = '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' // OpenAI API Key
-    const model = 'gpt-4'       //  모델
+    const model = 'gpt-3.5-turbo'       //  모델
 
     const [summonerName, setSummonerName] = useState('');   //소환사(리그오브레전드의 유저) 이름
     const [myMatchData, setMyMatchData] = useState('');     //소환사의 최근 전적 데이터
@@ -18,11 +18,13 @@ const AITest = () => {
             //다른 API들을 활용하기 위한 PUUID 가져오기
             const data = await axios.get(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${RIOT_API_KEY}`)
             const puuid = data.data.puuid
+            console.log(puuid)
             if (puuid) {
 
                 // 가장 최근 전적 데이터 ID 가져오기
                 const recordRes = await axios.get(`https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?api_key=${RIOT_API_KEY}&start=0&count=1`);
                 const resentMatchId = recordRes.data[0]; // 데이터 배열에서 첫 번째 ID 추출
+                console.log(resentMatchId)
 
                 if (resentMatchId) {
                     // 가장 최근 전적 데이터 가져오기
@@ -31,9 +33,10 @@ const AITest = () => {
 
                         // 팀 전적 데이터 중 내 전적 데이터만 추출
                         for (let i = 0; i < 10; i++) {
-                            if (matchRes.data.info.participants[i].riotIdGameName === summonerName) {
+                            if (matchRes.data.info.participants[i].riotIdGameName == summonerName) {
+                                console.log(JSON.stringify(matchRes.data.info.participants[i]))
+
                                 setMyMatchData(JSON.stringify(matchRes.data.info.participants[i]));
-                                gptAnalysis()
                             }
                         }
                     }
@@ -50,7 +53,7 @@ const AITest = () => {
     const gptAnalysis = async () => {
         setState("GPT가 분석 중 입니다.");
         const messages = [
-            { "role": "system", "content": "당신은 전력 분석관 입니다. RIOT API에서 응답받은 JSON형태의 전적 데이터를 보고 해당 유저의 장점과 단점, 보완해야할점, 결론을 매우 상세하게 적어주십시오" },
+            { "role": "system", "content": "당신은 전력 분석관 입니다. RIOT API에서 응답받은 전적 데이터를 보고 해당 유저의 장점과 단점, 보완해야할점, 결론을 매우 상세하게 적어주십시오" },
             { "role": "user", "content": myMatchData }];
 
         // 에러 발생 시 재시도 하기 위한 GPT 분석 실행 함수
@@ -87,6 +90,12 @@ const AITest = () => {
         // GPT 분석 최초 실행
         executeGptAnalysis();
     }
+
+    useEffect(() => {
+        if (myMatchData) {
+            gptAnalysis();
+        }
+    }, [myMatchData]);
 
     return (
         <View style={styles.container}>
