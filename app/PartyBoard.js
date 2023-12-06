@@ -24,6 +24,7 @@ const PartyBoard = () => {
     const fetchData = async () => { // 게시판이 바뀔 때 마다 데이터를 갱신
       setIsLoading(true);
       setPage(0);
+      setCurrentData(0);
       const item = {
         keyword: nowGameBoard
       }

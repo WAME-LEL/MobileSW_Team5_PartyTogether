@@ -1,13 +1,15 @@
-import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native'
+import { SafeAreaView, View, Text, Dimensions } from 'react-native'
 import { ImageButton, UserContext, SocketContext } from '../components'
 import Icon_Location from '../assets/icons/Icon_Location.png';
 import Icon_Guild from '../assets/icons/Icon_Guild.png';
 import Icon_Board from '../assets/icons/Icon_Board.png';
-import Icon_Comment from '../assets/icons/Icon_Comment.png';
+import Icon_Analyze from '../assets/icons/Icon_Analyze.png';
 import styles from '../constants/preset';
 import { useRouter } from 'expo-router';
 import { useContext, useEffect } from 'react';
 import SockJS from 'sockjs-client';
+
+const { width, height } = Dimensions.get('window');
 
 const MainPage = () => {
     const { socket, setSocket } = useContext(SocketContext);
@@ -25,7 +27,7 @@ const MainPage = () => {
 
     return (
         <SafeAreaView style = {styles.container}>
-            <View>
+            <View style = {{paddingVertical: height * 0.1}}>
                 <View style = {{flexDirection: 'row', paddingTop: '5%', marginBottom: '3%'}}>
                     <View style ={styles.container}>
                         <Text style = {styles.middleFont}>주변 탐색</Text>
@@ -44,8 +46,8 @@ const MainPage = () => {
                     </View>
                     <View style = {{height: '50%', width: 1, backgroundColor: '#999999', marginTop: '17.5%'}}></View>
                     <View style ={styles.container}>
-                        <Text style = {styles.middleFont}>게임 컨설팅</Text>
-                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Comment} handlePress = {() => {router.push('ChatGPTMatchAnalysis')}}/>
+                        <Text style = {styles.middleFont}>GPT 컨설팅</Text>
+                        <ImageButton preset = {[styles.bigImageButton, {margin: 10}]} preset2 = {[styles.ImageButtonIn, {borderRadius: 20}]} imageUrl = {Icon_Analyze} handlePress = {() => {router.push('ChatGPTMatchAnalysis')}}/>
                     </View>
                 </View>
             </View>

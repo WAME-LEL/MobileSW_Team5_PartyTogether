@@ -13,6 +13,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#CCCCCC',
         borderRadius: 50
     },
+    longImageButton : {
+        width: 400,
+        height: 100,
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        elevation: 5,
+    },
     hugeImageButton : {
         width: 250,
         height: 250,
