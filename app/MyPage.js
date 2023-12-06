@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { View, SafeAreaView, Text, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, SafeAreaView, Text, Image, Dimensions, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { UserContext, LoadingScreen, getData, BoardModal } from '../components'
 import Icon_User from '../assets/icons/Icon_User.png'
 import { useRouter } from 'expo-router'
@@ -107,7 +107,7 @@ const MyPage = () => {
                 router.push(`ChatPage/${item.oneId}`)
             }
         } else if (nowMenu == 'Option') {
-
+            console.log('옵션 메뉴로 연결');
         }
     }
 
@@ -139,19 +139,23 @@ const MyPage = () => {
                         </TouchableOpacity>
                     </View>
                     <View style = {styles.contentView}>
-                        {(!isLoading) ? 
-                            items.length != 0 ?
-                                items?.map((item, index) => (
-                                    <TouchableOpacity key = {index} style = {styles.contentBox} onPress = {() => handleAction(item)}>
-                                        <View style = {styles.contentInBox}>
-                                            <Text>{item.title}</Text>
-                                        </View>
-                                    </TouchableOpacity>))
-                                :
-                                <View style = {{alignItems: 'center', justifyContent: 'center'}}>
-                                    <Text></Text>
-                                </View>
-                        : <></>}
+                        <ScrollView
+                            contentContainerStyle = {{width: width*0.65, height: height*0.7, backgroundColor: 'white'}}
+                        >
+                            {(!isLoading) ? 
+                                items.length != 0 ?
+                                    items?.map((item, index) => (
+                                        <TouchableOpacity key = {index} style = {styles.contentBox} onPress = {() => handleAction(item)}>
+                                            <View style = {styles.contentInBox}>
+                                                <Text>{item.title}</Text>
+                                            </View>
+                                        </TouchableOpacity>))
+                                    :
+                                    <View style = {{alignItems: 'center', justifyContent: 'center'}}>
+                                        <Text></Text>
+                                    </View>
+                            : <></>}
+                        </ScrollView>
                     </View>
                 </View>            
         </SafeAreaView>
@@ -214,6 +218,7 @@ const styles = StyleSheet.create({
     contentBox: {
         width: '95%',
         height: '9%',
+        marginHorizontal: '2.5%',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#DDDDDD',

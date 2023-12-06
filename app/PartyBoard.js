@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import { Text, View, SafeAreaView, FlatList, TouchableOpacity, Dimensions, Image } from 'react-native'
 import { BoardCard, getData, BoardModal, LoadingScreen, UserContext, CommonButton, ImageButton } from "../components"
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import Icon_LeftArrow from '../assets/icons/Icon_LeftArrow.png';
 import Icon_RightArrow from '../assets/icons/Icon_RightArrow.png';
 import styles from '../constants/preset';
@@ -18,7 +18,39 @@ const PartyBoard = () => {
   const [currentData, setCurrentData] = useState(0);
   const [page, setPage] = useState(0) // 페이지 관리 숫자
   const [entity, setEntity] = useState(10) // 페이지 한 번에 가져올 데이터 수
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false); // 모달창 상태
+  const [isOutScreen, setIsOutScreen] = useState(false); // 화면 밖으로 나갈 때 키고 나감
+
+  useFocusEffect(() => { // 밖에 갔다가 돌아오면 페이지를 갱신
+    console.log(isOutScreen)
+    if(isOutScreen) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        setPage(0);
+        setCurrentData(0);
+        const item = {
+          keyword: nowGameBoard
+        }
+        const nowDate = new Date();
+        try {
+          const loadData = await getData(item, "board");
+          console.log(loadData);
+          const processedData = loadData.map((item) => ({
+            ...item,
+            time: new Date(item.time),
+            processedTime: dateToString((nowDate - new Date(item.time)) / 1000)
+          }));
+          processedData.sort((a, b) => b.time - a.time);
+          setData(processedData);
+        } catch (error) {
+          setData([]);
+        }
+        setIsLoading(false);
+        setIsOutScreen(false);
+      }
+      fetchData();
+    }
+  })
 
   useEffect(() => {
     const fetchData = async () => { // 게시판이 바뀔 때 마다 데이터를 갱신
@@ -44,7 +76,6 @@ const PartyBoard = () => {
       }
       setIsLoading(false);
     }
-
     fetchData();
   }, [nowGameBoard]) // 게시판, 페이지, 데이터 수가 바뀌면 갱신하는데, 페이지와 데이터 수를 초기화 하는 과정 추가 필요
 
@@ -107,8 +138,14 @@ const PartyBoard = () => {
       alert('내가 쓴 글입니다.');
     } else {
       toggleModal();
+      setIsOutScreen(true);
       router.push(`ChatPage/${targetId}`)
     } 
+  }
+
+  const handleWrite = () => {
+    setIsOutScreen(true);
+    router.push(`BoardWritePage/${nowGameBoard}`)
   }
 
   return (
@@ -132,7 +169,7 @@ const PartyBoard = () => {
             <CommonButton 
               preset = {styles.smallButton}
               font = {{fontSize: 15, color: '#FFFFFF'}}
-              handlePress = {() => router.push(`BoardWritePage/${nowGameBoard}`)}
+              handlePress = {() => handleWrite()}
               title = "게시글 작성"/>
           </View>
           <View style = {{ borderBottomColor: '#999999', borderBottomWidth: 1, marginHorizontal: width * 0.01, marginVertical: height * 0.01}} />
