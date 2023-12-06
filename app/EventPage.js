@@ -10,6 +10,7 @@ const EventPage = () => {
     const [eventURL, setEventURL] = useState('');
     const [eventPeriod, setEventPeriod] = useState('');
 
+    //이벤트 url 추가
     const addEvent = async () => {
         try {
             // 백엔드 서버에 길드 생성 요청을 보냅니다.
@@ -50,7 +51,6 @@ const EventPage = () => {
     };
 
     const renderItem = ({ item }) => (
-
         <Link href = {item.url} //선택한 이벤트 목록의 url
             style={styles.itemBox}
         >

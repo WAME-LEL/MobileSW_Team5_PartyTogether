@@ -36,10 +36,12 @@ const MatchResult = ( {goBack, guildInfo} ) => {
     const [endDateTime,setendDateTime] = useState('');
     const [timeDiffer,setTimeDiffer] = useState(false);
 
+    // 처음 화면실행
     useEffect(() => {
         setMyGuild(guildInfo.name);
         setGuildId(guildInfo.id)
 
+        //gameInfo에 데이터가 들어오면 실행
         if (gameInfo) {
             const startDateTimeRes = convertUnixTimestamp(gameInfo.gameStartTimestamp);
             const endDateTimeRes = convertUnixTimestamp(gameInfo.gameEndTimestamp);
@@ -50,6 +52,7 @@ const MatchResult = ( {goBack, guildInfo} ) => {
         }
     }, [gameInfo]);
 
+    //현재 시간과 게임 종료시간을 비교
     const checkTimeDifference = (endDateTime) => {
         const currentTime = new Date();
         const endTime = new Date(endDateTime);
@@ -64,6 +67,7 @@ const MatchResult = ( {goBack, guildInfo} ) => {
         }
     };
 
+    //검색버튼 
     const handleSearch = async() => {
         api_key='RGAPI-93960387-d990-4126-9517-47c7d660d4a3'
 
@@ -140,9 +144,6 @@ const MatchResult = ( {goBack, guildInfo} ) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                {/* <TouchableOpacity onPress={roomExit} style={styles.backButton}>
-                    <Text style={styles.buttonText}>나가기</Text>
-                </TouchableOpacity> */}
                 <Text style={styles.title}>결과확인</Text>
             </View>
 

@@ -7,10 +7,10 @@ import axios from 'axios';
 const CreateGuild = () =>{
     const { uid } = useContext(UserContext); //UserContext => uid
     // const [uid, setUid] = useState(152);  //userId 임시
-    const [games, setGames] = useState([]);
-    const [guildName, setGuildName] = useState('');
-    const [guildDescription, setGuildDescription] = useState('');
-    const [selectedGame, setSelectedGame] = useState(null);
+    const [games, setGames] = useState([]); //하고있는 게임 
+    const [guildName, setGuildName] = useState(''); //길드 이름
+    const [guildDescription, setGuildDescription] = useState(''); //길드 설명
+    const [selectedGame, setSelectedGame] = useState(null); //선택한 게임
 
     //게임리스트 받기
     const getGameList = async () => {

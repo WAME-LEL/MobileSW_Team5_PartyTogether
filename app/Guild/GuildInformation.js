@@ -10,8 +10,8 @@ import axios from 'axios';
 const screenHeight = Dimensions.get('window').height;
 
 const GuildInformation = () => {
-    const [currentPage, setCurrentPage] = useState('GuildInformation');
-    const [isLoading, setIsLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState('GuildInformation'); //페이지 상태 변수
+    const [isLoading, setIsLoading] = useState(false); //로딩 상태변수
     const { uid } = useContext(UserContext); //uid 저장
     // const [uid, setUid] = useState(106); //임시 유저id
     const [guildMembers, setGuildMembers] = useState([]); //멤버목록 상태변수
@@ -20,6 +20,7 @@ const GuildInformation = () => {
     const [memberCnt, setmemberCnt] = useState({}); //길드멤버수 상태변수
 
 
+    // 로딩화면 Modal
     const LoadingModal = () => (
         <Modal
             transparent={true}

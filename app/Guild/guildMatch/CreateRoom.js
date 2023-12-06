@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, Modal  } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import MatchResult from './MatchResult';
 import { UserContext } from '../../../components'
 import axios from 'axios';
@@ -48,6 +48,7 @@ const CreateRoom = ( {goBack, roomNumber, guildInfo} ) => {
 
     };
 
+    //방 나가기
     const roomExit = async () => {
         try {
             const reponse = await axios.post('http://34.22.100.104:8080/api/guildWar/exit', {
