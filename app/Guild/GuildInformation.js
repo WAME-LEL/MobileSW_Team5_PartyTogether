@@ -1,9 +1,11 @@
-import {View, Modal, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import {View, Modal, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../components'
 import GuildMatch from './guildMatch/GuildMatch';
 import GuildRanking from './GuildRanking';
 import axios from 'axios';
+import Icon_Chatting from '../../assets/icons/Icon_Chatting.png';
+import { useRouter } from 'expo-router';
 
 //ContextAPI
 
@@ -18,6 +20,7 @@ const GuildInformation = () => {
     const [guildInfo, setGuildInfo] = useState({}); //길드정보 상태변수
     const [guildGame, setGuildGame] = useState({}); //길드게임 상태변수
     const [memberCnt, setmemberCnt] = useState({}); //길드멤버수 상태변수
+    const router = useRouter();
 
 
     // 로딩화면 Modal
@@ -67,6 +70,14 @@ const GuildInformation = () => {
 
         
     }
+
+    const handleChat = (targetId) => { // 채팅 페이지로 이동, 내가 쓴 글이면 이동하지 않음
+        if(targetId == uid) {
+          alert('나 자신과 채팅할 수 없습니다.');
+        } else {
+          router.push(`ChatPage/${targetId}`)
+        } 
+      }
 
     useEffect(() => {
         fetchGuildInfo();
@@ -131,10 +142,15 @@ const GuildInformation = () => {
 
             <ScrollView>
                 {guildMembers.map((member, index) => (
-                    <View key={index} style={styles.guildMemberContentBox}>
+                    <View key={index} style={[styles.guildMemberContentBox, {flexDirection: 'row', alignItems: 'center'}]}>
                         <Text style={styles.detailItem}>
                             {index + 1})  {member.nickname}
                         </Text>
+                        <TouchableOpacity style={{width: 20,height: 20,borderRadius: 10,justifyContent: 'center',alignItems: 'center',marginLeft: 10}}
+                            onPress={() => handleChat(member.id)}
+                        >
+                            <Image source = {Icon_Chatting} style = {{width: '100%', height: '100%'}} resizeMode = "contain" ></Image>
+                        </TouchableOpacity>
                     </View>
                 ))}
             </ScrollView>

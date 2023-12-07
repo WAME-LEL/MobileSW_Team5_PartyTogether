@@ -190,17 +190,17 @@ const PartyBoard = () => {
           <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: height * 0.01 }}>
             {!(page < 1) ? 
             <ImageButton
-              preset = {[styles.smallImageButton, {width: 20, height: 20, backgroundColor: 'none', position: 'absolute', Left: '35%'}]}
+              preset = {[styles.smallImageButton, {width: 20, height: 20, backgroundColor: 'none', position: 'absolute', right: width*0.75}]}
               preset2 = {[styles.ImageButtonIn, {backgroundColor: 'none'}]}
               imageUrl = {Icon_LeftArrow}
               handlePress = {() => handlePaging('Down')}
             /> : <></>}
-            <View style = {[styles.smallImageButton, {width: 30, height: 30, backgroundColor: 'none', position: 'absolute', Left: '50%'}]}>
+            <View style = {[styles.smallImageButton, {width: 30, height: 30, backgroundColor: 'none', position: 'absolute', right: width * 0.5}]}>
               <Text style = {[styles.middleFont, {fontWeight: 'none'}]}>{page + 1}</Text>
             </View>
             {(data.length > (page + 1) * entity) ? 
             <ImageButton
-              preset = {[styles.smallImageButton, {width: 20, height: 20, backgroundColor: 'none', position: 'absolute', right: '35%'}]}
+              preset = {[styles.smallImageButton, {width: 20, height: 20, backgroundColor: 'none', position: 'absolute', right: width*0.25}]}
               preset2 = {[styles.ImageButtonIn, {backgroundColor: 'none'}]}
               imageUrl = {Icon_RightArrow}
               handlePress = {() => handlePaging('Up')}
