@@ -51,7 +51,7 @@ const AITest = () => {
     const gptAnalysis = async () => {
         setState("GPT가 분석 중 입니다.");
         const messages = [
-            { "role": "system", "content": "당신은 전력 분석관 입니다. RIOT API에서 응답받은 JSON형태의 전적 데이터를 보고 해당 유저의 장점과 단점, 보완해야할점, 결론을 매우 상세하게 적어주십시오" },
+            { "role": "system", "content": "당신은 전력 분석관 입니다. RIOT API에서 응답받은 전적 데이터를 보고 해당 유저의 장점과 단점, 보완해야할점, 결론을 매우 상세하게 적어주십시오" },
             { "role": "user", "content": myMatchData }];
 
         // 에러 발생 시 재시도 하기 위한 GPT 분석 실행 함수
