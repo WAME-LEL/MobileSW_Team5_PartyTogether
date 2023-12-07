@@ -90,7 +90,9 @@ const AITest = () => {
     }
 
     useEffect(() => {
-        gptAnalysis()
+        if(myMatchData){
+            gptAnalysis()
+        }
     }, [myMatchData]) //myMatchData가 변경될 때마다 실행}
 
 
