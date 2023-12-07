@@ -9,6 +9,7 @@ const CreateGuild = () =>{
     // const [uid, setUid] = useState(152);  //userId 임시
     const [games, setGames] = useState([]); //하고있는 게임 
     const [guildName, setGuildName] = useState(''); //길드 이름
+    const [opentalk, setOpentalk] = useState(''); //오픈 카톡
     const [guildDescription, setGuildDescription] = useState(''); //길드 설명
     const [selectedGame, setSelectedGame] = useState(null); //선택한 게임
 
@@ -30,7 +31,7 @@ const CreateGuild = () =>{
 
     //길드생성 버튼이벤트
     const CreateGuildBtn = async () => {
-        if (guildName.trim().length > 0 && guildDescription.trim().length > 0 && selectedGame) {
+        if (guildName.trim().length > 0 && guildDescription.trim().length > 0 && opentalk.trim().length > 0 && selectedGame) {
             const gameInfo = games.find(game => game.id === selectedGame); //사용자가 선택한 게임찾기
 
             if (!gameInfo) {
@@ -42,6 +43,7 @@ const CreateGuild = () =>{
                 // 백엔드 서버에 길드 생성 요청
                 const response = await axios.post('http://34.22.100.104:8080/api/guild/registration', {
                     guildName: guildName,
+                    opentalk: opentalk,
                     guildIntroduce: guildDescription,
                     guildGame: gameInfo.id, //선택한 게임 id
                     guildLeader: uid,
@@ -82,6 +84,14 @@ const CreateGuild = () =>{
                     placeholder="길드 이름을 입력하세요"
                     value={guildName}
                     onChangeText={setGuildName} // 길드 이름이 변경될 때 상태를 업데이트
+                />
+                <Text> </Text>
+                <Text>오픈카톡 주소입력</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="주소를 입력하세요."
+                    value={opentalk}
+                    onChangeText={setOpentalk} // 길드 이름이 변경될 때 상태를 업데이트
                 />
                 <Text> </Text>
                 <Text>길드소개 입력</Text>
@@ -190,7 +200,7 @@ const styles = StyleSheet.create({
         color: '#444',
     },
     scrollView: {
-        height: 400,
+        height: 350,
         borderWidth: 1, // 테두리 두께
         borderColor: '#ddd', // 테두리 색상, 원하는 색상으로 변경 가능
         borderRadius: 10, // 테두리의 모서리 둥글기

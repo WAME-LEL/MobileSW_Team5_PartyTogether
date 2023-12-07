@@ -99,6 +99,9 @@ const GuildInformation = () => {
                     길드 이름 : {guildInfo.name}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
+                    오픈카톡 주소 : {guildInfo.opentalk}
+                </Text>
+                <Text style={styles.guildInfoContentText}>
                     길드 소개 : {guildInfo.introduce}
                 </Text>
                 <Text style={styles.guildInfoContentText}>
@@ -173,7 +176,7 @@ const styles = StyleSheet.create({
         borderWidth: 1, // 테두리 두께 설정
     },
     guildInfoContentText: {
-        fontSize: 18,
+        fontSize: 17,
         color: '#333', // 글자 색상 설정
         marginBottom: 10, // 각 항목 사이의 간격 추가
         fontWeight: 'bold', // 글씨 굵기
